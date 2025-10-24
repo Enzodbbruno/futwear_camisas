@@ -1,0 +1,6 @@
+Este diretório será usado para armazenar as imagens das categorias.
+As imagens serão:
+- times-brasileiros.jpg
+- selecoes.jpg  
+- times-europeus.jpg
+- edicoes-retro.jpg

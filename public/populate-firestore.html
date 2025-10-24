@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Firestore - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-database text-blue-600 mr-3"></i>
+                Popular Firestore - FutWear
+            </h1>
+            
+            <div id="status" class="mb-6">
+                <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Clique no botão abaixo para popular o Firestore com dados de exemplo.
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <button id="populateBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-upload mr-2"></i>
+                    Popular Firestore
+                </button>
+                
+                <button id="checkBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-search mr-2"></i>
+                    Verificar Dados
+                </button>
+                
+                <button id="clearBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-trash mr-2"></i>
+                    Limpar Dados
+                </button>
+            </div>
+            
+            <div id="results" class="mt-8 hidden">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Resultados:</h3>
+                <div id="resultsContent" class="bg-gray-50 p-4 rounded-lg"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
+            authDomain: "futwear-d3c3c.firebaseapp.com",
+            projectId: "futwear-d3c3c",
+            storageBucket: "futwear-d3c3c.appspot.com",
+            messagingSenderId: "696943900731",
+            appId: "1:696943900731:web:2c1460cb26e040444d041e",
+            measurementId: "G-L6S9FH3PSX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const sampleProducts = [
+            {
+                name: 'Camisa Flamengo 2024',
+                price: 140,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Flamengo temporada 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 50,
+                team: 'Flamengo',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 0,
+                destaque: true
+            },
+            {
+                name: 'Camisa Palmeiras 2024',
+                price: 135,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Palmeiras temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 45,
+                team: 'Palmeiras',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 10,
+                destaque: false
+            },
+            {
+                name: 'Camisa Brasil 2024',
+                price: 150,
+                category: 'selecoes',
+                description: 'Camisa oficial da Seleção Brasileira 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 100,
+                team: 'Brasil',
+                league: 'Copa do Mundo',
+                type: 'Seleção',
+                available: true,
+                discount: 0,
+                destaque: true
+            },
+            {
+                name: 'Camisa Real Madrid 2024',
+                price: 150,
+                category: 'times-europeus',
+                description: 'Camisa oficial do Real Madrid temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 70,
+                team: 'Real Madrid',
+                league: 'La Liga',
+                type: 'Time',
+                available: true,
+                discount: 15,
+                destaque: false
+            },
+            {
+                name: 'Camisa Barcelona 2024',
+                price: 150,
+                category: 'times-europeus',
+                description: 'Camisa oficial do Barcelona temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 65,
+                team: 'Barcelona',
+                league: 'La Liga',
+                type: 'Time',
+                available: true,
+                discount: 0,
+                destaque: true
+            },
+            {
+                name: 'Camisa Corinthians 2024',
+                price: 145,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Corinthians temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 55,
+                team: 'Corinthians',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 20,
+                destaque: false
+            }
+        ];
+
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            const colors = {
+                info: 'bg-blue-100 border-blue-400 text-blue-700',
+                success: 'bg-green-100 border-green-400 text-green-700',
+                error: 'bg-red-100 border-red-400 text-red-700',
+                warning: 'bg-yellow-100 border-yellow-400 text-yellow-700'
+            };
+            
+            status.innerHTML = `
+                <div class="${colors[type]} px-4 py-3 rounded">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        function showResults(content) {
+            const results = document.getElementById('results');
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = content;
+            results.classList.remove('hidden');
+        }
+
+        async function populateFirestore() {
+            try {
+                updateStatus('Populando Firestore...', 'info');
+                
+                const camisasRef = collection(db, 'camisas');
+                let addedCount = 0;
+                
+                for (const product of sampleProducts) {
+                    try {
+                        await addDoc(camisasRef, product);
+                        addedCount++;
+                        console.log(`✅ Adicionado: ${product.name}`);
+                    } catch (error) {
+                        console.error(`❌ Erro ao adicionar ${product.name}:`, error);
+                    }
+                }
+                
+                updateStatus(`✅ ${addedCount} produtos adicionados com sucesso!`, 'success');
+                showResults(`
+                    <div class="space-y-2">
+                        <p class="text-green-600 font-semibold">✅ População concluída com sucesso!</p>
+                        <p>Total de produtos adicionados: <strong>${addedCount}</strong></p>
+                        <p>Produtos adicionados:</p>
+                        <ul class="list-disc list-inside ml-4 space-y-1">
+                            ${sampleProducts.map(p => `<li>${p.name} - R$ ${p.price}</li>`).join('')}
+                        </ul>
+                    </div>
+                `);
+                
+            } catch (error) {
+                console.error('❌ Erro ao popular Firestore:', error);
+                updateStatus(`❌ Erro ao popular Firestore: ${error.message}`, 'error');
+                showResults(`
+                    <div class="text-red-600">
+                        <p class="font-semibold">❌ Erro ao popular Firestore:</p>
+                        <p>${error.message}</p>
+                    </div>
+                `);
+            }
+        }
+
+        async function checkFirestore() {
+            try {
+                updateStatus('Verificando dados no Firestore...', 'info');
+                
+                const camisasRef = collection(db, 'camisas');
+                const snapshot = await getDocs(camisasRef);
+                
+                const products = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                
+                updateStatus(`✅ Encontrados ${products.length} produtos no Firestore`, 'success');
+                showResults(`
+                    <div class="space-y-2">
+                        <p class="text-green-600 font-semibold">✅ Verificação concluída!</p>
+                        <p>Total de produtos encontrados: <strong>${products.length}</strong></p>
+                        ${products.length > 0 ? `
+                            <p>Produtos encontrados:</p>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                ${products.map(p => `<li>${p.name} - R$ ${p.price} (ID: ${p.id})</li>`).join('')}
+                            </ul>
+                        ` : '<p class="text-yellow-600">Nenhum produto encontrado na coleção "camisas"</p>'}
+                    </div>
+                `);
+                
+            } catch (error) {
+                console.error('❌ Erro ao verificar Firestore:', error);
+                updateStatus(`❌ Erro ao verificar Firestore: ${error.message}`, 'error');
+                showResults(`
+                    <div class="text-red-600">
+                        <p class="font-semibold">❌ Erro ao verificar Firestore:</p>
+                        <p>${error.message}</p>
+                    </div>
+                `);
+            }
+        }
+
+        async function clearFirestore() {
+            try {
+                updateStatus('Limpando dados do Firestore...', 'warning');
+                
+                const camisasRef = collection(db, 'camisas');
+                const snapshot = await getDocs(camisasRef);
+                
+                let deletedCount = 0;
+                
+                for (const docSnapshot of snapshot.docs) {
+                    try {
+                        await deleteDoc(doc(db, 'camisas', docSnapshot.id));
+                        deletedCount++;
+                        console.log(`🗑️ Removido: ${docSnapshot.data().name}`);
+                    } catch (error) {
+                        console.error(`❌ Erro ao remover ${docSnapshot.data().name}:`, error);
+                    }
+                }
+                
+                updateStatus(`✅ ${deletedCount} produtos removidos com sucesso!`, 'success');
+                showResults(`
+                    <div class="space-y-2">
+                        <p class="text-green-600 font-semibold">✅ Limpeza concluída com sucesso!</p>
+                        <p>Total de produtos removidos: <strong>${deletedCount}</strong></p>
+                    </div>
+                `);
+                
+            } catch (error) {
+                console.error('❌ Erro ao limpar Firestore:', error);
+                updateStatus(`❌ Erro ao limpar Firestore: ${error.message}`, 'error');
+                showResults(`
+                    <div class="text-red-600">
+                        <p class="font-semibold">❌ Erro ao limpar Firestore:</p>
+                        <p>${error.message}</p>
+                    </div>
+                `);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('populateBtn').addEventListener('click', populateFirestore);
+        document.getElementById('checkBtn').addEventListener('click', checkFirestore);
+        document.getElementById('clearBtn').addEventListener('click', clearFirestore);
+    </script>
+</body>
+</html>

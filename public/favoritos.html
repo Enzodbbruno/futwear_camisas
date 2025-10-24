@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear - Meus Favoritos</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/adidas-style-header.css">
+    <style>
+        /* Enhanced Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animation Classes */
+        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
+        .animate-slide-up { animation: slideInUp 0.8s ease-out; }
+        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
+        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
+        .animate-scale-in { animation: scaleIn 0.6s ease-out; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-glow { animation: glow 2s ease-in-out infinite; }
+        .animate-bounce { animation: bounce 1s ease-in-out; }
+        .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+        .animate-fade-scale { animation: fadeInScale 0.6s ease-out; }
+
+        /* Enhanced Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.6);
+        }
+
+        /* Glassmorphism */
+        .header-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card-strong {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced Cards */
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Shadow Enhanced */
+        .shadow-enhanced {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        .shadow-enhanced-lg {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Loading Animation */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #15803d;
+        }
+
+        /* Text Clamp Utility */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-900">
+    <!-- Header -->
+    <header class="fixed w-full header-glass shadow-enhanced z-50 animate-slide-down">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center animate-slide-left">
+                    <a href="index.html" class="text-2xl font-bold text-gradient">FUT<span class="text-green-600">WEAR</span></a>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-8 animate-slide-up">
+                    <a href="index.html" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Início</a>
+                    <a href="camisas.html" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Coleções</a>
+                    <a href="camisas.html?category=clubs" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Times</a>
+                    <a href="camisas.html?category=national" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Seleções</a>
+                    <a href="#promocoes" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Promoções</a>
+                    <a href="#sobre" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Sobre</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4 animate-slide-right">
+                    <button onclick="toggleSearch()" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="text-red-500 hover:text-red-600 hover:scale-110 transition-transform relative">
+                        <i class="fas fa-heart"></i>
+                        <span id="wishlistCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <a href="carrinho.html" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <a href="perfil.html" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Page Header -->
+        <div class="bg-gradient-to-r from-red-500 to-pink-500 text-white py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl font-bold mb-4 animate-slide-up">
+                    <i class="fas fa-heart mr-4 animate-bounce"></i>
+                    Meus Favoritos
+                </h1>
+                <p class="text-xl text-red-100 animate-fade-in" style="animation-delay: 0.3s;">
+                    Suas camisas favoritas em um só lugar
+                </p>
+            </div>
+        </div>
+
+        <!-- Favorites Section -->
+        <div class="py-12 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-3xl font-bold text-gradient">
+                            <i class="fas fa-heart text-red-500 mr-3"></i>
+                            Produtos Favoritos
+                        </h2>
+                        <div id="favoritesCount" class="text-gray-600 text-lg font-semibold animate-fade-in">
+                            Carregando...
+                        </div>
+                    </div>
+                    
+                    <!-- Loading State -->
+                    <div id="loadingState" class="text-center py-16">
+                        <i class="fas fa-spinner fa-spin text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600">Carregando seus favoritos...</p>
+                    </div>
+
+                    <!-- Favorites Grid -->
+                    <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 hidden">
+                        <!-- Favorites will be inserted here -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-16 hidden">
+                        <i class="fas fa-heart-broken text-8xl text-gray-300 mb-6 animate-bounce"></i>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Nenhum favorito ainda</h3>
+                        <p class="text-gray-500 text-lg mb-6">Adicione camisas aos seus favoritos para vê-las aqui!</p>
+                        <a href="camisas.html" class="btn-primary text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 inline-block">
+                            <i class="fas fa-shopping-bag mr-2"></i>
+                            Explorar Camisas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { addToCart } from './firebase-hybrid.js';
+        import './favorites-system.js';
+        
+        // Make addToCart globally available
+        window.addToCart = addToCart;
+        
+        // DOM Elements
+        const loadingState = document.getElementById('loadingState');
+        const favoritesGrid = document.getElementById('favoritesGrid');
+        const emptyState = document.getElementById('emptyState');
+        const favoritesCount = document.getElementById('favoritesCount');
+        const wishlistCount = document.getElementById('wishlistCount');
+
+        // Função para adicionar produto por índice
+        window.addFavoriteToCart = function(index) {
+            console.log('🛒 Adicionando favorito ao carrinho:', index);
+            const favorites = window.getFavorites();
+            const product = favorites[index];
+            if (product) {
+                console.log('✅ Produto encontrado:', product);
+                addToCart(product);
+            } else {
+                console.error('❌ Produto não encontrado no índice:', index);
+            }
+        };
+
+        // Função para remover dos favoritos
+        window.removeFromFavorites = function(productId) {
+            console.log('❌ Removendo dos favoritos:', productId);
+            const favorites = window.getFavorites();
+            const product = favorites.find(fav => fav.id === productId);
+            if (product) {
+                window.toggleFavorite(product);
+                loadFavorites(); // Recarrega a lista
+            }
+        };
+
+        // Função para carregar favoritos
+        function loadFavorites() {
+            console.log('❤️ Carregando favoritos...');
+            
+            try {
+                const favorites = window.getFavorites();
+                console.log('📦 Favoritos carregados:', favorites);
+                
+                // Atualiza contador
+                const count = typeof window.getFavoritesCount === 'function' ? window.getFavoritesCount() : favorites.length;
+                favoritesCount.textContent = `${count} favoritos`;
+                if (wishlistCount) {
+                    wishlistCount.textContent = String(count);
+                    wishlistCount.classList.remove('hidden');
+                    wishlistCount.setAttribute('aria-label', `Favoritos: ${count}`);
+                    wishlistCount.setAttribute('title', `Favoritos: ${count}`);
+                }
+                
+                if (favorites.length === 0) {
+                    showEmptyState();
+                    return;
+                }
+                
+                // Esconde loading e mostra favoritos
+                loadingState.classList.add('hidden');
+                favoritesGrid.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                
+                renderFavorites(favorites);
+                
+            } catch (error) {
+                console.error('❌ Erro ao carregar favoritos:', error);
+                showEmptyState();
+            }
+        }
+
+        // Função para renderizar favoritos
+        function renderFavorites(favorites) {
+            console.log('🎨 Renderizando favoritos...');
+            
+            favoritesGrid.innerHTML = favorites.map((product, index) => `
+                <div class="product-card rounded-2xl overflow-hidden animate-fade-in group" style="animation-delay: ${index * 0.1}s;">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-56 object-cover transition-all duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <button onclick="removeFromFavorites('${product.id}')" class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-110 shadow-lg">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <span class="absolute top-4 left-4 text-xs bg-red-100 text-red-600 px-3 py-1 rounded-full font-semibold shadow-sm">
+                            <i class="fas fa-heart mr-1"></i>Favorito
+                        </span>
+                        <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-2">
+                                <p class="text-xs text-gray-600 text-center">Clique para ver detalhes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-gradient-to-b from-white to-gray-50">
+                        <div class="mb-4">
+                            <h3 class="font-bold text-gray-800 text-lg mb-2 line-clamp-2">${product.name}</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-medium">${product.type || 'Produto'}</span>
+                                <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full font-medium">${product.league || 'N/A'}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">
+                                <i class="fas fa-users mr-1"></i>
+                                <span class="font-semibold text-gray-800">${product.team || 'N/A'}</span>
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex flex-col">
+                                <span class="text-2xl font-bold text-gray-900">R$ ${product.price.toFixed(2).replace('.', ',')}</span>
+                                <span class="text-xs text-gray-500">ou 3x de R$ ${(product.price / 3).toFixed(2).replace('.', ',')}</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center text-yellow-500">
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <span class="text-xs text-gray-500 ml-1">(4.8)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <button onclick="addFavoriteToCart(${index})" class="flex-1 btn-primary text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center shadow-lg">
+                                <i class="fas fa-shopping-cart mr-2"></i>Comprar
+                            </button>
+                            <button onclick="removeFromFavorites('${product.id}')" class="px-4 py-3 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl transition-all duration-300 hover:scale-105 flex items-center justify-center">
+                                <i class="fas fa-heart-broken"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('✅ Favoritos renderizados com sucesso!');
+        }
+
+        // Função para mostrar estado vazio
+        function showEmptyState() {
+            console.log('📭 Mostrando estado vazio');
+            loadingState.classList.add('hidden');
+            favoritesGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            favoritesCount.textContent = '0 favoritos';
+            if (wishlistCount) {
+                wishlistCount.textContent = '0';
+                wishlistCount.classList.remove('hidden');
+                wishlistCount.setAttribute('aria-label', 'Favoritos: 0');
+                wishlistCount.setAttribute('title', 'Favoritos: 0');
+            }
+        }
+
+        // Função para atualizar ícone do carrinho
+        function updateCartIcon() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const cartCount = document.getElementById('cartCount');
+                if (cartCount) {
+                    cartCount.textContent = totalItems;
+                    cartCount.classList.toggle('hidden', totalItems === 0);
+                }
+            } catch (error) {
+                console.warn('Erro ao atualizar ícone do carrinho:', error);
+            }
+        }
+
+        // Função de busca (placeholder)
+        window.toggleSearch = function() {
+            console.log('🔍 Toggle search');
+            alert('Funcionalidade de busca será implementada!');
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Iniciando página de favoritos...');
+            loadFavorites();
+            updateCartIcon();
+        });
+
+        // Escuta mudanças nos favoritos
+        window.addEventListener('favoritesUpdated', () => {
+            console.log('🔄 Favoritos atualizados, recarregando...');
+            loadFavorites();
+        });
+    </script>
+    
+    <!-- Adidas Style Header Script -->
+    <script src="js/adidas-style-header.js"></script>
+</body>
+</html>

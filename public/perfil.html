@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear - Meu Perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/adidas-style-header.css">
+    <style>
+        /* Enhanced Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Custom Styles */
+        .profile-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .secondary-button {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .secondary-button:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #10b981;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        #avatarPlaceholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #e5e7eb;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            transition: all 0.3s ease;
+        }
+
+        #avatarPlaceholder:hover {
+            transform: scale(1.05);
+            border-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        #avatarInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #f3f4f6;
+            transform: translateX(5px);
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .slide-in-up {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Profile Header -->
+    <div class="bg-gradient-to-r from-green-500 to-green-600 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center text-white">
+                <h1 class="text-4xl font-bold mb-4 fade-in">Meu Perfil</h1>
+                <p class="text-xl opacity-90 slide-in-up">Gerencie suas informações e preferências</p>
+            </div>
+                                </div>
+                            </div>
+
+    <!-- Profile Content -->
+    <div class="container mx-auto px-6 py-12">
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+            <p class="mt-4 text-gray-600">Carregando perfil...</p>
+                        </div>
+                        
+        <!-- Not Logged In State -->
+        <div id="notLoggedInState" class="hidden text-center py-12">
+            <div class="max-w-md mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-times text-red-500 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Não logado</h2>
+                    <p class="text-gray-600 mb-6">Você precisa fazer login para acessar seu perfil.</p>
+                    <a href="login.html" class="action-button inline-block">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Fazer Login
+                    </a>
+                        </div>
+                    </div>
+                </div>
+
+        <!-- Profile Content -->
+        <div id="profileContent" class="hidden">
+            <!-- User Info Card -->
+            <div class="profile-card p-8 mb-8 slide-in-up">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                    <!-- Avatar Section -->
+                    <div class="text-center md:text-left">
+                        <div class="relative inline-block">
+                            <img id="userAvatar" src="" 
+                                 alt="Avatar" class="avatar mx-auto md:mx-0 mb-4">
+                            <div id="avatarPlaceholder" class="avatar mx-auto md:mx-0 mb-4 bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-user text-gray-400 text-4xl"></i>
+                                    </div>
+                            <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event)">
+                                    </div>
+                        <button onclick="changeAvatar()" class="secondary-button text-sm">
+                            <i class="fas fa-camera mr-2"></i>
+                            Alterar Foto
+                        </button>
+                                </div>
+                                
+                    <!-- User Details -->
+                    <div class="flex-1">
+                        <h2 id="userName" class="text-3xl font-bold text-gray-800 mb-2">Carregando...</h2>
+                        <p id="userEmail" class="text-lg text-gray-600 mb-4">carregando@email.com</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Membro desde <span id="memberSince">2024</span>
+                            </span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                <i class="fas fa-star mr-1"></i>
+                                Cliente VIP
+                            </span>
+                                </div>
+                                </div>
+                                
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col gap-3">
+                        <button onclick="editProfile()" class="action-button">
+                            <i class="fas fa-edit mr-2"></i>
+                            Editar Perfil
+                                    </button>
+                        <button onclick="logout()" class="secondary-button">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Sair
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="stats-card slide-in-left">
+                    <div class="text-3xl font-bold mb-2" id="totalOrders">0</div>
+                    <div class="text-green-100">Pedidos Realizados</div>
+                            </div>
+                <div class="stats-card slide-in-up">
+                    <div class="text-3xl font-bold mb-2" id="totalSpent">R$ 0,00</div>
+                    <div class="text-green-100">Total Gasto</div>
+                                            </div>
+                <div class="stats-card slide-in-right">
+                    <div class="text-3xl font-bold mb-2" id="favoriteItems">0</div>
+                    <div class="text-green-100">Itens Favoritos</div>
+                                    </div>
+                                </div>
+                                
+            <!-- Profile Sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Personal Information -->
+                <div class="profile-card p-6 slide-in-left">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-user-circle text-green-500 mr-3"></i>
+                        Informações Pessoais
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500">E-mail</div>
+                                <div id="profileEmail" class="font-medium">carregando@email.com</div>
+                                        </div>
+                                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                                    </div>
+                            <div>
+                                <div class="text-sm text-gray-500">Telefone</div>
+                                <div id="profilePhone" class="font-medium">Não informado</div>
+                                </div>
+                            </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-calendar"></i>
+                        </div>
+                                        <div>
+                                <div class="text-sm text-gray-500">Data de Cadastro</div>
+                                <div id="profileJoinDate" class="font-medium">Carregando...</div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                </div>
+                                
+                <!-- Quick Actions -->
+                <div class="profile-card p-6 slide-in-right">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-bolt text-green-500 mr-3"></i>
+                        Ações Rápidas
+                    </h3>
+                    <div class="space-y-4">
+                        <a href="meus-pedidos.html" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-shopping-bag text-blue-600"></i>
+                                </div>
+                                        <div>
+                                    <div class="font-medium">Meus Pedidos</div>
+                                    <div class="text-sm text-gray-500">Acompanhe seus pedidos</div>
+                                        </div>
+                                    </div>
+                        </a>
+                        <a href="carrinho.html" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-shopping-cart text-green-600"></i>
+                                </div>
+                                                <div>
+                                    <div class="font-medium">Carrinho</div>
+                                    <div class="text-sm text-gray-500">Continue suas compras</div>
+                                                </div>
+                                            </div>
+                        </a>
+                        <a href="#" onclick="showFavorites()" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-heart text-red-600"></i>
+                                        </div>
+                                                <div>
+                                    <div class="font-medium">Favoritos</div>
+                                    <div class="text-sm text-gray-500">Seus itens favoritos</div>
+                                                </div>
+                                            </div>
+                        </a>
+                                        </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="profile-card p-6 mt-8 slide-in-up">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-history text-green-500 mr-3"></i>
+                    Pedidos Recentes
+                </h3>
+                <div id="recentOrders">
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-shopping-bag text-4xl mb-4"></i>
+                        <p>Nenhum pedido encontrado</p>
+                        <a href="camisas.html" class="action-button inline-block mt-4">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Começar a Comprar
+                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50"></div>
+
+    <script>
+        // Profile Management
+        let userData = null;
+
+        // Initialize profile page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserLogin();
+        });
+
+        function checkUserLogin() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            
+            if (user && user.email && isAuthenticated) {
+                userData = user;
+                loadUserProfile();
+            } else {
+                showNotLoggedInState();
+            }
+        }
+
+        function loadUserProfile() {
+            hideLoadingState();
+            showProfileContent();
+            populateUserData();
+            loadUserStats();
+            loadRecentOrders();
+        }
+
+        function populateUserData() {
+            if (!userData) return;
+
+            // Basic user info
+            document.getElementById('userName').textContent = userData.name || userData.email.split('@')[0];
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('profileEmail').textContent = userData.email;
+            document.getElementById('profilePhone').textContent = userData.phone || 'Não informado';
+            
+            // Join date
+            const joinDate = userData.loginTime ? new Date(userData.loginTime) : new Date();
+            document.getElementById('profileJoinDate').textContent = joinDate.toLocaleDateString('pt-BR');
+            document.getElementById('memberSince').textContent = joinDate.getFullYear();
+            
+            // Load avatar
+            loadUserAvatar();
+        }
+
+        function loadUserStats() {
+            // Load cart count
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartCount = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+            
+            // Load favorites count
+            const favorites = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            document.getElementById('favoriteItems').textContent = favorites.length;
+            
+            // Load orders (simulated)
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            document.getElementById('totalOrders').textContent = orders.length;
+            
+            // Calculate total spent
+            const totalSpent = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+            document.getElementById('totalSpent').textContent = `R$ ${totalSpent.toFixed(2).replace('.', ',')}`;
+        }
+
+        function loadRecentOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const recentOrdersContainer = document.getElementById('recentOrders');
+            
+            if (orders.length === 0) {
+                recentOrdersContainer.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-shopping-bag text-4xl mb-4"></i>
+                        <p>Nenhum pedido encontrado</p>
+                        <a href="camisas.html" class="action-button inline-block mt-4">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Começar a Comprar
+                        </a>
+                                        </div>
+                `;
+                return;
+            }
+
+            const recentOrders = orders.slice(0, 3);
+            recentOrdersContainer.innerHTML = recentOrders.map(order => `
+                <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex justify-between items-start">
+                                        <div>
+                            <div class="font-medium">Pedido #${order.id || 'N/A'}</div>
+                            <div class="text-sm text-gray-500">${order.date || 'Data não disponível'}</div>
+                                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-green-600">R$ ${(order.total || 0).toFixed(2).replace('.', ',')}</div>
+                            <div class="text-sm text-gray-500">${order.status || 'Processando'}</div>
+                                    </div>
+                                </div>
+                                        </div>
+            `).join('');
+        }
+
+        function showFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            if (favorites.length === 0) {
+                showToast('Sua lista de favoritos está vazia!', 'info');
+                return;
+            }
+            
+            // Show favorites modal or redirect
+            showToast(`Você tem ${favorites.length} itens nos favoritos!`, 'success');
+        }
+
+        function changeAvatar() {
+            document.getElementById('avatarInput').click();
+        }
+
+        function handleAvatarChange(event) {
+            const file = event.target.files[0];
+            
+            if (!file) return;
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Por favor, selecione apenas arquivos de imagem!', 'error');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('A imagem deve ter no máximo 5MB!', 'error');
+                return;
+            }
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const avatarImg = document.getElementById('userAvatar');
+                const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+                
+                // Show the image and hide placeholder
+                avatarImg.src = e.target.result;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+                
+                // Save to localStorage
+                if (userData) {
+                    userData.avatar = e.target.result;
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    
+                    // Update header avatar if exists
+                    const headerAvatar = document.querySelector('.header-avatar');
+                    if (headerAvatar) {
+                        headerAvatar.src = e.target.result;
+                    }
+                    
+                    showToast('Foto de perfil atualizada com sucesso!', 'success');
+                }
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function loadUserAvatar() {
+            const avatarImg = document.getElementById('userAvatar');
+            const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+            
+            if (userData && userData.avatar) {
+                avatarImg.src = userData.avatar;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImg.style.display = 'none';
+                avatarPlaceholder.style.display = 'flex';
+            }
+        }
+
+        function editProfile() {
+            showEditModal();
+        }
+
+        function showEditModal() {
+            // Create modal HTML
+            const modalHTML = `
+                <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 transform scale-95 transition-transform duration-300">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800">Editar Perfil</h3>
+                            <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                                <i class="fas fa-times"></i>
+                                        </button>
+                                </div>
+                                
+                        <form id="editProfileForm" onsubmit="saveProfile(event)">
+                                    <div class="space-y-4">
+                                            <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
+                                    <input type="text" id="editName" value="${userData?.name || userData?.email?.split('@')[0] || ''}" 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                            </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
+                                    <input type="email" id="editEmail" value="${userData?.email || ''}" 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" readonly>
+                                    <p class="text-xs text-gray-500 mt-1">O e-mail não pode ser alterado</p>
+                                        </div>
+                                
+                                            <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+                                    <input type="tel" id="editPhone" value="${userData?.phone || ''}" 
+                                           placeholder="(11) 99999-9999"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                            </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Data de Nascimento</label>
+                                    <input type="date" id="editBirthDate" value="${userData?.birthDate || ''}" 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                        </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Gênero</label>
+                                    <select id="editGender" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                        <option value="">Selecione</option>
+                                        <option value="masculino" ${userData?.gender === 'masculino' ? 'selected' : ''}>Masculino</option>
+                                        <option value="feminino" ${userData?.gender === 'feminino' ? 'selected' : ''}>Feminino</option>
+                                        <option value="outro" ${userData?.gender === 'outro' ? 'selected' : ''}>Outro</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Password Change Section -->
+                                <div class="border-t pt-4">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="text-lg font-semibold text-gray-800">Alterar Senha</h4>
+                                        <button type="button" onclick="togglePasswordChange()" id="togglePasswordBtn" 
+                                                class="text-sm text-green-600 hover:text-green-700 font-medium">
+                                            <i class="fas fa-edit mr-1"></i>
+                                            Alterar Senha
+                                    </button>
+                    </div>
+
+                                    <div id="passwordChangeSection" class="hidden space-y-4">
+                                            <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Senha Atual</label>
+                                            <div class="relative">
+                                                <input type="password" id="currentPassword" placeholder="Digite sua senha atual"
+                                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10">
+                                                <button type="button" onclick="togglePasswordVisibility('currentPassword')" 
+                                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-eye" id="currentPasswordIcon"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                            <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Nova Senha</label>
+                                            <div class="relative">
+                                                <input type="password" id="newPassword" placeholder="Digite sua nova senha"
+                                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10">
+                                                <button type="button" onclick="togglePasswordVisibility('newPassword')" 
+                                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-eye" id="newPasswordIcon"></i>
+                                                </button>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="text-xs text-gray-500 mb-1">A senha deve conter:</div>
+                                                <div class="space-y-1">
+                                                    <div class="flex items-center text-xs" id="lengthCheck">
+                                                        <i class="fas fa-circle text-gray-300 mr-2"></i>
+                                                        <span>Pelo menos 8 caracteres</span>
+                                        </div>
+                                                    <div class="flex items-center text-xs" id="numberCheck">
+                                                        <i class="fas fa-circle text-gray-300 mr-2"></i>
+                                                        <span>Pelo menos 1 número</span>
+                                            </div>
+                                                    <div class="flex items-center text-xs" id="letterCheck">
+                                                        <i class="fas fa-circle text-gray-300 mr-2"></i>
+                                                        <span>Pelo menos 1 letra</span>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                            <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Nova Senha</label>
+                                            <div class="relative">
+                                                <input type="password" id="confirmPassword" placeholder="Confirme sua nova senha"
+                                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10">
+                                                <button type="button" onclick="togglePasswordVisibility('confirmPassword')" 
+                                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-eye" id="confirmPasswordIcon"></i>
+                                                </button>
+                                            </div>
+                                            <div id="passwordMatch" class="mt-1 text-xs hidden">
+                                                <i class="fas fa-check-circle text-green-500 mr-1"></i>
+                                                <span class="text-green-600">Senhas coincidem</span>
+                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            <div class="flex gap-3 mt-8">
+                                <button type="button" onclick="closeEditModal()" 
+                                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        Cancelar
+                                    </button>
+                                <button type="submit" 
+                                        class="flex-1 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                                    <i class="fas fa-save mr-2"></i>
+                                    Salvar
+                                    </button>
+                                </div>
+                        </form>
+                            </div>
+                        </div>
+            `;
+            
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Animate modal in
+            setTimeout(() => {
+                const modal = document.getElementById('editModal');
+                const modalContent = modal.querySelector('.bg-white');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            
+            // Format phone input
+            const phoneInput = document.getElementById('editPhone');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 11) {
+                    value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                } else if (value.length >= 7) {
+                    value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                } else if (value.length >= 3) {
+                    value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+                }
+                e.target.value = value;
+            });
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            if (modal) {
+                const modalContent = modal.querySelector('.bg-white');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        }
+
+        function saveProfile(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('editName').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                phone: document.getElementById('editPhone').value.trim(),
+                birthDate: document.getElementById('editBirthDate').value,
+                gender: document.getElementById('editGender').value,
+                loginTime: userData?.loginTime || new Date().toISOString()
+            };
+            
+            // Validation
+            if (!formData.name) {
+                showToast('Nome é obrigatório!', 'error');
+                return;
+            }
+            
+            if (!formData.email) {
+                showToast('E-mail é obrigatório!', 'error');
+                return;
+            }
+            
+            // Check if password change is requested
+            const passwordSection = document.getElementById('passwordChangeSection');
+            if (!passwordSection.classList.contains('hidden')) {
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                // Validate password change
+                if (!currentPassword) {
+                    showToast('Digite sua senha atual!', 'error');
+                    return;
+                }
+                
+                if (!newPassword) {
+                    showToast('Digite sua nova senha!', 'error');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showToast('As senhas não coincidem!', 'error');
+                    return;
+                }
+                
+                // Validate current password (simulated - in real app, this would be server-side)
+                const storedPassword = userData?.password || '123456'; // Default password for demo
+                if (currentPassword !== storedPassword) {
+                    showToast('Senha atual incorreta!', 'error');
+                    return;
+                }
+                
+                // Validate new password strength
+                if (!validatePasswordStrength(newPassword)) {
+                    showToast('A nova senha não atende aos critérios de segurança!', 'error');
+                    return;
+                }
+                
+                // Update password
+                formData.password = newPassword;
+                showToast('Senha alterada com sucesso!', 'success');
+            }
+            
+            // Update user data
+            userData = { ...userData, ...formData };
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('userEmail', formData.email);
+            
+            // Update profile display
+            populateUserData();
+            
+            // Close modal
+            closeEditModal();
+            
+            // Show success message
+            showToast('Perfil atualizado com sucesso!', 'success');
+            
+            // Dispatch user update event
+            window.dispatchEvent(new CustomEvent('userUpdate', { detail: userData }));
+        }
+
+        function togglePasswordChange() {
+            const passwordSection = document.getElementById('passwordChangeSection');
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            
+            if (passwordSection.classList.contains('hidden')) {
+                passwordSection.classList.remove('hidden');
+                toggleBtn.innerHTML = '<i class="fas fa-times mr-1"></i>Cancelar';
+                toggleBtn.classList.remove('text-green-600', 'hover:text-green-700');
+                toggleBtn.classList.add('text-red-600', 'hover:text-red-700');
+                
+                // Add event listeners for password validation
+                setupPasswordValidation();
+            } else {
+                passwordSection.classList.add('hidden');
+                toggleBtn.innerHTML = '<i class="fas fa-edit mr-1"></i>Alterar Senha';
+                toggleBtn.classList.remove('text-red-600', 'hover:text-red-700');
+                toggleBtn.classList.add('text-green-600', 'hover:text-green-700');
+                
+                // Clear password fields
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            }
+        }
+
+        function setupPasswordValidation() {
+            const newPasswordInput = document.getElementById('newPassword');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            
+            // Real-time password strength validation
+            newPasswordInput.addEventListener('input', function() {
+                validatePasswordStrength(this.value);
+            });
+            
+            // Real-time password match validation
+            confirmPasswordInput.addEventListener('input', function() {
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = this.value;
+                const matchDiv = document.getElementById('passwordMatch');
+                
+                if (confirmPassword && newPassword === confirmPassword) {
+                    matchDiv.classList.remove('hidden');
+                } else {
+                    matchDiv.classList.add('hidden');
+                }
+            });
+        }
+
+        function validatePasswordStrength(password) {
+            const lengthCheck = document.getElementById('lengthCheck');
+            const numberCheck = document.getElementById('numberCheck');
+            const letterCheck = document.getElementById('letterCheck');
+            
+            let isValid = true;
+            
+            // Check length (8+ characters)
+            if (password.length >= 8) {
+                lengthCheck.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i><span>Pelo menos 8 caracteres</span>';
+            } else {
+                lengthCheck.innerHTML = '<i class="fas fa-circle text-gray-300 mr-2"></i><span>Pelo menos 8 caracteres</span>';
+                isValid = false;
+            }
+            
+            // Check for numbers
+            if (/\d/.test(password)) {
+                numberCheck.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i><span>Pelo menos 1 número</span>';
+            } else {
+                numberCheck.innerHTML = '<i class="fas fa-circle text-gray-300 mr-2"></i><span>Pelo menos 1 número</span>';
+                isValid = false;
+            }
+            
+            // Check for letters
+            if (/[a-zA-Z]/.test(password)) {
+                letterCheck.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i><span>Pelo menos 1 letra</span>';
+            } else {
+                letterCheck.innerHTML = '<i class="fas fa-circle text-gray-300 mr-2"></i><span>Pelo menos 1 letra</span>';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(inputId + 'Icon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function logout() {
+            // Create confirmation modal
+            const confirmModal = `
+                <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-sign-out-alt text-red-500 text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Confirmar Logout</h3>
+                            <p class="text-gray-600 mb-6">Tem certeza que deseja sair da sua conta?</p>
+                            
+                            <div class="flex gap-3">
+                                <button onclick="closeLogoutModal()" 
+                                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    Cancelar
+                                </button>
+                                <button onclick="confirmLogout()" 
+                                        class="flex-1 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>
+                                    Sair
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', confirmModal);
+            
+            // Animate modal in
+            setTimeout(() => {
+                const modal = document.getElementById('logoutModal');
+                const modalContent = modal.querySelector('.bg-white');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                const modalContent = modal.querySelector('.bg-white');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        }
+
+        function confirmLogout() {
+            // Clear all user data
+            localStorage.removeItem('user');
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('isAdmin');
+            
+            // Dispatch logout event
+            window.dispatchEvent(new CustomEvent('userLogout'));
+            
+            // Show success message
+            showToast('Logout realizado com sucesso!', 'success');
+            
+            // Close modal
+            closeLogoutModal();
+            
+            // Redirect to login after delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        }
+
+        function hideLoadingState() {
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+
+        function showNotLoggedInState() {
+            hideLoadingState();
+            document.getElementById('notLoggedInState').classList.remove('hidden');
+        }
+
+        function showProfileContent() {
+            document.getElementById('profileContent').classList.remove('hidden');
+        }
+
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-blue-500'
+            };
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-exclamation-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            };
+            
+            toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg mb-4 transform translate-x-full transition-transform duration-300`;
+            toast.innerHTML = `
+                <div class="flex items-center">
+                    <i class="${icons[type]} mr-3"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => {
+                toast.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (toastContainer.contains(toast)) {
+                        toastContainer.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Make functions global
+        window.changeAvatar = changeAvatar;
+        window.editProfile = editProfile;
+        window.logout = logout;
+        window.showFavorites = showFavorites;
+        window.showToast = showToast;
+        window.showEditModal = showEditModal;
+        window.closeEditModal = closeEditModal;
+        window.saveProfile = saveProfile;
+        window.closeLogoutModal = closeLogoutModal;
+        window.confirmLogout = confirmLogout;
+        window.togglePasswordChange = togglePasswordChange;
+        window.togglePasswordVisibility = togglePasswordVisibility;
+        window.validatePasswordStrength = validatePasswordStrength;
+        window.setupPasswordValidation = setupPasswordValidation;
+        window.handleAvatarChange = handleAvatarChange;
+        window.loadUserAvatar = loadUserAvatar;
+    </script>
+    
+    <!-- Adidas Style Header Script -->
+    <script src="js/adidas-style-header.js"></script>
+</body>
+</html> 

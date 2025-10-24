@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicializar Banco de Dados - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full mx-4">
+        <div class="text-center">
+            <div class="mb-6">
+                <i class="fas fa-database text-6xl text-blue-600 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Inicializar Banco de Dados</h1>
+                <p class="text-gray-600">Configurando banco de dados externo (JSONBin)</p>
+            </div>
+            
+            <div id="status" class="mb-6">
+                <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    Aguardando inicialização...
+                </div>
+            </div>
+            
+            <div id="results" class="hidden">
+                <div class="text-left space-y-2 max-h-64 overflow-y-auto">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+            
+            <div class="mt-6 space-y-4">
+                <button id="initBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 w-full">
+                    <i class="fas fa-play mr-2"></i>
+                    Inicializar Banco
+                </button>
+                
+                <a href="camisas.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 inline-block w-full text-center">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Voltar para Camisas
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { inicializarBancoExterno, buscarCamisasExterno, upsertCamisasExterno } from './external-database.js';
+        import { DATABASE_CONFIG, CAMISAS_DATA } from './database-config.js';
+
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+        const resultsContent = resultsDiv.querySelector('div');
+        const initBtn = document.getElementById('initBtn');
+
+        function updateStatus(message, type = 'info') {
+            const colors = {
+                info: 'bg-blue-100 border-blue-400 text-blue-700',
+                success: 'bg-green-100 border-green-400 text-green-700',
+                error: 'bg-red-100 border-red-400 text-red-700',
+                warning: 'bg-yellow-100 border-yellow-400 text-yellow-700'
+            };
+            
+            statusDiv.innerHTML = `
+                <div class="${colors[type]} px-4 py-3 rounded">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'spinner fa-spin'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        function addResult(message, type = 'info') {
+            const colors = {
+                info: 'text-blue-600',
+                success: 'text-green-600',
+                error: 'text-red-600',
+                warning: 'text-yellow-600'
+            };
+            
+            const icon = type === 'success' ? 'check' : type === 'error' ? 'times' : 'info';
+            
+            resultsContent.innerHTML += `
+                <div class="${colors[type]} text-sm">
+                    <i class="fas fa-${icon} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        function gerarCamisasBulk() {
+            const categorias = [
+                { league: 'Brasileirão', category: 'times-brasileiros', teams: ['Flamengo','Palmeiras','Corinthians','São Paulo','Vasco','Botafogo','Fluminense','Grêmio','Internacional','Atlético-MG','Cruzeiro','Bahia','Fortaleza','Ceará','Athletico-PR','Coritiba','Santos','Bragantino','Cuiabá','Goiás'] },
+                { league: 'Premier League', category: 'times-europeus', teams: ['Arsenal','Chelsea','Liverpool','Manchester City','Manchester United','Tottenham','Newcastle','Aston Villa','West Ham','Brighton'] },
+                { league: 'La Liga', category: 'times-europeus', teams: ['Real Madrid','Barcelona','Atlético de Madrid','Sevilla','Valencia','Villarreal','Real Sociedad','Athletic Bilbao'] },
+                { league: 'Serie A (Italiana)', category: 'times-europeus', teams: ['Juventus','Milan','Inter de Milão','Roma','Lazio','Napoli','Atalanta','Fiorentina'] },
+                { league: 'Ligue 1', category: 'times-europeus', teams: ['PSG','Lyon','Marseille','Monaco','Lille','Nice'] },
+                { league: 'Süper Lig (Turquia)', category: 'times-europeus', teams: ['Galatasaray','Fenerbahçe','Beşiktaş','Trabzonspor'] },
+                { league: 'Seleções', category: 'selecoes', teams: ['Brasil','Argentina','França','Alemanha','Espanha','Inglaterra','Itália','Portugal','Holanda','Uruguai'] },
+                { league: 'Retrô', category: 'retro', teams: ['Brasil 1970','Flamengo 1981','Milan 1989','Argentina 1986','Alemanha 1990','França 1998','Barcelona 1992','Real Madrid 2002'] }
+            ];
+            const imagens = [
+                'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=640',
+                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=640',
+                'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=640',
+                'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=640'
+            ];
+            const itens = [];
+            categorias.forEach(grupo => {
+                grupo.teams.forEach((team, i) => {
+                    const baseId = team.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+                    const price = 140 + ((i % 26) * 1) + Math.floor(Math.random() * 5);
+                    itens.push({
+                        id: `${baseId}-${grupo.category}`,
+                        name: `Camisa ${team}`,
+                        price: Math.min(170, Math.max(140, price)),
+                        category: grupo.category,
+                        description: `Camisa ${team} - ${grupo.league}`,
+                        image: imagens[i % imagens.length],
+                        sizes: ['P','M','G','GG'],
+                        stock: 50 + (i % 30),
+                        team: team,
+                        league: grupo.league,
+                        type: grupo.category === 'selecoes' ? 'Seleção' : (grupo.category === 'retro' ? 'Retrô' : 'Time'),
+                        available: true,
+                        discount: 0
+                    });
+                });
+            });
+            return itens;
+        }
+
+        async function inicializarBanco() {
+            updateStatus('Inicializando banco de dados...', 'info');
+            resultsDiv.classList.remove('hidden');
+            initBtn.disabled = true;
+            
+            try {
+                addResult('🔧 Configuração do banco:', 'info');
+                addResult(`   • Serviço: JSONBin`, 'info');
+                addResult(`   • URL: ${DATABASE_CONFIG.jsonbin.baseUrl}`, 'info');
+                addResult(`   • Bin ID: ${DATABASE_CONFIG.jsonbin.binId}`, 'info');
+                
+                addResult('', 'info');
+                addResult('📦 Dados a serem inseridos:', 'info');
+                addResult(`   • Total de camisas: ${CAMISAS_DATA.length}`, 'info');
+                
+                CAMISAS_DATA.forEach((camisa, index) => {
+                    addResult(`   ${index + 1}. ${camisa.name} - R$ ${camisa.price}`, 'info');
+                });
+                
+                addResult('', 'info');
+                addResult('🚀 Inicializando banco...', 'info');
+                
+                const result = await inicializarBancoExterno();
+                
+                if (result.success) {
+                    addResult('✅ Banco inicializado com sucesso!', 'success');
+                    
+                    addResult('', 'info');
+                    addResult('🔍 Testando carregamento...', 'info');
+                    
+                    let camisas = await buscarCamisasExterno();
+                    addResult(`✅ ${camisas.length} camisas carregadas do banco (antes do seed)`, 'success');
+
+                    addResult('', 'info');
+                    addResult('🌱 Inserindo camisas adicionais (times e retrô)...', 'info');
+                    const novosItens = gerarCamisasBulk();
+                    const upsert = await upsertCamisasExterno(novosItens, false);
+                    addResult(`✅ Upsert concluído: total agora ${upsert.total || 'n/d'}`, 'success');
+
+                    camisas = await buscarCamisasExterno(true);
+                    addResult(`📦 Total após seed: ${camisas.length}`, 'success');
+                    
+                    addResult('', 'info');
+                    addResult('🎉 Sistema pronto para uso!', 'success');
+                    
+                    updateStatus('Banco inicializado com sucesso!', 'success');
+                } else {
+                    addResult(`❌ Erro: ${result.error}`, 'error');
+                    updateStatus('Erro ao inicializar banco', 'error');
+                }
+                
+            } catch (error) {
+                addResult(`❌ Erro inesperado: ${error.message}`, 'error');
+                updateStatus('Erro ao inicializar banco', 'error');
+            }
+            
+            initBtn.disabled = false;
+        }
+
+        // Event listeners
+        initBtn.addEventListener('click', inicializarBanco);
+
+        // Auto-inicializar se necessário
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const camisas = await buscarCamisasExterno();
+                if (camisas && camisas.length > 0) {
+                    updateStatus('Banco já inicializado!', 'success');
+                    addResult('✅ Banco já contém dados', 'success');
+                    addResult(`📦 ${camisas.length} camisas disponíveis`, 'success');
+                } else {
+                    updateStatus('Banco precisa ser inicializado', 'warning');
+                }
+            } catch (error) {
+                updateStatus('Banco precisa ser inicializado', 'warning');
+            }
+        });
+    </script>
+</body>
+</html>

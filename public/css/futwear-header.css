@@ -1,0 +1,354 @@
+/* FutWear Header - Cores Claras e Verdes */
+:root {
+    --futwear-primary: #ffffff;
+    --futwear-secondary: #f8fafc;
+    --futwear-accent: #10b981;
+    --futwear-accent-light: #34d399;
+    --futwear-text: #1f2937;
+    --futwear-text-muted: #6b7280;
+    --futwear-success: #10b981;
+    --futwear-warning: #f59e0b;
+    --futwear-error: #ef4444;
+    --futwear-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    --futwear-gradient-light: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    --futwear-border: #e5e7eb;
+    --futwear-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    padding-top: 70px; /* Space for fixed header */
+}
+
+.futwear-header {
+    background: var(--futwear-gradient-light);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--futwear-border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--futwear-shadow);
+}
+
+.futwear-header.scrolled {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+}
+
+/* Logo Section */
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--futwear-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.logo-text {
+    font-size: 1.6rem;
+    font-weight: 900;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--futwear-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+/* Navigation Center */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-link {
+    color: var(--futwear-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--futwear-accent);
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    background: var(--futwear-gradient);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+/* Right Section */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Search Button */
+.search-btn {
+    position: relative;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--futwear-border);
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: var(--futwear-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.search-btn:hover {
+    background: var(--futwear-gradient);
+    border-color: var(--futwear-accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.search-btn i {
+    font-size: 1.1rem;
+}
+
+/* Search Modal */
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.search-modal.show {
+    display: flex;
+}
+
+.search-modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.search-input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e5e7eb;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--futwear-accent);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Profile Button */
+.profile-btn {
+    position: relative;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--futwear-border);
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: var(--futwear-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.profile-btn:hover {
+    background: var(--futwear-gradient);
+    border-color: var(--futwear-accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.profile-btn i {
+    font-size: 1.1rem;
+}
+
+.profile-btn .user-email {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Action Buttons */
+.action-btn {
+    position: relative;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--futwear-border);
+    border-radius: 50px;
+    padding: 12px 16px;
+    color: var(--futwear-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-btn:hover {
+    background: var(--futwear-gradient);
+    border-color: var(--futwear-accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.action-btn i {
+    font-size: 1.2rem;
+}
+
+/* Badges */
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--futwear-error);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    animation: pulse 2s infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0 15px;
+    }
+    
+    .header-nav {
+        display: none;
+    }
+    
+    .header-actions {
+        gap: 15px;
+    }
+    
+    .search-btn,
+    .profile-btn {
+        min-width: auto;
+        padding: 10px 15px;
+    }
+    
+    .search-btn span,
+    .profile-btn .user-email {
+        display: none;
+    }
+    
+    .logo-text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-actions {
+        gap: 10px;
+    }
+    
+    .action-btn {
+        padding: 10px 12px;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
+    }
+}

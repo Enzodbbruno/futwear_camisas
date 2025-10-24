@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
+    "firebase": "^11.9.1",
+    "firebase-admin": "^13.4.0",
+    "mercadopago": "^1.5.17"
+  }
+}

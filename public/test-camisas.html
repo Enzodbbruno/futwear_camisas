@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Camisas - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8">Teste de Carregamento de Camisas</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Status do Carregamento</h2>
+            <div id="status" class="text-gray-600">Carregando...</div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Produtos</h2>
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div class="text-center text-gray-500">Carregando produtos...</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { buscarCamisas } from './firebase-hybrid.js';
+
+        async function loadProducts() {
+            const statusDiv = document.getElementById('status');
+            const productsGrid = document.getElementById('productsGrid');
+            
+            try {
+                statusDiv.textContent = 'Carregando produtos...';
+                console.log('Iniciando carregamento...');
+                
+                const produtos = await buscarCamisas();
+                console.log('Produtos carregados:', produtos);
+                
+                if (!produtos || produtos.length === 0) {
+                    statusDiv.textContent = 'Nenhum produto encontrado';
+                    productsGrid.innerHTML = '<div class="text-center text-gray-500">Nenhum produto disponível</div>';
+                    return;
+                }
+                
+                statusDiv.textContent = `${produtos.length} produtos carregados com sucesso`;
+                
+                productsGrid.innerHTML = produtos.map(produto => `
+                    <div class="bg-white rounded-lg shadow-md p-4 border">
+                        <div class="aspect-w-16 aspect-h-12 mb-4">
+                            <img src="${produto.imagem || 'https://via.placeholder.com/300x200'}" 
+                                 alt="${produto.nome}" 
+                                 class="w-full h-48 object-cover rounded">
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">${produto.nome}</h3>
+                        <p class="text-gray-600 mb-2">${produto.descricao || 'Sem descrição'}</p>
+                        <p class="text-green-600 font-bold text-xl">R$ ${produto.preco || 0}</p>
+                        <p class="text-sm text-gray-500">Categoria: ${produto.categoria || 'N/A'}</p>
+                    </div>
+                `).join('');
+                
+                console.log('Produtos renderizados com sucesso');
+                
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                statusDiv.textContent = `Erro: ${error.message}`;
+                productsGrid.innerHTML = '<div class="text-center text-red-500">Erro ao carregar produtos</div>';
+            }
+        }
+
+        // Carregar produtos quando a página carregar
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

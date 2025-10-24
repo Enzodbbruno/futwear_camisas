@@ -1,0 +1,234 @@
+:root {
+    --primary-color: #111; /* Preto para o fundo e textos principais */
+    --secondary-color: #fff; /* Branco para textos e ícones */
+    --highlight-color: #007bff; /* Um azul para links ou destaques */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding-top: 60px; /* Space for fixed header */
+}
+
+.header-top {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.header-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header-menu {
+    display: flex;
+    align-items: center;
+}
+
+.header-menu a, .header-icons a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.header-menu a:hover, .header-icons a:hover {
+    color: var(--highlight-color);
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.header-icons .search-container {
+    position: relative;
+    margin-right: 15px;
+}
+
+.header-icons .search-container input {
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    width: 150px;
+    border-bottom: 1px solid var(--primary-color);
+    padding: 5px 25px 5px 0;
+    transition: width 0.3s ease;
+}
+
+.header-icons .search-container input:focus {
+    outline: none;
+    width: 200px;
+}
+
+.header-icons .search-container .fa-search {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.header-icons a .fa-heart, .header-icons a .fa-shopping-bag {
+    font-size: 1.2rem;
+}
+
+.header-logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.header-logo span {
+    color: var(--highlight-color);
+}
+
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--highlight-color);
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 8px;
+    min-width: 16px;
+    text-align: center;
+}
+
+.profile-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: white;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.profile-button:hover {
+    background: #f8f9fa;
+    border-color: var(--highlight-color);
+}
+
+.profile-button .user-email {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 200px;
+    z-index: 1001;
+    display: none;
+}
+
+.profile-dropdown.show {
+    display: block;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 12px 16px;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.3s;
+}
+
+.profile-dropdown a:hover {
+    background: #f8f9fa;
+}
+
+.profile-dropdown a:last-child {
+    border-bottom: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .header-center {
+        display: none; /* Esconde o menu de navegação em telas menores */
+    }
+
+    .header-left {
+        flex: 1;
+    }
+
+    .header-right {
+        flex: 1;
+    }
+
+    .header-logo {
+        font-size: 1.5rem;
+    }
+
+    .header-icons .search-container input {
+        width: 100px;
+    }
+
+    .profile-button .user-email {
+        max-width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-icons .search-container input {
+        width: 80px;
+    }
+
+    .profile-button .user-email {
+        max-width: 60px;
+        font-size: 0.8rem;
+    }
+
+    .header-icons {
+        gap: 10px;
+    }
+}

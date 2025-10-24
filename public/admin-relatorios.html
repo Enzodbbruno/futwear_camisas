@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear Admin - Relatórios e Pedidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Enhanced Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation Classes */
+        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
+        .animate-slide-up { animation: slideInUp 0.8s ease-out; }
+        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
+        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
+        .animate-slide-down { animation: slideDown 0.8s ease-out; }
+        .animate-scale-in { animation: scaleIn 0.6s ease-out; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-glow { animation: glow 2s ease-in-out infinite; }
+        .animate-bounce { animation: bounce 1s ease-in-out; }
+        .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+        .animate-fade-scale { animation: fadeInScale 0.6s ease-out; }
+
+        /* Elegant Background */
+        .elegant-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            position: relative;
+        }
+
+        .elegant-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Enhanced Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card-strong {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #16a34a 0%, #10b981 50%, #059669 100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            height: 56px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #15803d 0%, #059669 50%, #047857 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(22, 163, 74, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: all 0.1s ease;
+        }
+
+        /* Enhanced Header */
+        .header-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #16a34a 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Enhanced Shadows */
+        .shadow-enhanced {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .shadow-enhanced-lg {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Status Badges */
+        .status-pending {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+        }
+
+        .status-paid {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .status-shipped {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        .status-delivered {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+        }
+
+        .status-cancelled {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .stats-card:hover::before {
+            left: 100%;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #15803d;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #16a34a;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-sans elegant-bg text-gray-900 min-h-screen">
+    <!-- Header -->
+    <header class="fixed w-full glass-card-strong shadow-enhanced z-50 animate-slide-down">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center animate-slide-left">
+                    <a href="index.html" class="text-2xl font-bold text-gradient">FUT<span class="text-green-600">WEAR</span></a>
+                    <span class="ml-4 px-3 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full">ADMIN</span>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-8 animate-slide-up">
+                    <a href="index.html" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Loja</a>
+                    <a href="admin-relatorios.html" class="text-green-600 font-medium">Relatórios</a>
+                    <a href="meus-pedidos.html" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Pedidos</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4 animate-slide-right">
+                    <button onclick="logout()" class="text-gray-800 hover:text-red-600 hover:scale-110 transition-transform">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <!-- Page Header -->
+            <div class="mb-8 animate-slide-up">
+                <h1 class="text-4xl font-bold text-gradient mb-2 animate-float">Painel Administrativo</h1>
+                <p class="text-gray-600 text-lg">Gerencie pedidos e acompanhe o status de pagamentos</p>
+            </div>
+
+            <!-- Stats Dashboard -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Total Orders -->
+                <div class="stats-card glass-card-strong rounded-lg p-6 animate-fade-scale" style="animation-delay: 0.1s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Total de Pedidos</p>
+                            <p class="text-3xl font-bold text-gray-800" id="totalOrders">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shopping-bag text-blue-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Orders -->
+                <div class="stats-card glass-card-strong rounded-lg p-6 animate-fade-scale" style="animation-delay: 0.2s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Pendentes</p>
+                            <p class="text-3xl font-bold text-yellow-600" id="pendingOrders">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paid Orders -->
+                <div class="stats-card glass-card-strong rounded-lg p-6 animate-fade-scale" style="animation-delay: 0.3s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Pagas</p>
+                            <p class="text-3xl font-bold text-green-600" id="paidOrders">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Revenue -->
+                <div class="stats-card glass-card-strong rounded-lg p-6 animate-fade-scale" style="animation-delay: 0.4s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Faturamento</p>
+                            <p class="text-3xl font-bold text-green-600" id="totalRevenue">R$ 0,00</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Actions -->
+            <div class="glass-card-strong rounded-lg shadow-enhanced p-6 mb-6 animate-slide-up" style="animation-delay: 0.5s;">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Status</label>
+                            <select id="statusFilter" class="form-input px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600">
+                                <option value="">Todos os Status</option>
+                                <option value="pending">Pendente</option>
+                                <option value="paid">Pago</option>
+                                <option value="shipped">Enviado</option>
+                                <option value="delivered">Entregue</option>
+                                <option value="cancelled">Cancelado</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                            <select id="periodFilter" class="form-input px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600">
+                                <option value="all">Todos os Períodos</option>
+                                <option value="today">Hoje</option>
+                                <option value="week">Esta Semana</option>
+                                <option value="month">Este Mês</option>
+                                <option value="year">Este Ano</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="exportOrders()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+                            <i class="fas fa-download mr-2"></i>Exportar
+                        </button>
+                        <button onclick="refreshOrders()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
+                            <i class="fas fa-sync-alt mr-2"></i>Atualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="glass-card-strong rounded-lg shadow-enhanced animate-slide-up" style="animation-delay: 0.6s;">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-800">Pedidos Recentes</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pagamento</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Orders will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" style="display: none;">
+        <div class="glass-card-strong rounded-lg p-8 max-w-4xl mx-4 animate-scale-in max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Detalhes do Pedido</h3>
+                <button onclick="closeOrderModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="orderDetails">
+                <!-- Order details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { 
+            getAllOrders, 
+            getOrderStats, 
+            updateOrderStatus, 
+            subscribeToOrders,
+            protectAdminPage 
+        } from './firebase.js';
+        
+        let orders = [];
+        let filteredOrders = [];
+        let unsubscribeOrders = null;
+
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check admin access
+            if (!protectAdminPage()) {
+                return;
+            }
+
+            await loadOrders();
+            setupEventListeners();
+            
+            // Subscribe to real-time updates
+            unsubscribeOrders = subscribeToOrders((updatedOrders) => {
+                orders = updatedOrders;
+                filteredOrders = [...orders];
+                updateStats();
+                renderOrders();
+            });
+        });
+
+        // Load orders from Firestore
+        async function loadOrders() {
+            try {
+                const result = await getAllOrders();
+                if (result.success) {
+                    orders = result.data;
+                    filteredOrders = [...orders];
+                    updateStats();
+                    renderOrders();
+                } else {
+                    console.error('Erro ao carregar pedidos:', result.error);
+                    showToast('Erro ao carregar pedidos', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                showToast('Erro ao carregar pedidos', 'error');
+            }
+        }
+
+        // Update statistics
+        async function updateStats() {
+            try {
+                const statsResult = await getOrderStats();
+                if (statsResult.success) {
+                    const stats = statsResult.data;
+                    document.getElementById('totalOrders').textContent = stats.totalOrders;
+                    document.getElementById('pendingOrders').textContent = stats.pendingOrders;
+                    document.getElementById('paidOrders').textContent = stats.paidOrders;
+                    document.getElementById('totalRevenue').textContent = `R$ ${stats.totalRevenue.toFixed(2).replace('.', ',')}`;
+                } else {
+                    // Fallback to local calculation
+                    const totalOrders = orders.length;
+                    const pendingOrders = orders.filter(order => order.status === 'pending').length;
+                    const paidOrders = orders.filter(order => order.paymentStatus === 'paid').length;
+                    const totalRevenue = orders
+                        .filter(order => order.paymentStatus === 'paid')
+                        .reduce((sum, order) => sum + (order.total || 0), 0);
+
+                    document.getElementById('totalOrders').textContent = totalOrders;
+                    document.getElementById('pendingOrders').textContent = pendingOrders;
+                    document.getElementById('paidOrders').textContent = paidOrders;
+                    document.getElementById('totalRevenue').textContent = `R$ ${totalRevenue.toFixed(2).replace('.', ',')}`;
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar estatísticas:', error);
+            }
+        }
+
+        // Render orders table
+        function renderOrders() {
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                            Nenhum pedido encontrado
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filteredOrders.forEach(order => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition duration-200';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#${order.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${order.shippingAddress?.name || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${formatDate(order.date)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">R$ ${order.total.toFixed(2).replace('.', ',')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full ${getStatusClass(order.status)}">
+                            ${getStatusText(order.status)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full ${order.paymentStatus === 'paid' ? 'status-paid' : 'status-pending'}">
+                            ${order.paymentStatus === 'paid' ? 'Pago' : 'Pendente'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex space-x-2">
+                            <button onclick="viewOrder('${order.id}')" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="updateOrderStatusLocal('${order.id}')" class="text-green-600 hover:text-green-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Get status class
+        function getStatusClass(status) {
+            const classes = {
+                'pending': 'status-pending',
+                'paid': 'status-paid',
+                'shipped': 'status-shipped',
+                'delivered': 'status-delivered',
+                'cancelled': 'status-cancelled'
+            };
+            return classes[status] || 'status-pending';
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            const texts = {
+                'pending': 'Pendente',
+                'paid': 'Pago',
+                'shipped': 'Enviado',
+                'delivered': 'Entregue',
+                'cancelled': 'Cancelado'
+            };
+            return texts[status] || 'Pendente';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('statusFilter').addEventListener('change', filterOrders);
+            document.getElementById('periodFilter').addEventListener('change', filterOrders);
+        }
+
+        // Filter orders
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const periodFilter = document.getElementById('periodFilter').value;
+
+            filteredOrders = orders.filter(order => {
+                let statusMatch = true;
+                let periodMatch = true;
+
+                if (statusFilter) {
+                    statusMatch = order.status === statusFilter;
+                }
+
+                if (periodFilter && periodFilter !== 'all') {
+                    const orderDate = new Date(order.date);
+                    const now = new Date();
+                    
+                    switch (periodFilter) {
+                        case 'today':
+                            periodMatch = orderDate.toDateString() === now.toDateString();
+                            break;
+                        case 'week':
+                            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            periodMatch = orderDate >= weekAgo;
+                            break;
+                        case 'month':
+                            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                            periodMatch = orderDate >= monthAgo;
+                            break;
+                        case 'year':
+                            const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+                            periodMatch = orderDate >= yearAgo;
+                            break;
+                    }
+                }
+
+                return statusMatch && periodMatch;
+            });
+
+            renderOrders();
+        }
+
+        // View order details
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const details = document.getElementById('orderDetails');
+            details.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Informações do Pedido</h4>
+                        <div class="space-y-2">
+                            <p><strong>ID:</strong> #${order.id}</p>
+                            <p><strong>Data:</strong> ${formatDate(order.date)}</p>
+                            <p><strong>Status:</strong> <span class="px-2 py-1 text-xs font-medium rounded-full ${getStatusClass(order.status)}">${getStatusText(order.status)}</span></p>
+                            <p><strong>Pagamento:</strong> <span class="px-2 py-1 text-xs font-medium rounded-full ${order.paymentStatus === 'paid' ? 'status-paid' : 'status-pending'}">${order.paymentStatus === 'paid' ? 'Pago' : 'Pendente'}</span></p>
+                            <p><strong>Total:</strong> R$ ${order.total.toFixed(2).replace('.', ',')}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Informações do Cliente</h4>
+                        <div class="space-y-2">
+                            <p><strong>Nome:</strong> ${order.shippingAddress?.name || 'N/A'}</p>
+                            <p><strong>Email:</strong> ${order.shippingAddress?.email || 'N/A'}</p>
+                            <p><strong>Telefone:</strong> ${order.shippingAddress?.phone || 'N/A'}</p>
+                            <p><strong>Endereço:</strong> ${order.shippingAddress?.cep || 'N/A'}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Itens do Pedido</h4>
+                    <div class="space-y-3">
+                        ${order.items.map(item => `
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-800">${item.name}</h5>
+                                    <p class="text-sm text-gray-600">Tamanho: ${item.size} | Qtd: ${item.quantity}</p>
+                                </div>
+                                <span class="font-semibold text-gray-800">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        // Close order modal
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        // Update order status
+        async function updateOrderStatusLocal(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const newStatus = prompt('Atualizar status do pedido:', order.status);
+            if (newStatus && newStatus !== order.status) {
+                try {
+                    const paymentStatus = newStatus === 'paid' ? 'paid' : 'pending';
+                    const result = await updateOrderStatus(orderId, newStatus, paymentStatus);
+                    
+                    if (result.success) {
+                        showToast('Status do pedido atualizado com sucesso!', 'success');
+                        // The real-time listener will automatically update the display
+                    } else {
+                        showToast('Erro ao atualizar status do pedido', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro ao atualizar status:', error);
+                    showToast('Erro ao atualizar status do pedido', 'error');
+                }
+            }
+        }
+
+        // Export orders
+        function exportOrders() {
+            const csvContent = generateCSV(filteredOrders);
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `pedidos_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Generate CSV
+        function generateCSV(orders) {
+            const headers = ['ID', 'Cliente', 'Data', 'Valor', 'Status', 'Pagamento'];
+            const rows = orders.map(order => [
+                order.id,
+                order.shippingAddress?.name || 'N/A',
+                formatDate(order.date),
+                order.total.toFixed(2),
+                getStatusText(order.status),
+                order.paymentStatus === 'paid' ? 'Pago' : 'Pendente'
+            ]);
+            
+            return [headers, ...rows].map(row => row.join(',')).join('\n');
+        }
+
+        // Refresh orders
+        function refreshOrders() {
+            loadOrders();
+            showToast('Pedidos atualizados com sucesso!', 'success');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-20 right-4 z-50 px-4 py-3 rounded-lg text-white text-sm shadow-lg ${
+                type === 'error' ? 'bg-red-600' : 'bg-green-600'
+            }`;
+            toast.textContent = message;
+            toast.style.transition = 'all 0.3s ease';
+            toast.style.transform = 'translateX(120%)';
+            
+            document.body.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateX(0)';
+            });
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(120%)';
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isAdmin');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

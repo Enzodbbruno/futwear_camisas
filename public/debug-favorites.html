@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Favoritos - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center">Debug Sistema de Favoritos</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Teste de Produto -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Teste de Produto</h2>
+                <div class="border rounded-lg p-4 mb-4">
+                    <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200" alt="Teste" class="w-full h-32 object-cover rounded mb-2">
+                    <h3 class="font-bold">Camisa Flamengo 2024</h3>
+                    <p class="text-gray-600">R$ 145,00</p>
+                </div>
+                <button id="testToggle" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                    Toggle Favorito
+                </button>
+            </div>
+            
+            <!-- Status do Sistema -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Status do Sistema</h2>
+                <div id="status" class="space-y-2">
+                    <p><strong>Favoritos carregados:</strong> <span id="favoritesCount">-</span></p>
+                    <p><strong>Produto é favorito:</strong> <span id="isFavorite">-</span></p>
+                    <p><strong>localStorage:</strong> <span id="localStorage">-</span></p>
+                    <p><strong>Funções disponíveis:</strong> <span id="functions">-</span></p>
+                </div>
+                <button id="refreshStatus" class="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+                    Atualizar Status
+                </button>
+                <button id="clearFavorites" class="mt-2 w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
+                    Limpar Favoritos
+                </button>
+            </div>
+        </div>
+        
+        <!-- Logs -->
+        <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Logs</h2>
+            <div id="logs" class="bg-gray-100 p-4 rounded h-64 overflow-y-auto font-mono text-sm">
+                <!-- Logs will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import './favorites-system.js';
+        
+        const testProduct = {
+            id: 'flamengo-2024',
+            name: 'Camisa Flamengo 2024',
+            price: 145,
+            image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200',
+            team: 'Flamengo',
+            league: 'Brasileirão',
+            category: 'times-brasileiros'
+        };
+        
+        function log(message) {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            logsDiv.innerHTML += `[${timestamp}] ${message}<br>`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function updateStatus() {
+            try {
+                // Verifica se as funções estão disponíveis
+                const hasToggle = typeof window.toggleFavorite === 'function';
+                const hasIsFavorite = typeof window.isFavorite === 'function';
+                const hasGetFavorites = typeof window.getFavorites === 'function';
+                
+                document.getElementById('functions').textContent = 
+                    `toggleFavorite: ${hasToggle}, isFavorite: ${hasIsFavorite}, getFavorites: ${hasGetFavorites}`;
+                
+                if (hasGetFavorites) {
+                    const favorites = window.getFavorites();
+                    document.getElementById('favoritesCount').textContent = favorites.length;
+                    document.getElementById('localStorage').textContent = JSON.stringify(favorites);
+                }
+                
+                if (hasIsFavorite) {
+                    const isFav = window.isFavorite(testProduct.id);
+                    document.getElementById('isFavorite').textContent = isFav ? 'Sim' : 'Não';
+                }
+                
+                log('Status atualizado');
+            } catch (error) {
+                log(`Erro ao atualizar status: ${error.message}`);
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('testToggle').addEventListener('click', () => {
+            try {
+                log('Tentando toggle favorito...');
+                if (typeof window.toggleFavorite === 'function') {
+                    const result = window.toggleFavorite(testProduct);
+                    log(`Toggle resultado: ${result}`);
+                    updateStatus();
+                } else {
+                    log('ERRO: toggleFavorite não está disponível');
+                }
+            } catch (error) {
+                log(`Erro no toggle: ${error.message}`);
+            }
+        });
+        
+        document.getElementById('refreshStatus').addEventListener('click', updateStatus);
+        
+        document.getElementById('clearFavorites').addEventListener('click', () => {
+            try {
+                if (typeof window.clearFavorites === 'function') {
+                    window.clearFavorites();
+                    log('Favoritos limpos');
+                    updateStatus();
+                } else {
+                    log('ERRO: clearFavorites não está disponível');
+                }
+            } catch (error) {
+                log(`Erro ao limpar: ${error.message}`);
+            }
+        });
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Página de debug carregada');
+            updateStatus();
+            
+            // Verifica se o sistema carregou
+            setTimeout(() => {
+                log('Verificando sistema após 1 segundo...');
+                updateStatus();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

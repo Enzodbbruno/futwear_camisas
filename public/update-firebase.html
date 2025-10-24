@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Firebase - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+        <div class="text-center">
+            <div class="mb-6">
+                <i class="fas fa-database text-6xl text-green-600 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Atualizar Firebase</h1>
+                <p class="text-gray-600">Adicionando novas camisas e atualizando preços</p>
+            </div>
+            
+            <div id="status" class="mb-6">
+                <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    Processando...
+                </div>
+            </div>
+            
+            <div id="results" class="hidden">
+                <div class="text-left space-y-2 max-h-64 overflow-y-auto">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <a href="camisas.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 inline-block">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Voltar para Camisas
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
+            authDomain: "futwear-3eae2.firebaseapp.com",
+            projectId: "futwear-3eae2",
+            storageBucket: "futwear-3eae2.appspot.com",
+            messagingSenderId: "555630014709",
+            appId: "1:555630014709:web:2c1460cb26e040444d041e",
+            measurementId: "G-L6S9FH3PSX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+        const resultsContent = resultsDiv.querySelector('div');
+
+        function updateStatus(message, type = 'info') {
+            const colors = {
+                info: 'bg-blue-100 border-blue-400 text-blue-700',
+                success: 'bg-green-100 border-green-400 text-green-700',
+                error: 'bg-red-100 border-red-400 text-red-700',
+                warning: 'bg-yellow-100 border-yellow-400 text-yellow-700'
+            };
+            
+            statusDiv.innerHTML = `
+                <div class="${colors[type]} px-4 py-3 rounded">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'spinner fa-spin'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        function addResult(message, type = 'info') {
+            const colors = {
+                info: 'text-blue-600',
+                success: 'text-green-600',
+                error: 'text-red-600',
+                warning: 'text-yellow-600'
+            };
+            
+            const icon = type === 'success' ? 'check' : type === 'error' ? 'times' : 'info';
+            
+            resultsContent.innerHTML += `
+                <div class="${colors[type]} text-sm">
+                    <i class="fas fa-${icon} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        // Novas camisas para adicionar
+        const novasCamisas = [
+            {
+                name: 'Camisa Corinthians 2024',
+                price: 145,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Corinthians temporada 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 60,
+                team: 'Corinthians',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa São Paulo 2024',
+                price: 142,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do São Paulo temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 55,
+                team: 'São Paulo',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Santos 2024',
+                price: 148,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Santos temporada 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 40,
+                team: 'Santos',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Vasco 2024',
+                price: 143,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Vasco temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 35,
+                team: 'Vasco',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Botafogo 2024',
+                price: 141,
+                category: 'times-brasileiros',
+                description: 'Camisa oficial do Botafogo temporada 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 30,
+                team: 'Botafogo',
+                league: 'Brasileirão',
+                type: 'Time',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Argentina 2024',
+                price: 155,
+                category: 'selecoes',
+                description: 'Camisa oficial da Seleção Argentina 2024',
+                image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 80,
+                team: 'Argentina',
+                league: 'Copa do Mundo',
+                type: 'Seleção',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa França 2024',
+                price: 158,
+                category: 'selecoes',
+                description: 'Camisa oficial da Seleção Francesa 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 70,
+                team: 'França',
+                league: 'Copa do Mundo',
+                type: 'Seleção',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Alemanha 2024',
+                price: 152,
+                category: 'selecoes',
+                description: 'Camisa oficial da Seleção Alemã 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 65,
+                team: 'Alemanha',
+                league: 'Copa do Mundo',
+                type: 'Seleção',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Manchester United 2024',
+                price: 162,
+                category: 'times-europeus',
+                description: 'Camisa oficial do Manchester United temporada 2024',
+                image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 75,
+                team: 'Manchester United',
+                league: 'Premier League',
+                type: 'Time',
+                available: true,
+                discount: 0
+            },
+            {
+                name: 'Camisa Liverpool 2024',
+                price: 165,
+                category: 'times-europeus',
+                description: 'Camisa oficial do Liverpool temporada 2024',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                sizes: ['P', 'M', 'G', 'GG'],
+                stock: 70,
+                team: 'Liverpool',
+                league: 'Premier League',
+                type: 'Time',
+                available: true,
+                discount: 0
+            }
+        ];
+
+        // Função para adicionar novas camisas
+        async function adicionarNovasCamisas() {
+            updateStatus('Adicionando novas camisas...', 'info');
+            resultsDiv.classList.remove('hidden');
+            
+            try {
+                for (const camisa of novasCamisas) {
+                    await addDoc(collection(db, 'camisas'), camisa);
+                    addResult(`✅ Camisa adicionada: ${camisa.name} - R$ ${camisa.price}`, 'success');
+                }
+                
+                addResult('🎉 Todas as novas camisas foram adicionadas com sucesso!', 'success');
+                return true;
+            } catch (error) {
+                addResult(`❌ Erro ao adicionar camisas: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Função para atualizar preços das camisas existentes
+        async function atualizarPrecosExistentes() {
+            updateStatus('Atualizando preços das camisas existentes...', 'info');
+            
+            try {
+                const camisasSnapshot = await getDocs(collection(db, 'camisas'));
+                const precos = [140, 142, 145, 148, 150, 152, 155, 158, 160, 162, 165];
+                
+                let index = 0;
+                for (const docSnapshot of camisasSnapshot.docs) {
+                    const preco = precos[index % precos.length];
+                    await updateDoc(doc(db, 'camisas', docSnapshot.id), {
+                        price: preco
+                    });
+                    addResult(`💰 Preço atualizado: ${docSnapshot.data().name} - R$ ${preco}`, 'success');
+                    index++;
+                }
+                
+                addResult('🎉 Todos os preços foram atualizados com sucesso!', 'success');
+                return true;
+            } catch (error) {
+                addResult(`❌ Erro ao atualizar preços: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Função principal
+        async function executarAtualizacoes() {
+            updateStatus('Iniciando atualizações no Firebase...', 'info');
+            
+            try {
+                // Primeiro atualiza os preços existentes
+                const precosAtualizados = await atualizarPrecosExistentes();
+                
+                // Depois adiciona as novas camisas
+                const camisasAdicionadas = await adicionarNovasCamisas();
+                
+                if (precosAtualizados && camisasAdicionadas) {
+                    updateStatus('Todas as atualizações foram concluídas com sucesso!', 'success');
+                } else {
+                    updateStatus('Algumas atualizações falharam. Verifique os logs.', 'warning');
+                }
+            } catch (error) {
+                updateStatus(`Erro geral: ${error.message}`, 'error');
+            }
+        }
+
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', executarAtualizacoes);
+    </script>
+</body>
+</html>

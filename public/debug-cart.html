@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Carrinho - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Debug do Carrinho</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Debug Info -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Informações de Debug</h2>
+                <div id="debug-info" class="space-y-2 text-sm">
+                    <p><strong>localStorage cart:</strong> <span id="localStorage-cart">Carregando...</span></p>
+                    <p><strong>getCart():</strong> <span id="getCart-result">Carregando...</span></p>
+                    <p><strong>Cart length:</strong> <span id="cart-length">0</span></p>
+                    <p><strong>Total items:</strong> <span id="total-items">0</span></p>
+                </div>
+                <button onclick="refreshDebug()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Atualizar Debug
+                </button>
+                <button onclick="clearAllData()" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2">
+                    Limpar Tudo
+                </button>
+            </div>
+            
+            <!-- Test Products -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Testar Adicionar Produtos</h2>
+                <div class="space-y-4">
+                    <button onclick="testAddProduct1()" class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Adicionar Produto 1
+                    </button>
+                    <button onclick="testAddProduct2()" class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Adicionar Produto 2
+                    </button>
+                    <button onclick="testAddProduct3()" class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Adicionar Produto 3
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cart Items Display -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Itens do Carrinho</h2>
+            <div id="cart-items-display" class="space-y-2">
+                Carregando...
+            </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Ações</h2>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="goToCart()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Ir para Carrinho
+                </button>
+                <button onclick="goToTestCart()" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                    Ir para Test Cart
+                </button>
+                <button onclick="goToCamisas()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Ir para Camisas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCart, setCart, addToCart, atualizarIconeCarrinho } from './firebase-hybrid.js';
+        
+        // Produtos de teste
+        const testProducts = {
+            product1: {
+                id: 'debug-product-1',
+                name: 'Produto Debug 1',
+                price: 99.99,
+                image: 'https://i.imgur.com/rXAN8zF.png',
+                available: true
+            },
+            product2: {
+                id: 'debug-product-2',
+                name: 'Produto Debug 2',
+                price: 149.99,
+                image: 'https://i.imgur.com/HnS9gT6.png',
+                available: true
+            },
+            product3: {
+                id: 'debug-product-3',
+                name: 'Produto Debug 3',
+                price: 199.99,
+                image: 'https://i.imgur.com/e42e4G4.png',
+                available: true
+            }
+        };
+        
+        // Funções de teste
+        window.testAddProduct1 = () => {
+            console.log('🧪 Adicionando produto 1');
+            addToCart(testProducts.product1);
+            setTimeout(refreshDebug, 500);
+        };
+        
+        window.testAddProduct2 = () => {
+            console.log('🧪 Adicionando produto 2');
+            addToCart(testProducts.product2);
+            setTimeout(refreshDebug, 500);
+        };
+        
+        window.testAddProduct3 = () => {
+            console.log('🧪 Adicionando produto 3');
+            addToCart(testProducts.product3);
+            setTimeout(refreshDebug, 500);
+        };
+        
+        // Função para atualizar debug
+        window.refreshDebug = async () => {
+            try {
+                // localStorage direto
+                const localStorageCart = localStorage.getItem('cart');
+                document.getElementById('localStorage-cart').textContent = localStorageCart || 'null';
+                
+                // getCart()
+                const getCartResult = await getCart();
+                document.getElementById('getCart-result').textContent = JSON.stringify(getCartResult);
+                
+                // Cart length
+                document.getElementById('cart-length').textContent = getCartResult.length;
+                
+                // Total items
+                const totalItems = getCartResult.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                document.getElementById('total-items').textContent = totalItems;
+                
+                // Display cart items
+                displayCartItems(getCartResult);
+                
+            } catch (error) {
+                console.error('❌ Erro ao atualizar debug:', error);
+            }
+        };
+        
+        // Função para limpar tudo
+        window.clearAllData = () => {
+            localStorage.removeItem('cart');
+            localStorage.removeItem('wishlist');
+            alert('Todos os dados foram limpos!');
+            refreshDebug();
+        };
+        
+        // Função para mostrar itens do carrinho
+        function displayCartItems(cart) {
+            const container = document.getElementById('cart-items-display');
+            if (!cart || cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">Carrinho vazio</p>';
+                return;
+            }
+            
+            container.innerHTML = cart.map((item, index) => `
+                <div class="border p-3 rounded bg-gray-50">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>ID: ${item.id}</small><br>
+                            <small>Preço: R$ ${item.price.toFixed(2).replace('.', ',')}</small><br>
+                            <small>Quantidade: ${item.quantity || 1}</small>
+                        </div>
+                        <button onclick="removeItem(${index})" class="text-red-600 hover:text-red-800">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Função para remover item
+        window.removeItem = async (index) => {
+            try {
+                const cart = await getCart();
+                cart.splice(index, 1);
+                await setCart(cart);
+                refreshDebug();
+            } catch (error) {
+                console.error('❌ Erro ao remover item:', error);
+            }
+        };
+        
+        // Navegação
+        window.goToCart = () => window.location.href = 'carrinho.html';
+        window.goToTestCart = () => window.location.href = 'test-cart.html';
+        window.goToCamisas = () => window.location.href = 'camisas.html';
+        
+        // Atualizar debug ao carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshDebug();
+        });
+    </script>
+</body>
+</html>

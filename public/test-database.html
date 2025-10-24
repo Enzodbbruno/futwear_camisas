@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear - Teste do Banco de Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .test-result {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4ade80;
+        }
+        .test-error {
+            border-left-color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">
+            <i class="fas fa-database text-blue-600"></i>
+            Teste do Banco de Dados Firestore
+        </h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Teste de Usuários -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-users"></i>
+                    Teste de Usuários
+                </h2>
+                <div id="user-tests" class="space-y-2">
+                    <button onclick="testCreateUser()" class="w-full bg-white text-blue-600 px-4 py-2 rounded hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-plus"></i> Criar Usuário
+                    </button>
+                    <button onclick="testGetUser()" class="w-full bg-white text-green-600 px-4 py-2 rounded hover:bg-green-50 transition-colors">
+                        <i class="fas fa-search"></i> Buscar Usuário
+                    </button>
+                    <button onclick="testUpdateUser()" class="w-full bg-white text-yellow-600 px-4 py-2 rounded hover:bg-yellow-50 transition-colors">
+                        <i class="fas fa-edit"></i> Atualizar Usuário
+                    </button>
+                </div>
+                <div id="user-results" class="mt-4"></div>
+            </div>
+
+            <!-- Teste de Produtos -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-box"></i>
+                    Teste de Produtos
+                </h2>
+                <div id="product-tests" class="space-y-2">
+                    <button onclick="testCreateProduct()" class="w-full bg-white text-blue-600 px-4 py-2 rounded hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-plus"></i> Criar Produto
+                    </button>
+                    <button onclick="testGetProducts()" class="w-full bg-white text-green-600 px-4 py-2 rounded hover:bg-green-50 transition-colors">
+                        <i class="fas fa-search"></i> Buscar Produtos
+                    </button>
+                    <button onclick="testUpdateProduct()" class="w-full bg-white text-yellow-600 px-4 py-2 rounded hover:bg-yellow-50 transition-colors">
+                        <i class="fas fa-edit"></i> Atualizar Produto
+                    </button>
+                </div>
+                <div id="product-results" class="mt-4"></div>
+            </div>
+
+            <!-- Teste de Pedidos -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-shopping-cart"></i>
+                    Teste de Pedidos
+                </h2>
+                <div id="order-tests" class="space-y-2">
+                    <button onclick="testCreateOrder()" class="w-full bg-white text-blue-600 px-4 py-2 rounded hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-plus"></i> Criar Pedido
+                    </button>
+                    <button onclick="testGetOrders()" class="w-full bg-white text-green-600 px-4 py-2 rounded hover:bg-green-50 transition-colors">
+                        <i class="fas fa-search"></i> Buscar Pedidos
+                    </button>
+                    <button onclick="testUpdateOrder()" class="w-full bg-white text-yellow-600 px-4 py-2 rounded hover:bg-yellow-50 transition-colors">
+                        <i class="fas fa-edit"></i> Atualizar Pedido
+                    </button>
+                </div>
+                <div id="order-results" class="mt-4"></div>
+            </div>
+
+            <!-- Teste de Estatísticas -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-chart-bar"></i>
+                    Teste de Estatísticas
+                </h2>
+                <div id="stats-tests" class="space-y-2">
+                    <button onclick="testGetStats()" class="w-full bg-white text-purple-600 px-4 py-2 rounded hover:bg-purple-50 transition-colors">
+                        <i class="fas fa-chart-line"></i> Buscar Estatísticas
+                    </button>
+                </div>
+                <div id="stats-results" class="mt-4"></div>
+            </div>
+
+            <!-- Teste de Listeners -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-broadcast-tower"></i>
+                    Teste de Listeners
+                </h2>
+                <div id="listener-tests" class="space-y-2">
+                    <button onclick="testSubscribeToOrders()" class="w-full bg-white text-indigo-600 px-4 py-2 rounded hover:bg-indigo-50 transition-colors">
+                        <i class="fas fa-play"></i> Escutar Pedidos
+                    </button>
+                    <button onclick="testUnsubscribeOrders()" class="w-full bg-white text-red-600 px-4 py-2 rounded hover:bg-red-50 transition-colors">
+                        <i class="fas fa-stop"></i> Parar Listener
+                    </button>
+                </div>
+                <div id="listener-results" class="mt-4"></div>
+            </div>
+
+            <!-- Autenticação -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-key"></i>
+                    Autenticação
+                </h2>
+                <div id="auth-tests" class="space-y-2">
+                    <button onclick="loginForTests()" class="w-full bg-white text-blue-600 px-4 py-2 rounded hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i> Login Automático para Testes
+                    </button>
+                    <a href="login.html" class="w-full bg-white text-green-600 px-4 py-2 rounded hover:bg-green-50 transition-colors block text-center">
+                        <i class="fas fa-user-plus"></i> Usar Login Normal
+                    </a>
+                    <button onclick="logoutFromTests()" class="w-full bg-white text-red-600 px-4 py-2 rounded hover:bg-red-50 transition-colors">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                <div id="auth-results" class="mt-4"></div>
+            </div>
+
+            <!-- Teste Completo -->
+            <div class="test-card">
+                <h2 class="text-2xl font-bold mb-4">
+                    <i class="fas fa-rocket"></i>
+                    Teste Completo
+                </h2>
+                <div id="full-tests" class="space-y-2">
+                    <button onclick="runFullTest()" class="w-full bg-white text-green-600 px-4 py-2 rounded hover:bg-green-50 transition-colors">
+                        <i class="fas fa-play-circle"></i> Executar Todos os Testes
+                    </button>
+                    <button onclick="clearAllResults()" class="w-full bg-white text-gray-600 px-4 py-2 rounded hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-trash"></i> Limpar Resultados
+                    </button>
+                </div>
+                <div id="full-results" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { 
+            createUserProfile,
+            getUserProfile,
+            updateUserProfile,
+            addProduct,
+            getProducts,
+            getProductById,
+            updateProduct,
+            createOrder,
+            getAllOrders,
+            getOrdersByUser,
+            updateOrderStatus,
+            getOrderStats,
+            subscribeToOrders
+        } from './firebase.js';
+        
+        // Importações de autenticação
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+        import { firebaseConfig } from './firebase.js';
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // Variáveis globais para testes
+        let testUserId = null;
+        let testProductId = null;
+        let testOrderId = null;
+        let ordersUnsubscribe = null;
+        let isAuthenticated = false;
+
+        // Funções de autenticação
+        window.loginForTests = async function() {
+            const resultsDiv = document.getElementById('auth-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Configurando usuário de teste...</div>';
+            
+            try {
+                const testEmail = 'teste@futwear.com';
+                const testPassword = '123456';
+                
+                // Primeiro, tentar criar o usuário (ignorar se já existir)
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Criando usuário de teste...</div>';
+                
+                try {
+                    await createUserWithEmailAndPassword(auth, testEmail, testPassword);
+                    resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Usuário criado, fazendo login...</div>';
+                } catch (createError) {
+                    // Se o usuário já existir, continuar para o login
+                    if (createError.code === 'auth/email-already-in-use') {
+                        resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Usuário já existe, fazendo login...</div>';
+                    } else {
+                        throw createError;
+                    }
+                }
+                
+                // Fazer logout primeiro para garantir estado limpo
+                try {
+                    await signOut(auth);
+                } catch (logoutError) {
+                    // Ignorar erro de logout se não estiver logado
+                }
+                
+                // Aguardar um momento para garantir que o logout foi processado
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Fazer login
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Fazendo login...</div>';
+                await signInWithEmailAndPassword(auth, testEmail, testPassword);
+                
+                isAuthenticated = true;
+                resultsDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Login realizado com sucesso!</strong><br>
+                        Usuário: ${testEmail}<br>
+                        Agora você pode executar os testes do banco de dados.
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro ao configurar usuário de teste:</strong><br>
+                        ${error.message}<br>
+                        <small>Tente novamente ou use o login normal da aplicação.</small>
+                    </div>
+                `;
+            }
+        };
+
+        window.logoutFromTests = async function() {
+            const resultsDiv = document.getElementById('auth-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Fazendo logout...</div>';
+            
+            try {
+                await signOut(auth);
+                isAuthenticated = false;
+                resultsDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Logout realizado com sucesso!</strong>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro ao fazer logout:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        // Verificar autenticação antes de executar testes
+        function checkAuth() {
+            if (!isAuthenticated) {
+                alert('Você precisa fazer login primeiro! Clique em "Login Automático para Testes"');
+                return false;
+            }
+            return true;
+        }
+
+        // Funções de teste de usuários
+        window.testCreateUser = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('user-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Criando usuário...</div>';
+            
+            try {
+                const userData = {
+                    email: 'teste@futwear.com',
+                    firstName: 'Usuário',
+                    lastName: 'Teste',
+                    phone: '11999999999',
+                    isAdmin: false
+                };
+                
+                const result = await createUserProfile('test-user-123', userData);
+                
+                if (result.success) {
+                    testUserId = result.id;
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Usuário criado com sucesso!</strong><br>
+                            ID: ${result.id}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao criar usuário:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testGetUser = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('user-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Buscando usuário...</div>';
+            
+            try {
+                const result = await getUserProfile('test-user-123');
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Usuário encontrado!</strong><br>
+                            Email: ${result.data.email}<br>
+                            Nome: ${result.data.firstName} ${result.data.lastName}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao buscar usuário:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testUpdateUser = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('user-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Atualizando usuário...</div>';
+            
+            try {
+                const updateData = {
+                    firstName: 'Usuário Atualizado',
+                    phone: '11888888888'
+                };
+                
+                const result = await updateUserProfile('test-user-123', updateData);
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Usuário atualizado com sucesso!</strong>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao atualizar usuário:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        // Funções de teste de produtos
+        window.testCreateProduct = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('product-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Criando produto...</div>';
+            
+            try {
+                const productData = {
+                    name: 'Camisa Teste',
+                    price: 99.90,
+                    category: 'clubs',
+                    team: 'Flamengo',
+                    size: 'M',
+                    color: 'Vermelho',
+                    description: 'Camisa de teste para o banco de dados',
+                    image: 'https://via.placeholder.com/300x300',
+                    stock: 10
+                };
+                
+                const result = await addProduct(productData);
+                
+                if (result.success) {
+                    testProductId = result.id;
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Produto criado com sucesso!</strong><br>
+                            ID: ${result.id}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao criar produto:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testGetProducts = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('product-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Buscando produtos...</div>';
+            
+            try {
+                const result = await getProducts();
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Produtos encontrados!</strong><br>
+                            Total: ${result.data.length} produtos
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao buscar produtos:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testUpdateProduct = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('product-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Atualizando produto...</div>';
+            
+            try {
+                if (!testProductId) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro:</strong> Nenhum produto criado para atualizar
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const updateData = {
+                    price: 89.90,
+                    stock: 5
+                };
+                
+                const result = await updateProduct(testProductId, updateData);
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Produto atualizado com sucesso!</strong>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao atualizar produto:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        // Funções de teste de pedidos
+        window.testCreateOrder = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('order-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Criando pedido...</div>';
+            
+            try {
+                const orderData = {
+                    userId: 'test-user-123',
+                    userEmail: 'teste@futwear.com',
+                    items: [
+                        {
+                            productId: testProductId || 'test-product',
+                            name: 'Camisa Teste',
+                            price: 99.90,
+                            quantity: 2,
+                            size: 'M'
+                        }
+                    ],
+                    total: 199.80,
+                    shippingAddress: {
+                        street: 'Rua Teste, 123',
+                        city: 'São Paulo',
+                        state: 'SP',
+                        zipCode: '01234-567'
+                    },
+                    paymentMethod: 'credit_card'
+                };
+                
+                const result = await createOrder(orderData);
+                
+                if (result.success) {
+                    testOrderId = result.id;
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Pedido criado com sucesso!</strong><br>
+                            ID: ${result.id}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao criar pedido:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testGetOrders = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('order-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Buscando pedidos...</div>';
+            
+            try {
+                const result = await getAllOrders();
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Pedidos encontrados!</strong><br>
+                            Total: ${result.data.length} pedidos
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao buscar pedidos:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testUpdateOrder = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('order-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Atualizando pedido...</div>';
+            
+            try {
+                if (!testOrderId) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro:</strong> Nenhum pedido criado para atualizar
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const result = await updateOrderStatus(testOrderId, 'completed', 'paid');
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Pedido atualizado com sucesso!</strong>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao atualizar pedido:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        // Funções de teste de estatísticas
+        window.testGetStats = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('stats-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Buscando estatísticas...</div>';
+            
+            try {
+                const result = await getOrderStats();
+                
+                if (result.success) {
+                    const stats = result.data;
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Estatísticas obtidas!</strong><br>
+                            Total de Pedidos: ${stats.totalOrders}<br>
+                            Pedidos Pendentes: ${stats.pendingOrders}<br>
+                            Pedidos Completos: ${stats.completedOrders}<br>
+                            Receita Total: R$ ${stats.totalRevenue.toFixed(2)}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result test-error">
+                            <i class="fas fa-times text-red-500"></i>
+                            <strong>Erro ao buscar estatísticas:</strong><br>
+                            ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        // Funções de teste de listeners
+        window.testSubscribeToOrders = function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('listener-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Iniciando listener...</div>';
+            
+            try {
+                ordersUnsubscribe = subscribeToOrders((orders) => {
+                    resultsDiv.innerHTML = `
+                        <div class="test-result">
+                            <i class="fas fa-check text-green-500"></i>
+                            <strong>Listener ativo!</strong><br>
+                            Pedidos recebidos: ${orders.length}<br>
+                            <small>Última atualização: ${new Date().toLocaleTimeString()}</small>
+                        </div>
+                    `;
+                });
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Listener iniciado com sucesso!</strong><br>
+                        Aguardando atualizações...
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro ao iniciar listener:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testUnsubscribeOrders = function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('listener-results');
+            
+            if (ordersUnsubscribe) {
+                ordersUnsubscribe();
+                ordersUnsubscribe = null;
+                resultsDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Listener parado com sucesso!</strong>
+                    </div>
+                `;
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Nenhum listener ativo para parar</strong>
+                    </div>
+                `;
+            }
+        };
+
+        // Teste completo
+        window.runFullTest = async function() {
+            if (!checkAuth()) return;
+            
+            const resultsDiv = document.getElementById('full-results');
+            resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Executando teste completo...</div>';
+            
+            let testResults = [];
+            
+            try {
+                // Teste 1: Criar usuário
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Teste 1/6: Criando usuário...</div>';
+                console.log('Testando createUserProfile...');
+                const userResult = await createUserProfile('full-test-user', {
+                    email: 'fulltest@futwear.com',
+                    firstName: 'Teste',
+                    lastName: 'Completo',
+                    phone: '11777777777',
+                    isAdmin: false
+                });
+                console.log('Resultado createUserProfile:', userResult);
+                testResults.push({ test: 'Criar Usuário', success: userResult.success, error: userResult.error });
+                
+                // Teste 2: Criar produto
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Teste 2/6: Criando produto...</div>';
+                console.log('Testando addProduct...');
+                const productResult = await addProduct({
+                    name: 'Produto Teste Completo',
+                    price: 150.00,
+                    category: 'clubs',
+                    team: 'Corinthians',
+                    size: 'G',
+                    color: 'Preto',
+                    description: 'Produto para teste completo',
+                    image: 'https://via.placeholder.com/300x300',
+                    stock: 20
+                });
+                console.log('Resultado addProduct:', productResult);
+                testResults.push({ test: 'Criar Produto', success: productResult.success, error: productResult.error });
+                
+                // Teste 3: Criar pedido
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Teste 3/6: Criando pedido...</div>';
+                console.log('Testando createOrder...');
+                const orderResult = await createOrder({
+                    userId: 'full-test-user',
+                    userEmail: 'fulltest@futwear.com',
+                    items: [{
+                        productId: productResult.id || 'test-product',
+                        name: 'Produto Teste Completo',
+                        price: 150.00,
+                        quantity: 1,
+                        size: 'G'
+                    }],
+                    total: 150.00,
+                    shippingAddress: {
+                        street: 'Rua Teste Completo, 456',
+                        city: 'São Paulo',
+                        state: 'SP',
+                        zipCode: '01234-567'
+                    },
+                    paymentMethod: 'pix'
+                });
+                console.log('Resultado createOrder:', orderResult);
+                testResults.push({ test: 'Criar Pedido', success: orderResult.success, error: orderResult.error });
+                
+                // Teste 4: Buscar pedidos
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Teste 4/6: Buscando pedidos...</div>';
+                console.log('Testando getAllOrders...');
+                const ordersResult = await getAllOrders();
+                console.log('Resultado getAllOrders:', ordersResult);
+                testResults.push({ test: 'Buscar Pedidos', success: ordersResult.success, error: ordersResult.error });
+                
+                // Teste 5: Buscar estatísticas
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Teste 5/6: Buscando estatísticas...</div>';
+                console.log('Testando getOrderStats...');
+                const statsResult = await getOrderStats();
+                console.log('Resultado getOrderStats:', statsResult);
+                testResults.push({ test: 'Buscar Estatísticas', success: statsResult.success, error: statsResult.error });
+                
+                // Teste 6: Atualizar pedido
+                resultsDiv.innerHTML = '<div class="test-result"><div class="loading"></div> Teste 6/6: Atualizando pedido...</div>';
+                console.log('Testando updateOrderStatus...');
+                const updateResult = await updateOrderStatus(orderResult.id || 'test-order', 'completed', 'paid');
+                console.log('Resultado updateOrderStatus:', updateResult);
+                testResults.push({ test: 'Atualizar Pedido', success: updateResult.success, error: updateResult.error });
+                
+                // Resultado final
+                const successCount = testResults.filter(r => r.success).length;
+                const totalTests = testResults.length;
+                
+                let resultHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Teste Completo Finalizado!</strong><br>
+                        Sucessos: ${successCount}/${totalTests}<br>
+                        <div class="mt-2">
+                `;
+                
+                testResults.forEach(result => {
+                    const icon = result.success ? 'fas fa-check text-green-500' : 'fas fa-times text-red-500';
+                    const errorText = result.error ? ` (${result.error})` : '';
+                    resultHTML += `<div><i class="${icon}"></i> ${result.test}${errorText}</div>`;
+                });
+                
+                resultHTML += '</div></div>';
+                resultsDiv.innerHTML = resultHTML;
+                
+            } catch (error) {
+                console.error('Erro no teste completo:', error);
+                resultsDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro no teste completo:</strong><br>
+                        ${error.message}<br>
+                        <small>Verifique o console para mais detalhes.</small>
+                    </div>
+                `;
+            }
+        };
+
+        // Limpar resultados
+        window.clearAllResults = function() {
+            document.getElementById('user-results').innerHTML = '';
+            document.getElementById('product-results').innerHTML = '';
+            document.getElementById('order-results').innerHTML = '';
+            document.getElementById('stats-results').innerHTML = '';
+            document.getElementById('listener-results').innerHTML = '';
+            document.getElementById('full-results').innerHTML = '';
+            
+            if (ordersUnsubscribe) {
+                ordersUnsubscribe();
+                ordersUnsubscribe = null;
+            }
+        };
+    </script>
+</body>
+</html>

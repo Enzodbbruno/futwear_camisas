@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Botões - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Teste dos Botões Adicionar ao Carrinho</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Teste 1: Botão Simples -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Teste 1: Botão Simples</h2>
+                <p class="text-gray-600 mb-4">Teste direto da função addToCart</p>
+                <button onclick="testDirectAdd()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Adicionar Produto Teste
+                </button>
+            </div>
+            
+            <!-- Teste 2: Botão com Produto Completo -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Teste 2: Produto Completo</h2>
+                <p class="text-gray-600 mb-4">Teste com objeto produto completo</p>
+                <button onclick="testCompleteProduct()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Adicionar Produto Completo
+                </button>
+            </div>
+        </div>
+        
+        <!-- Status do Carrinho -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Status do Carrinho</h2>
+            <div id="cart-status" class="text-gray-600">Carregando...</div>
+            <button onclick="refreshStatus()" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+                Atualizar Status
+            </button>
+            <button onclick="goToCart()" class="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 ml-2">
+                Ver Carrinho
+            </button>
+        </div>
+        
+        <!-- Logs -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Logs de Debug</h2>
+            <div id="debug-logs" class="bg-gray-100 p-4 rounded text-sm font-mono max-h-40 overflow-y-auto">
+                Logs aparecerão aqui...
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCart, addToCart, atualizarIconeCarrinho } from './firebase-hybrid.js';
+        
+        // Produto de teste
+        const testProduct = {
+            id: 'test-product-123',
+            name: 'Produto de Teste',
+            price: 99.99,
+            image: 'https://i.imgur.com/rXAN8zF.png',
+            available: true
+        };
+        
+        // Função para adicionar logs
+        function addLog(message) {
+            const logsDiv = document.getElementById('debug-logs');
+            const timestamp = new Date().toLocaleTimeString();
+            logsDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+        
+        // Teste 1: Adicionar diretamente
+        window.testDirectAdd = function() {
+            addLog('🧪 Teste 1: Adicionando produto diretamente');
+            try {
+                addToCart(testProduct);
+                addLog('✅ Produto adicionado com sucesso');
+                refreshStatus();
+            } catch (error) {
+                addLog('❌ Erro: ' + error.message);
+            }
+        };
+        
+        // Teste 2: Produto completo
+        window.testCompleteProduct = function() {
+            addLog('🧪 Teste 2: Adicionando produto completo');
+            const completeProduct = {
+                ...testProduct,
+                size: 'M',
+                team: 'Flamengo',
+                league: 'Brasileirão'
+            };
+            try {
+                addToCart(completeProduct);
+                addLog('✅ Produto completo adicionado com sucesso');
+                refreshStatus();
+            } catch (error) {
+                addLog('❌ Erro: ' + error.message);
+            }
+        };
+        
+        // Atualizar status
+        window.refreshStatus = async function() {
+            try {
+                const cart = await getCart();
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+                
+                document.getElementById('cart-status').innerHTML = `
+                    <p><strong>Itens no carrinho:</strong> ${totalItems}</p>
+                    <p><strong>Valor total:</strong> R$ ${totalPrice.toFixed(2).replace('.', ',')}</p>
+                    <p><strong>Produtos únicos:</strong> ${cart.length}</p>
+                `;
+                
+                addLog(`📊 Status atualizado: ${totalItems} itens, R$ ${totalPrice.toFixed(2)}`);
+            } catch (error) {
+                addLog('❌ Erro ao atualizar status: ' + error.message);
+            }
+        };
+        
+        // Ir para carrinho
+        window.goToCart = function() {
+            window.location.href = 'carrinho.html';
+        };
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 Página de teste carregada');
+            refreshStatus();
+        });
+    </script>
+</body>
+</html>

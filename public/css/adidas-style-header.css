@@ -1,0 +1,360 @@
+/* Adidas Style Header */
+:root {
+    --adidas-white: #ffffff;
+    --adidas-black: #000000;
+    --adidas-gray: #f5f5f5;
+    --adidas-gray-dark: #666666;
+    --adidas-red: #e31e24;
+    --adidas-green: #10b981;
+    --adidas-border: #e5e5e5;
+    --adidas-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    padding-top: 120px; /* Space for header + promo banner */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Top Utility Bar */
+.header-top-bar {
+    background: var(--adidas-white);
+    border-bottom: 1px solid var(--adidas-border);
+    padding: 8px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+}
+
+.header-top-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-top-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-top-links a {
+    color: var(--adidas-black);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.header-top-links a:hover {
+    color: var(--adidas-gray-dark);
+}
+
+/* Main Header Bar */
+.header-main {
+    background: var(--adidas-white);
+    border-bottom: 1px solid var(--adidas-border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: var(--adidas-shadow);
+}
+
+.header-main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    height: 80px;
+}
+
+/* Logo Section */
+.header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    margin-right: 80px;
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--adidas-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    position: relative;
+}
+
+.logo-icon::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--adidas-white);
+    transform: rotate(45deg);
+    box-shadow: 
+        0 0 0 2px var(--adidas-white),
+        0 0 0 4px var(--adidas-white),
+        0 0 0 6px var(--adidas-white),
+        0 0 0 8px var(--adidas-white);
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--adidas-black);
+    letter-spacing: -1px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Navigation Center */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+    justify-content: center;
+    margin: 0 80px;
+}
+
+.nav-link {
+    color: var(--adidas-black);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--adidas-gray-dark);
+}
+
+.nav-link.outlet {
+    color: var(--adidas-red);
+}
+
+.nav-link.outlet:hover {
+    color: var(--adidas-red);
+    opacity: 0.8;
+}
+
+/* Right Section */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Search Bar */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 200px;
+    padding: 10px 15px;
+    border: 1px solid var(--adidas-border);
+    border-radius: 25px;
+    background: var(--adidas-gray);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--adidas-black);
+    background: var(--adidas-white);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--adidas-gray-dark);
+}
+
+.search-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--adidas-gray-dark);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.search-btn:hover {
+    color: var(--adidas-black);
+}
+
+/* Action Icons */
+.action-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.action-icon {
+    position: relative;
+    color: var(--adidas-black);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.action-icon:hover {
+    color: var(--adidas-gray-dark);
+    background: var(--adidas-gray);
+}
+
+/* Profile Button with Email */
+.profile-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    justify-content: center;
+    color: var(--adidas-black);
+    font-size: 1rem;
+}
+
+.profile-button:hover {
+    background: rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
+}
+
+.profile-email {
+    font-size: 0.9rem;
+    font-weight: 500;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Badges */
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--adidas-green);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Promo Banner */
+.promo-banner {
+    background: var(--adidas-gray);
+    padding: 12px 0;
+    text-align: center;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    border-bottom: 1px solid var(--adidas-border);
+}
+
+.promo-banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.promo-text {
+    color: var(--adidas-black);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.promo-arrow {
+    color: var(--adidas-black);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.promo-banner:hover .promo-arrow {
+    transform: translateX(5px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding-top: 100px;
+    }
+    
+    .header-nav {
+        display: none;
+    }
+    
+    .search-input {
+        width: 150px;
+    }
+    
+    .action-icons {
+        gap: 15px;
+    }
+    
+    .promo-banner {
+        top: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-input {
+        width: 120px;
+    }
+    
+    .action-icons {
+        gap: 10px;
+    }
+    
+    .logo-text {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Firebase - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full mx-4">
+        <div class="text-center">
+            <div class="mb-6">
+                <i class="fas fa-database text-6xl text-green-600 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Teste de Conexão Firebase</h1>
+                <p class="text-gray-600">Verificando conectividade e permissões</p>
+            </div>
+            
+            <div id="status" class="mb-6">
+                <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    Testando conexão...
+                </div>
+            </div>
+            
+            <div id="results" class="hidden">
+                <div class="text-left space-y-2 max-h-64 overflow-y-auto">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <a href="camisas.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 inline-block">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Voltar para Camisas
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
+            authDomain: "futwear-3eae2.firebaseapp.com",
+            projectId: "futwear-3eae2",
+            storageBucket: "futwear-3eae2.appspot.com",
+            messagingSenderId: "555630014709",
+            appId: "1:555630014709:web:2c1460cb26e040444d041e",
+            measurementId: "G-L6S9FH3PSX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+        const resultsContent = resultsDiv.querySelector('div');
+
+        function updateStatus(message, type = 'info') {
+            const colors = {
+                info: 'bg-blue-100 border-blue-400 text-blue-700',
+                success: 'bg-green-100 border-green-400 text-green-700',
+                error: 'bg-red-100 border-red-400 text-red-700',
+                warning: 'bg-yellow-100 border-yellow-400 text-yellow-700'
+            };
+            
+            statusDiv.innerHTML = `
+                <div class="${colors[type]} px-4 py-3 rounded">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'spinner fa-spin'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        function addResult(message, type = 'info') {
+            const colors = {
+                info: 'text-blue-600',
+                success: 'text-green-600',
+                error: 'text-red-600',
+                warning: 'text-yellow-600'
+            };
+            
+            const icon = type === 'success' ? 'check' : type === 'error' ? 'times' : 'info';
+            
+            resultsContent.innerHTML += `
+                <div class="${colors[type]} text-sm">
+                    <i class="fas fa-${icon} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        async function testFirebaseConnection() {
+            updateStatus('Testando conexão com Firebase...', 'info');
+            resultsDiv.classList.remove('hidden');
+            
+            try {
+                // Teste 1: Verificar se o app foi inicializado
+                addResult('✅ Firebase app inicializado com sucesso', 'success');
+                addResult(`📊 Project ID: ${app.options.projectId}`, 'info');
+                
+                // Teste 2: Tentar acessar a coleção camisas
+                addResult('🔍 Tentando acessar coleção "camisas"...', 'info');
+                const camisasCol = collection(db, 'camisas');
+                addResult('✅ Coleção "camisas" referenciada com sucesso', 'success');
+                
+                // Teste 3: Tentar ler documentos
+                addResult('📖 Tentando ler documentos...', 'info');
+                const snapshot = await getDocs(camisasCol);
+                addResult(`✅ ${snapshot.docs.length} documentos encontrados`, 'success');
+                
+                // Teste 4: Mostrar alguns documentos
+                if (snapshot.docs.length > 0) {
+                    addResult('📋 Primeiros 3 documentos:', 'info');
+                    snapshot.docs.slice(0, 3).forEach((doc, index) => {
+                        const data = doc.data();
+                        addResult(`${index + 1}. ${data.name || 'Sem nome'} - R$ ${data.price || 'N/A'}`, 'info');
+                    });
+                } else {
+                    addResult('⚠️ Nenhum documento encontrado na coleção', 'warning');
+                }
+                
+                // Teste 5: Tentar adicionar um documento de teste
+                addResult('✍️ Tentando adicionar documento de teste...', 'info');
+                const testDoc = {
+                    name: 'Teste de Conexão',
+                    price: 100,
+                    timestamp: new Date().toISOString()
+                };
+                
+                const docRef = await addDoc(camisasCol, testDoc);
+                addResult(`✅ Documento de teste adicionado com ID: ${docRef.id}`, 'success');
+                
+                // Teste 6: Tentar deletar o documento de teste
+                addResult('🗑️ Removendo documento de teste...', 'info');
+                await setDoc(doc(db, 'camisas', docRef.id), { ...testDoc, deleted: true });
+                addResult('✅ Documento de teste marcado para remoção', 'success');
+                
+                updateStatus('Todos os testes passaram com sucesso!', 'success');
+                
+            } catch (error) {
+                addResult(`❌ Erro: ${error.message}`, 'error');
+                addResult(`❌ Código: ${error.code}`, 'error');
+                addResult(`❌ Tipo: ${error.constructor.name}`, 'error');
+                updateStatus('Alguns testes falharam. Verifique os logs.', 'error');
+            }
+        }
+
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', testFirebaseConnection);
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Carrinho - FutWear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Teste do Carrinho</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Produto 1 -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Camisa Flamengo 2024</h3>
+                <p class="text-gray-600 mb-4">R$ 129,99</p>
+                <button onclick="testAddToCart('flamengo-2024')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+            
+            <!-- Produto 2 -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Camisa Real Madrid 2024</h3>
+                <p class="text-gray-600 mb-4">R$ 149,99</p>
+                <button onclick="testAddToCart('real-madrid-2024')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold mb-4">Status do Carrinho</h3>
+            <div id="cart-status" class="text-gray-600">Carregando...</div>
+            <button onclick="clearCart()" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                Limpar Carrinho
+            </button>
+            <button onclick="viewCart()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ml-2">
+                Ver Carrinho
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCart, setCart, addToCart, atualizarIconeCarrinho } from './firebase-hybrid.js';
+        
+        // Produtos de teste
+        const testProducts = {
+            'flamengo-2024': {
+                id: 'flamengo-2024',
+                name: 'Camisa Flamengo 2024',
+                price: 129.99,
+                image: 'https://i.imgur.com/rXAN8zF.png',
+                available: true
+            },
+            'real-madrid-2024': {
+                id: 'real-madrid-2024',
+                name: 'Camisa Real Madrid 2024',
+                price: 149.99,
+                image: 'https://i.imgur.com/HnS9gT6.png',
+                available: true
+            }
+        };
+        
+        // Função para testar adicionar ao carrinho
+        window.testAddToCart = function(productId) {
+            console.log('🧪 Testando adicionar ao carrinho:', productId);
+            const product = testProducts[productId];
+            if (product) {
+                addToCart(product);
+                updateCartStatus();
+            } else {
+                alert('Produto não encontrado!');
+            }
+        };
+        
+        // Função para limpar carrinho
+        window.clearCart = async function() {
+            await setCart([]);
+            updateCartStatus();
+            alert('Carrinho limpo!');
+        };
+        
+        // Função para ver carrinho
+        window.viewCart = function() {
+            window.location.href = 'carrinho.html';
+        };
+        
+        // Função para atualizar status do carrinho
+        async function updateCartStatus() {
+            try {
+                const cart = await getCart();
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+                
+                document.getElementById('cart-status').innerHTML = `
+                    <p><strong>Itens no carrinho:</strong> ${totalItems}</p>
+                    <p><strong>Valor total:</strong> R$ ${totalPrice.toFixed(2).replace('.', ',')}</p>
+                    <p><strong>Produtos:</strong> ${cart.length}</p>
+                    <div class="mt-2">
+                        ${cart.map(item => `
+                            <div class="text-sm bg-gray-100 p-2 rounded mb-1">
+                                ${item.name} - Qtd: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('❌ Erro ao atualizar status:', error);
+                document.getElementById('cart-status').innerHTML = 'Erro ao carregar carrinho';
+            }
+        }
+        
+        // Atualizar status ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartStatus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+{
+  "Premier League": [
+    "Arsenal","Aston Villa","Bournemouth","Brentford","Brighton & Hove Albion","Chelsea","Crystal Palace","Everton","Fulham","Ipswich Town","Leicester City","Liverpool","Manchester City","Manchester United","Newcastle United","Nottingham Forest","Southampton","Tottenham Hotspur","West Ham United","Wolverhampton"
+  ],
+  "EFL Championship": [
+    "Birmingham City","Blackburn Rovers","Bristol City","Cardiff City","Coventry City","Derby County","Huddersfield Town","Hull City","Ipswich Town","Leeds United","Leicester City","Middlesbrough","Millwall","Norwich City","Plymouth Argyle","Preston North End","Queens Park Rangers","Sheffield Wednesday","Stoke City","Sunderland","Swansea City","Watford","West Bromwich Albion"
+  ],
+  "La Liga": [
+    "Alavés","Athletic Club","Atlético de Madrid","Barcelona","Celta de Vigo","Getafe","Girona","Las Palmas","Leganés","Mallorca","Osasuna","Rayo Vallecano","Real Betis","Real Madrid","Real Sociedad","Sevilla","Valencia","Valladolid","Villarreal"
+  ],
+  "LaLiga 2": [
+    "Albacete","Alcorcón","Burgos","Cartagena","Eibar","Eldense","Elche","Espanyol","Ferrol","Huesca","Leganés","Levante","Mirandés","Oviedo","Racing Santander","Racing Ferrol","Real Zaragoza","Sporting Gijón","Tenerife","Valladolid"
+  ],
+  "Serie A": [
+    "Atalanta","Bologna","Cagliari","Como","Empoli","Fiorentina","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Monza","Napoli","Parma","Roma","Torino","Udinese","Venezia","Verona"
+  ],
+  "Serie B": [
+    "Ascoli","Bari","Brescia","Cittadella","Cosenza","Cremonese","Feralpisalò","Lecco","Modena","Palermo","Parma","Pisa","Reggiana","Sampdoria","Spezia","Südtirol","Ternana","Venezia","Verona","Vicenza"
+  ],
+  "Bundesliga": [
+    "Augsburg","Bayer Leverkusen","Bayern Munich","Bochum","Borussia Dortmund","Borussia Mönchengladbach","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Kaiserslautern","Leipzig","Mainz","Nürnberg","St. Pauli","Stuttgart","Union Berlin","Werder Bremen","Wolfsburg"
+  ],
+  "2. Bundesliga": [
+    "Arminia Bielefeld","Darmstadt 98","Düsseldorf","Greuther Fürth","Hamburger SV","Hannover 96","Hertha BSC","Holstein Kiel","Karlsruher SC","Kaiserslautern","Magdeburg","Nürnberg","Paderborn","St. Pauli","Schalke 04","Wehen Wiesbaden"
+  ],
+  "Ligue 1": [
+    "Angers","Auxerre","Brest","Clermont","Havre AC","Lens","Lille","Lorient","Lyon","Marseille","Metz","Monaco","Montpellier","Nantes","Nice","Paris Saint-Germain","Reims","Rennes","Strasbourg","Toulouse"
+  ],
+  "Ligue 2": [
+    "Ajaccio","Amiens","Angers","Annecy","Auxerre","Bastia","Bordeaux","Caen","Concarneau","Dunkerque","Grenoble","Guingamp","Laval","Metz","Niort","Paris FC","Pau","Quevilly-Rouen","Rodez","Saint-Étienne","Sochaux","Troyes","Valenciennes"
+  ],
+  "Brasileirão Série A": [
+    "Athletico Paranaense","Atlético Goianiense","Atlético Mineiro","Bahia","Botafogo","Bragantino","Corinthians","Criciúma","Cruzeiro","Cuiabá","Flamengo","Fluminense","Fortaleza","Grêmio","Internacional","Juventude","Palmeiras","São Paulo","Vasco da Gama","Vitória"
+  ],
+  "Brasileirão Série B": [
+    "Amazonas","Avaí","Botafogo-SP","Brusque","Chapecoense","Ceará","Coritiba","CRB","Criciúma","Goiás","Guarani","Ituano","Mirassol","Novorizontino","Operário-PR","Ponte Preta","Sampaio Corrêa","Santos","Sport","Vila Nova"
+  ],
+  "Liga Portugal": [
+    "Arouca","Avs","Benfica","Braga","Casa Pia","Estoril","Famalicão","Farense","Gil Vicente","Moreirense","Porto","Portimonense","Rio Ave","Santa Clara","Sporting CP","Vitória SC","Vizela"
+  ],
+  "Eredivisie": [
+    "ADO Den Haag","Ajax","Almere City","AZ Alkmaar","Excelsior","Feyenoord","Fortuna Sittard","Go Ahead Eagles","Groningen","Heracles Almelo","NEC","NAC","PEC Zwolle","PSV","RKC Waalwijk","SC Heerenveen","Sparta Rotterdam","Twente","Utrecht","Vitesse"
+  ],
+  "Jupiler Pro League": [
+    "Anderlecht","Antwerp","Charleroi","Club Brugge","Cercle Brugge","Genk","Gent","KV Kortrijk","KV Mechelen","OH Leuven","Royal Excel Mouscron","Royal Union SG","Standard Liège","Sint-Truiden","Westerlo"
+  ],
+  "Primera División (ARG)": [
+    "Argentinos Juniors","Arsenal de Sarandí","Atlético Tucumán","Banfield","Barracas Central","Belgrano","Boca Juniors","Colón","Defensa y Justicia","Estudiantes","Gimnasia LP","Godoy Cruz","Huracán","Independiente","Instituto","Lanús","Newell's Old Boys","Platense","Racing Club","River Plate","Rosario Central","San Lorenzo","Talleres","Tigre","Unión","Vélez Sarsfield"
+  ],
+  "Süper Lig": ["Beşiktaş","Fenerbahçe","Galatasaray","Trabzonspor","Başakşehir","Konyaspor","Adana Demirspor","Sivasspor","Antalyaspor","Rizespor"],
+  "Czech First League": ["Slavia Praha","Sparta Praha","Viktoria Plzeň","Baník Ostrava","Sigma Olomouc"],
+  "Super League Greece": ["AEK Athens","Olympiacos","Panathinaikos","PAOK","Aris"],
+  "Eliteserien": ["Bodø/Glimt","Molde","Rosenborg","Viking","Brann"],
+  "Ekstraklasa": ["Legia Warszawa","Lech Poznań","Raków Częstochowa","Pogoń Szczecin","Śląsk Wrocław"],
+  "Danish Superliga": ["FC Copenhagen","Brøndby","Midtjylland","Aarhus GF","Nordsjælland"],
+  "Austrian Bundesliga": ["Red Bull Salzburg","Rapid Wien","Austria Wien","LASK","Sturm Graz"],
+  "Swiss Super League": ["Young Boys","Basel","Zürich","Lugano","St. Gallen"],
+  "Cyprus League": ["APOEL","Omonia","Anorthosis","Apollon Limassol","AEL Limassol"],
+  "Scottish Premiership": ["Celtic","Rangers","Aberdeen","Hearts","Hibernian"],
+  "Allsvenskan": ["Malmö FF","AIK","Djurgården","Hammarby","IFK Göteborg"],
+  "Israeli Premier League": ["Maccabi Haifa","Maccabi Tel Aviv","Hapoel Be'er Sheva","Beitar Jerusalem","Bnei Sakhnin"],
+  "HNL": ["Dinamo Zagreb","Hajduk Split","Rijeka","Osijek","Slaven Belupo"],
+  "Romanian Super Liga": ["FCSB","CFR Cluj","Universitatea Craiova","Rapid București","Farul Constanța"],
+  "NB I (Hungria)": ["Ferencváros","Fehérvár","Újpest","Debrecen","Paks"],
+  "Mozzart Bet Superliga": ["Red Star Belgrade","Partizan","Čukarički","Vojvodina","TSC Bačka Topola"],
+  "Ukrainian Premier League": ["Shakhtar Donetsk","Dynamo Kyiv","Dnipro-1","Zorya Luhansk","Vorskla Poltava"],
+  "MLS": ["Atlanta United","Austin FC","Charlotte FC","Chicago Fire","FC Cincinnati","Colorado Rapids","Columbus Crew","DC United","FC Dallas","Houston Dynamo","Inter Miami","LA Galaxy","LAFC","Minnesota United","CF Montréal","Nashville SC","New England Revolution","New York City FC","New York Red Bulls","Orlando City","Philadelphia Union","Portland Timbers","Real Salt Lake","San Jose Earthquakes","Seattle Sounders","Sporting Kansas City","St. Louis City","Toronto FC","Vancouver Whitecaps"],
+  "Saudi Pro League": ["Al Hilal","Al Nassr","Al Ittihad","Al Ahli","Al Taawoun"],
+  "J1 League": ["Urawa Red Diamonds","Kashima Antlers","Kawasaki Frontale","Yokohama F. Marinos","Gamba Osaka"],
+  "K League 1": ["Jeonbuk Hyundai Motors","Ulsan HD","Pohang Steelers","FC Seoul","Daegu FC"],
+  "Liga MX": ["América","Chivas Guadalajara","Cruz Azul","Pumas UNAM","Tigres UANL","Monterrey","Santos Laguna","Toluca","León","Pachuca"],
+  "Egyptian Premier League": ["Al Ahly","Zamalek","Pyramids","Al Masry","Ismaily"],
+  "Categoría Primera A": ["Atlético Nacional","Millonarios","América de Cali","Deportivo Cali","Junior"],
+  "Primera División (PAR)": ["Cerro Porteño","Olimpia","Libertad","Nacional","Guaraní"],
+  "Seleções": ["Alemanha","Argentina","Brasil","Espanha","França","Inglaterra","Itália","Portugal","Holanda","Bélgica","Uruguai","Croácia","Dinamarca","Suécia","Noruega","Polônia","Suíça","Áustria","República Tcheca","Sérvia"]
+}

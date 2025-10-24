@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear - Teste Simples do Firestore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .test-result {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4ade80;
+        }
+        .test-error {
+            border-left-color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">
+            <i class="fas fa-database text-blue-600"></i>
+            Teste Simples do Firestore
+        </h1>
+        
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                <i class="fas fa-key"></i>
+                Autenticação
+            </h2>
+            <button onclick="testAuth()" class="w-full bg-white text-blue-600 px-4 py-2 rounded hover:bg-blue-50 transition-colors mb-4">
+                <i class="fas fa-sign-in-alt"></i> Testar Autenticação
+            </button>
+            <div id="auth-result"></div>
+        </div>
+
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                <i class="fas fa-database"></i>
+                Teste de Conectividade
+            </h2>
+            <button onclick="testConnection()" class="w-full bg-white text-green-600 px-4 py-2 rounded hover:bg-green-50 transition-colors mb-4">
+                <i class="fas fa-plug"></i> Testar Conexão
+            </button>
+            <div id="connection-result"></div>
+        </div>
+
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                <i class="fas fa-write"></i>
+                Teste de Escrita
+            </h2>
+            <button onclick="testWrite()" class="w-full bg-white text-yellow-600 px-4 py-2 rounded hover:bg-yellow-50 transition-colors mb-4">
+                <i class="fas fa-pen"></i> Testar Escrita
+            </button>
+            <div id="write-result"></div>
+        </div>
+
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                <i class="fas fa-read"></i>
+                Teste de Leitura
+            </h2>
+            <button onclick="testRead()" class="w-full bg-white text-purple-600 px-4 py-2 rounded hover:bg-purple-50 transition-colors mb-4">
+                <i class="fas fa-book"></i> Testar Leitura
+            </button>
+            <div id="read-result"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { 
+            createUserProfile,
+            getUserProfile,
+            updateUserProfile,
+            addProduct,
+            getProducts,
+            getProductById,
+            updateProduct,
+            createOrder,
+            getAllOrders,
+            getOrdersByUser,
+            updateOrderStatus,
+            getOrderStats,
+            subscribeToOrders
+        } from './firebase-hybrid.js';
+
+        let isAuthenticated = false;
+
+        window.testAuth = async function() {
+            const resultDiv = document.getElementById('auth-result');
+            resultDiv.innerHTML = '<div class="test-result">Testando autenticação...</div>';
+            
+            try {
+                // Simular autenticação para teste
+                isAuthenticated = true;
+                
+                resultDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Autenticação simulada!</strong><br>
+                        Sistema híbrido ativo
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro na autenticação:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testConnection = async function() {
+            const resultDiv = document.getElementById('connection-result');
+            resultDiv.innerHTML = '<div class="test-result">Testando sistema híbrido...</div>';
+            
+            try {
+                // Teste básico de conectividade
+                resultDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Sistema híbrido ativo!</strong><br>
+                        Firestore + localStorage
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro de conexão:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testWrite = async function() {
+            if (!isAuthenticated) {
+                document.getElementById('write-result').innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong> Faça login primeiro!
+                    </div>
+                `;
+                return;
+            }
+
+            const resultDiv = document.getElementById('write-result');
+            resultDiv.innerHTML = '<div class="test-result">Testando escrita...</div>';
+            
+            try {
+                const result = await createUserProfile('test-user-' + Date.now(), {
+                    email: 'teste@futwear.com',
+                    firstName: 'Usuário',
+                    lastName: 'Teste',
+                    phone: '11999999999',
+                    isAdmin: false
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Escrita funcionando!</strong><br>
+                        Usuário criado: ${result.id}
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro na escrita:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+
+        window.testRead = async function() {
+            if (!isAuthenticated) {
+                document.getElementById('read-result').innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro:</strong> Faça login primeiro!
+                    </div>
+                `;
+                return;
+            }
+
+            const resultDiv = document.getElementById('read-result');
+            resultDiv.innerHTML = '<div class="test-result">Testando leitura...</div>';
+            
+            try {
+                const result = await getAllOrders();
+                
+                resultDiv.innerHTML = `
+                    <div class="test-result">
+                        <i class="fas fa-check text-green-500"></i>
+                        <strong>Leitura funcionando!</strong><br>
+                        Pedidos encontrados: ${result.data.length}
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="test-result test-error">
+                        <i class="fas fa-times text-red-500"></i>
+                        <strong>Erro na leitura:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear - Todas as Camisas</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/adidas-style-header.css">
+    <style>
+        /* Enhanced Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animation Classes */
+        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
+        .animate-slide-up { animation: slideInUp 0.8s ease-out; }
+        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
+        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
+        .animate-scale-in { animation: scaleIn 0.6s ease-out; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-glow { animation: glow 2s ease-in-out infinite; }
+        .animate-bounce { animation: bounce 1s ease-in-out; }
+        .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+        .animate-fade-scale { animation: fadeInScale 0.6s ease-out; }
+
+        /* Enhanced Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.6);
+        }
+
+        /* Glassmorphism */
+        .header-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card-strong {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced Cards */
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Shadow Enhanced */
+        .shadow-enhanced {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        .shadow-enhanced-lg {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Loading Animation */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #15803d;
+        }
+
+        /* Enhanced Filter Styles */
+        .filter-input {
+            transition: all 0.3s ease;
+        }
+
+        .filter-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.15);
+        }
+
+        /* Product Card Enhancements */
+        .product-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .product-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Active Filter Chips */
+        .filter-chip {
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        /* Enhanced Loading States */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Text Clamp Utility */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Enhanced Hover Effects */
+        .group:hover .group-hover\:scale-110 {
+            transform: scale(1.1);
+        }
+
+        .group:hover .group-hover\:opacity-100 {
+            opacity: 1;
+        }
+
+        /* Filter Section Enhancements */
+        .filter-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-900">
+    <!-- Header -->
+    <header class="fixed w-full header-glass shadow-enhanced z-50 animate-slide-down">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center animate-slide-left">
+                    <a href="index.html" class="text-2xl font-bold text-gradient">FUT<span class="text-green-600">WEAR</span></a>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-8 animate-slide-up">
+                    <a href="index.html" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Início</a>
+                    <a href="camisas.html" class="text-green-600 font-medium hover:scale-105 transition-transform">Coleções</a>
+                    <a href="camisas.html?category=clubs" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Times</a>
+                    <a href="camisas.html?category=national" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Seleções</a>
+                    <a href="#promocoes" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Promoções</a>
+                    <a href="#sobre" class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Sobre</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4 animate-slide-right">
+                    <button onclick="toggleSearch()" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button onclick="window.location.href='favoritos.html'" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform relative">
+                        <i class="fas fa-heart"></i>
+                        <span id="wishlistCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <a href="carrinho.html" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <a href="perfil.html" class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Page Header -->
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl font-bold mb-4 animate-slide-up">Todas as Camisas</h1>
+                <p class="text-xl text-green-100 animate-fade-in" style="animation-delay: 0.3s;">Encontre a camisa perfeita do seu time favorito</p>
+            </div>
+        </div>
+
+        <!-- Shipping Policy -->
+        <div class="py-12 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
+                    <h2 class="text-3xl font-bold text-center mb-8 text-gradient">🚚 Política de Frete</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="glass-card rounded-xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-left">
+                            <div class="text-5xl mb-4 animate-bounce">📦</div>
+                            <h3 class="font-bold text-orange-600 text-xl mb-2">1 Camisa</h3>
+                            <p class="text-orange-500 font-bold text-2xl">R$ 30,00</p>
+                        </div>
+                        <div class="glass-card rounded-xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-up">
+                            <div class="text-5xl mb-4 animate-bounce" style="animation-delay: 0.2s;">📦📦</div>
+                            <h3 class="font-bold text-blue-600 text-xl mb-2">2 Camisas</h3>
+                            <p class="text-blue-500 font-bold text-2xl">R$ 20,00</p>
+                        </div>
+                        <div class="glass-card rounded-xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-right">
+                            <div class="text-5xl mb-4 animate-bounce" style="animation-delay: 0.4s;">🎁</div>
+                            <h3 class="font-bold text-green-600 text-xl mb-2">3+ Camisas</h3>
+                            <p class="text-green-500 font-bold text-2xl">FRETE GRÁTIS</p>
+                        </div>
+                    </div>
+                    <p class="text-center mt-6 text-gray-600 text-lg animate-fade-in">
+                        💡 <strong>Dica:</strong> Compre 3 camisas e economize no frete!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="py-8 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-6 animate-scale-in">
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <!-- Search Bar -->
+                        <div class="flex-1">
+                            <div class="relative">
+                                <input type="text" id="searchInput" placeholder="Buscar camisas..." 
+                                       class="filter-input w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
+                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Category Filter -->
+                        <div class="lg:w-48">
+                            <select id="categoryFilter" class="filter-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
+                                <option value="">Todas as Categorias</option>
+                                <option value="times-brasileiros">Times Brasileiros</option>
+                                <option value="times-europeus">Times Europeus</option>
+                                <option value="selecoes">Seleções</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Price Filter -->
+                        <div class="lg:w-48">
+                            <select id="priceFilter" class="filter-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
+                                <option value="">Todos os Preços</option>
+                                <option value="0-120">Até R$ 120</option>
+                                <option value="120-140">R$ 120 - R$ 140</option>
+                                <option value="140-150">R$ 140 - R$ 150</option>
+                                <option value="150+">Acima de R$ 150</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Sort Filter -->
+                        <div class="lg:w-48">
+                            <select id="sortFilter" class="filter-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
+                                <option value="relevance">Relevância</option>
+                                <option value="price-low">Menor Preço</option>
+                                <option value="price-high">Maior Preço</option>
+                                <option value="name">Nome A-Z</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Clear Filters -->
+                        <button id="clearFilters" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-300 hover:scale-105 flex items-center justify-center shadow-sm">
+                            <i class="fas fa-times mr-2"></i>Limpar
+                        </button>
+                    </div>
+                    
+                    <!-- Active Filters -->
+                    <div id="activeFilters" class="mt-4 flex flex-wrap gap-2 hidden">
+                        <!-- Active filter chips will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="py-12 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-3xl font-bold text-gradient">Produtos</h2>
+                        <div id="productCount" class="text-gray-600 text-lg font-semibold animate-fade-in">Carregando...</div>
+                    </div>
+                    
+                    <!-- Loading State -->
+                    <div id="loadingState" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <div class="glass-card rounded-xl p-6 animate-pulse">
+                            <div class="loading-shimmer h-56 rounded-lg mb-4"></div>
+                            <div class="loading-shimmer h-4 rounded w-3/4 mb-3"></div>
+                            <div class="loading-shimmer h-3 rounded w-1/2 mb-4"></div>
+                            <div class="loading-shimmer h-12 rounded-lg"></div>
+                        </div>
+                        <div class="glass-card rounded-xl p-6 animate-pulse" style="animation-delay: 0.2s;">
+                            <div class="loading-shimmer h-56 rounded-lg mb-4"></div>
+                            <div class="loading-shimmer h-4 rounded w-3/4 mb-3"></div>
+                            <div class="loading-shimmer h-3 rounded w-1/2 mb-4"></div>
+                            <div class="loading-shimmer h-12 rounded-lg"></div>
+                        </div>
+                        <div class="glass-card rounded-xl p-6 animate-pulse" style="animation-delay: 0.4s;">
+                            <div class="loading-shimmer h-56 rounded-lg mb-4"></div>
+                            <div class="loading-shimmer h-4 rounded w-3/4 mb-3"></div>
+                            <div class="loading-shimmer h-3 rounded w-1/2 mb-4"></div>
+                            <div class="loading-shimmer h-12 rounded-lg"></div>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 hidden">
+                        <!-- Products will be inserted here -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div id="pagination" class="flex items-center justify-center gap-2 mt-8 hidden"></div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-16 hidden">
+                        <i class="fas fa-shirt text-8xl text-gray-300 mb-6 animate-bounce"></i>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Nenhum produto encontrado</h3>
+                        <p class="text-gray-500 text-lg">Tente ajustar os filtros ou buscar por outros termos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { buscarCamisas, addToCart } from './firebase-hybrid.js';
+        import './favorites-system.js';
+        
+        // Make addToCart globally available
+        window.addToCart = addToCart;
+        
+        // Função auxiliar para adicionar ao carrinho
+        window.addProductToCart = function(product) {
+            console.log('🛒 Adicionando produto ao carrinho:', product);
+            addToCart(product);
+        };
+        
+        // Helpers de feedback do botão "Adicionar ao Carrinho"
+        function setButtonLoading(button, isLoading) {
+            if (!button) return;
+            if (isLoading) {
+                button.dataset.busy = '1';
+                button.disabled = true;
+                button.classList.add('opacity-80');
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Adicionando...';
+            } else {
+                button.disabled = false;
+                button.classList.remove('opacity-80');
+            }
+        }
+
+        function flashButtonSuccess(button) {
+            if (!button) return;
+            button.innerHTML = '<i class="fas fa-check mr-2"></i>Adicionado!';
+            button.classList.add('bg-green-700');
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i>Adicionar ao Carrinho';
+                button.classList.remove('bg-green-700');
+                button.dataset.busy = '0';
+            }, 900);
+        }
+
+        // Função para adicionar produto por índice (agora redireciona para a página do produto para escolher tamanho)
+        window.addProductByIndex = function(index) {
+            console.log('🛒 Adicionando produto por índice:', index);
+            console.log('📦 filteredProducts disponível:', filteredProducts);
+            const product = filteredProducts[index];
+            if (product) {
+                console.log('✅ Produto encontrado:', product);
+                try {
+                    const button = document.querySelector(`[data-add-btn="${product.id}"]`);
+                    // Feedback curto antes do redirect
+                    if (button) {
+                        button.classList.add('scale-105');
+                        setTimeout(() => button.classList.remove('scale-105'), 120);
+                    }
+                } catch {}
+                // Redireciona para a página do produto para seleção de tamanho/opções
+                window.location.href = `produto.html?id=${product.id}`;
+            } else {
+                console.error('❌ Produto não encontrado no índice:', index);
+                console.log('📦 filteredProducts length:', filteredProducts.length);
+            }
+        };
+
+        // Função para toggle de favoritos por índice
+        window.toggleFavoriteByIndex = function(index) {
+            console.log('❤️ Toggle favorito por índice:', index);
+            console.log('📦 filteredProducts disponível:', filteredProducts);
+            console.log('🔧 toggleFavorite disponível:', typeof window.toggleFavorite);
+            
+            const product = filteredProducts[index];
+            if (product) {
+                console.log('✅ Produto encontrado para favorito:', product);
+                
+                if (typeof window.toggleFavorite === 'function') {
+                    const result = window.toggleFavorite(product);
+                    console.log('🎯 Resultado do toggle:', result);
+                    
+                    // Atualiza imediatamente o ícone do botão e o contador no header
+                    const button = document.querySelector(`[data-product-id="${product.id}"]`);
+                    if (button) {
+                        const heartIcon = button.querySelector('i');
+                        if (window.isFavorite && window.isFavorite(product.id)) {
+                            heartIcon.classList.remove('far');
+                            heartIcon.classList.add('fas');
+                            button.classList.add('text-red-500');
+                            button.classList.remove('text-gray-600');
+                            console.log('❤️ Ícone atualizado para favorito');
+                        } else {
+                            heartIcon.classList.remove('fas');
+                            heartIcon.classList.add('far');
+                            button.classList.remove('text-red-500');
+                            button.classList.add('text-gray-600');
+                            console.log('🤍 Ícone atualizado para não favorito');
+                        }
+                        // pequena animação de feedback
+                        button.classList.add('scale-110');
+                        setTimeout(() => button.classList.remove('scale-110'), 150);
+                    } else {
+                        console.error('❌ Botão não encontrado para produto:', product.id);
+                    }
+                    // Atualiza todos os ícones e o contador
+                    updateFavoriteIcons();
+                    updateFavoritesCount();
+                } else {
+                    console.error('❌ Função toggleFavorite não está disponível');
+                }
+            } else {
+                console.error('❌ Produto não encontrado no índice para favorito:', index);
+            }
+        };
+
+        // State
+        let products = [];
+        let filteredProducts = [];
+        const pageSize = 10;
+        let currentPage = 1;
+        let currentFilters = {
+            search: '',
+            category: '',
+            price: '',
+            sort: 'relevance'
+        };
+
+        // Avaliações: helpers para média e estrelas (replicando lógica de produto.html)
+        function getAverageRating(productId) {
+            try {
+                const saved = localStorage.getItem(`reviews_${productId}`);
+                const reviews = saved ? JSON.parse(saved) : [];
+                const count = Array.isArray(reviews) ? reviews.length : 0;
+                const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
+                return { avg, count };
+            } catch {
+                return { avg: 0, count: 0 };
+            }
+        }
+
+        function renderStarsHTML(rating) {
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                // Mesmo critério de produto.html: estrela cheia até floor(rating) e também a próxima se houver fração
+                let cls = 'fas fa-star ';
+                if (i <= Math.floor(rating)) {
+                    cls += 'text-yellow-400';
+                } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+                    cls += 'text-yellow-400';
+                } else {
+                    cls += 'text-gray-300';
+                }
+                html += `<i class="${cls} text-xs"></i>`;
+            }
+            return html;
+        }
+
+        // DOM Elements
+        const loadingState = document.getElementById('loadingState');
+        const productsGrid = document.getElementById('productsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const productCount = document.getElementById('productCount');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const priceFilter = document.getElementById('priceFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        const clearFilters = document.getElementById('clearFilters');
+        const activeFilters = document.getElementById('activeFilters');
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Iniciando carregamento da página...');
+            // Read page from query string (?p=2)
+            try {
+                const url = new URL(window.location.href);
+                const p = parseInt(url.searchParams.get('p') || '1', 10);
+                if (!isNaN(p) && p > 0) currentPage = p;
+            } catch {}
+            await loadProducts();
+            initializeFilters();
+        });
+
+        // Initialize filters
+        function initializeFilters() {
+            // Search input with debounce
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    currentFilters.search = e.target.value.toLowerCase();
+                    currentPage = 1;
+                    applyFilters();
+                }, 300);
+            });
+
+            // Category filter
+            categoryFilter.addEventListener('change', (e) => {
+                currentFilters.category = e.target.value;
+                currentPage = 1;
+                applyFilters();
+            });
+
+            // Price filter
+            priceFilter.addEventListener('change', (e) => {
+                currentFilters.price = e.target.value;
+                currentPage = 1;
+                applyFilters();
+            });
+
+            // Sort filter
+            sortFilter.addEventListener('change', (e) => {
+                currentFilters.sort = e.target.value;
+                currentPage = 1;
+                applyFilters();
+            });
+
+            // Clear filters
+            clearFilters.addEventListener('click', () => {
+                clearAllFilters();
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            console.log('🔍 Aplicando filtros:', currentFilters);
+            
+            filteredProducts = products.filter(product => {
+                // Search filter
+                if (currentFilters.search && !product.name.toLowerCase().includes(currentFilters.search) && 
+                    !product.team?.toLowerCase().includes(currentFilters.search) &&
+                    !product.league?.toLowerCase().includes(currentFilters.search)) {
+                    return false;
+                }
+
+                // Category filter
+                if (currentFilters.category && product.category !== currentFilters.category) {
+                    return false;
+                }
+
+                // Price filter
+                if (currentFilters.price) {
+                    const [min, max] = currentFilters.price.split('-').map(Number);
+                    if (max && (product.price < min || product.price > max)) {
+                        return false;
+                    }
+                    if (currentFilters.price === '150+' && product.price <= 150) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            // Sort products
+            sortProducts();
+            
+            // Update active filters display
+            updateActiveFilters();
+            
+            // Render filtered products
+            renderProducts();
+        }
+
+        // Sort products
+        function sortProducts() {
+            switch (currentFilters.sort) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                default:
+                    // Keep original order for relevance
+                    break;
+            }
+        }
+
+        // Update active filters display
+        function updateActiveFilters() {
+            const activeFiltersArray = [];
+            
+            if (currentFilters.search) {
+                activeFiltersArray.push({
+                    type: 'search',
+                    label: `Busca: "${currentFilters.search}"`,
+                    value: currentFilters.search
+                });
+            }
+            
+            if (currentFilters.category) {
+                const categoryLabel = categoryFilter.options[categoryFilter.selectedIndex].text;
+                activeFiltersArray.push({
+                    type: 'category',
+                    label: categoryLabel,
+                    value: currentFilters.category
+                });
+            }
+            
+            if (currentFilters.price) {
+                const priceLabel = priceFilter.options[priceFilter.selectedIndex].text;
+                activeFiltersArray.push({
+                    type: 'price',
+                    label: priceLabel,
+                    value: currentFilters.price
+                });
+            }
+
+            if (activeFiltersArray.length > 0) {
+                activeFilters.innerHTML = activeFiltersArray.map(filter => `
+                    <span class="inline-flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        ${filter.label}
+                        <button onclick="removeFilter('${filter.type}')" class="hover:bg-green-200 rounded-full p-1 transition-colors">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </span>
+                `).join('');
+                activeFilters.classList.remove('hidden');
+            } else {
+                activeFilters.classList.add('hidden');
+            }
+        }
+
+        // Remove specific filter
+        window.removeFilter = function(filterType) {
+            switch (filterType) {
+                case 'search':
+                    currentFilters.search = '';
+                    searchInput.value = '';
+                    break;
+                case 'category':
+                    currentFilters.category = '';
+                    categoryFilter.value = '';
+                    break;
+                case 'price':
+                    currentFilters.price = '';
+                    priceFilter.value = '';
+                    break;
+            }
+            applyFilters();
+        };
+
+        // Clear all filters
+        function clearAllFilters() {
+            currentFilters = {
+                search: '',
+                category: '',
+                price: '',
+                sort: 'relevance'
+            };
+            
+            searchInput.value = '';
+            categoryFilter.value = '';
+            priceFilter.value = '';
+            sortFilter.value = 'relevance';
+            
+            applyFilters();
+        }
+
+        async function loadProducts() {
+            try {
+                console.log('📦 Carregando produtos...');
+                productCount.textContent = 'Carregando produtos...';
+                
+                // Show loading state
+                loadingState.classList.remove('hidden');
+                productsGrid.classList.add('hidden');
+                emptyState.classList.add('hidden');
+
+                // Load products
+                const produtos = await buscarCamisas();
+                console.log('✅ Produtos carregados:', produtos);
+                console.log('📊 Total de produtos no array:', produtos ? produtos.length : 0);
+                console.log('🔍 Primeiro produto:', produtos && produtos.length > 0 ? produtos[0] : 'Nenhum produto');
+                
+                if (!produtos || produtos.length === 0) {
+                    console.log('❌ Nenhum produto encontrado');
+                    showEmptyState();
+                    return;
+                }
+
+                products = produtos;
+                filteredProducts = produtos;
+                console.log('📊 Total de produtos:', products.length);
+                
+                // Hide loading and show products
+                loadingState.classList.add('hidden');
+                productsGrid.classList.remove('hidden');
+                
+                renderProducts();
+                
+            } catch (error) {
+                console.error('💥 Erro ao carregar produtos:', error);
+                showErrorState();
+            }
+        }
+
+        function isPromoActive(prod) {
+            try {
+                if (!(prod.discount && prod.discount > 0)) return false;
+                const now = new Date();
+                const start = prod.promoStart ? new Date(prod.promoStart) : null;
+                const end = prod.promoEnd ? new Date(prod.promoEnd) : null;
+                if (start && end) return now >= start && now <= end;
+                if (start && !end) return now >= start;
+                if (!start && end) return now <= end;
+                return true;
+            } catch { return !!prod.discount; }
+        }
+
+        function renderProducts() {
+            console.log('🎨 Renderizando produtos...');
+            
+            const productsToRender = filteredProducts.length > 0 ? filteredProducts : products;
+            
+            if (productsToRender.length === 0) {
+                showEmptyState();
+                return;
+            }
+
+            // Pagination math
+            const total = productsToRender.length;
+            const start = Math.min((currentPage - 1) * pageSize, Math.max(total - 1, 0));
+            const end = Math.min(start + pageSize, total);
+            const pageItems = productsToRender.slice(start, end);
+
+            // Update header count
+            productCount.textContent = `${total} produtos • mostrando ${start + 1}-${end}`;
+            
+            productsGrid.innerHTML = pageItems.map((product, index) => {
+                const promoActive = isPromoActive(product);
+                const discounted = promoActive ? (product.price * (1 - product.discount / 100)) : product.price;
+                return `
+                <div class="product-card rounded-2xl overflow-hidden animate-fade-in group cursor-pointer" style="animation-delay: ${index * 0.1}s;" onclick="goToProduct('${product.id}')">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-56 object-cover transition-all duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <button onclick="event.stopPropagation(); toggleFavoriteByIndex(${start + index})" class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-110 shadow-lg" data-product-id="${product.id}">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        ${promoActive ? `<span class='absolute top-4 left-4 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-bold'>-${product.discount}%</span>` : `<span class="absolute top-4 left-4 text-xs bg-green-100 text-green-600 px-3 py-1 rounded-full font-semibold shadow-sm">Em estoque</span>`}
+                        <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-2">
+                                <p class="text-xs text-gray-600 text-center">Clique para ver detalhes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-gradient-to-b from-white to-gray-50">
+                        <div class="mb-4">
+                            <h3 class="font-bold text-gray-800 text-lg mb-2 line-clamp-2">${product.name}</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-medium">${product.type}</span>
+                                <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full font-medium">${product.league || 'N/A'}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">
+                                <i class="fas fa-users mr-1"></i>
+                                <span class="font-semibold text-gray-800">${product.team || 'N/A'}</span>
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex flex-col">
+                                <span class="text-2xl font-bold text-gray-900">R$ ${discounted.toFixed(2).replace('.', ',')}</span>
+                                ${promoActive ? `<span class='text-sm text-gray-500 line-through'>R$ ${product.price.toFixed(2).replace('.', ',')}</span>` : ''}
+                                <span class="text-xs text-gray-500">ou 3x de R$ ${(discounted / 3).toFixed(2).replace('.', ',')}</span>
+                            </div>
+                            <div class="text-right">
+                                ${(() => {
+                                    const { avg } = getAverageRating(product.id);
+                                    const stars = renderStarsHTML(avg);
+                                    const avgText = (avg || 0).toFixed(1);
+                                    return `<div class=\"flex items-center\">`+
+                                           `<div class=\"flex mr-2\">${stars}</div>`+
+                                           `<span class=\"text-sm text-gray-600\">(${avgText})</span>`+
+                                           `</div>`;
+                                })()}
+                            </div>
+                        </div>
+                        
+                        <button data-add-btn="${product.id}" onclick="event.stopPropagation(); addProductByIndex(${start + index})" class="w-full btn-primary text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center shadow-lg">
+                            <i class="fas fa-shopping-cart mr-2"></i>Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            `}).join('');
+            
+            console.log('✅ Produtos renderizados com sucesso!');
+            
+            // Atualiza ícones de favoritos após renderização
+            updateFavoriteIcons();
+
+            // Render pagination
+            renderPagination(total);
+        }
+
+        function renderPagination(total) {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(total / pageSize) || 1;
+            if (totalPages <= 1) {
+                pagination.classList.add('hidden');
+                pagination.innerHTML = '';
+                return;
+            }
+            pagination.classList.remove('hidden');
+
+            const makeBtn = (label, page, disabled = false, active = false) => `
+                <button 
+                    ${disabled ? 'disabled' : ''}
+                    class="px-3 py-2 rounded-lg border ${active ? 'bg-green-600 text-white border-green-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'} disabled:opacity-50 disabled:cursor-not-allowed"
+                    onclick="${disabled ? '' : `goToPage(${page})`}"
+                >${label}</button>
+            `;
+
+            // Simple window around current page
+            const windowSize = 3;
+            const startPage = Math.max(1, currentPage - windowSize);
+            const endPage = Math.min(totalPages, currentPage + windowSize);
+
+            let html = '';
+            html += makeBtn('«', Math.max(1, currentPage - 1), currentPage === 1);
+            if (startPage > 1) html += makeBtn('1', 1, false, currentPage === 1);
+            if (startPage > 2) html += `<span class="px-2 text-gray-400">…</span>`;
+            for (let p = startPage; p <= endPage; p++) {
+                html += makeBtn(String(p), p, false, p === currentPage);
+            }
+            if (endPage < totalPages - 1) html += `<span class="px-2 text-gray-400">…</span>`;
+            if (endPage < totalPages) html += makeBtn(String(totalPages), totalPages, false, currentPage === totalPages);
+            html += makeBtn('»', Math.min(totalPages, currentPage + 1), currentPage === totalPages);
+
+            pagination.innerHTML = html;
+        }
+
+        // Expose page navigation
+        window.goToPage = function(page) {
+            const productsToRender = filteredProducts.length > 0 ? filteredProducts : products;
+            const totalPages = Math.ceil(productsToRender.length / pageSize) || 1;
+            currentPage = Math.min(Math.max(1, page), totalPages);
+            // Update URL without reload
+            try {
+                const url = new URL(window.location.href);
+                url.searchParams.set('p', String(currentPage));
+                window.history.replaceState({}, '', url.toString());
+            } catch {}
+            renderProducts();
+        };
+
+        function showEmptyState() {
+            console.log('📭 Mostrando estado vazio');
+            loadingState.classList.add('hidden');
+            productsGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            productCount.textContent = 'Nenhum produto encontrado';
+        }
+
+        function showErrorState() {
+            console.log('💥 Mostrando estado de erro');
+            loadingState.classList.add('hidden');
+            productsGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            emptyState.innerHTML = `
+                <i class="fas fa-exclamation-triangle text-8xl text-red-400 mb-6 animate-bounce"></i>
+                <h3 class="text-2xl font-bold text-red-600 mb-4">Erro ao carregar produtos</h3>
+                <p class="text-gray-600 text-lg mb-6">Ocorreu um erro ao carregar os produtos. Tente recarregar a página.</p>
+                <button onclick="location.reload()" class="btn-primary text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center mx-auto">
+                    <i class="fas fa-refresh mr-2"></i>Recarregar Página
+                </button>
+            `;
+            productCount.textContent = 'Erro ao carregar';
+        }
+
+        // Função para atualizar ícones de favoritos após renderização
+        function updateFavoriteIcons() {
+            setTimeout(() => {
+                console.log('🔄 Atualizando ícones de favoritos...');
+                document.querySelectorAll('[data-product-id]').forEach(button => {
+                    const productId = button.getAttribute('data-product-id');
+                    const heartIcon = button.querySelector('i');
+                    
+                    console.log(`🔍 Verificando produto ${productId}:`, window.isFavorite ? window.isFavorite(productId) : 'função não disponível');
+                    
+                    if (window.isFavorite && window.isFavorite(productId)) {
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas');
+                        button.classList.add('text-red-500');
+                        button.classList.remove('text-gray-600');
+                        console.log(`✅ Produto ${productId} marcado como favorito`);
+                    } else {
+                        heartIcon.classList.remove('fas');
+                        heartIcon.classList.add('far');
+                        button.classList.remove('text-red-500');
+                        button.classList.add('text-gray-600');
+                        console.log(`❌ Produto ${productId} não é favorito`);
+                    }
+                });
+            }, 100);
+        }
+
+        // Search function
+        window.toggleSearch = function() {
+            console.log('🔍 Toggle search');
+            alert('Funcionalidade de busca será implementada!');
+        };
+
+        // Go to product page
+        window.goToProduct = function(productId) {
+            console.log('🔗 Redirecionando para produto:', productId);
+            window.location.href = `produto.html?id=${productId}`;
+        };
+
+        // Update cart icon
+        function updateCartIcon() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const cartCount = document.getElementById('cartCount');
+                if (cartCount) {
+                    cartCount.textContent = totalItems;
+                    cartCount.classList.toggle('hidden', totalItems === 0);
+                }
+            } catch (error) {
+                console.warn('Erro ao atualizar ícone do carrinho:', error);
+            }
+        }
+
+        // Update wishlist icon (delegates to favorites system)
+        function updateWishlistIcon() {
+            try {
+                const count = typeof window.getFavoritesCount === 'function' ? window.getFavoritesCount() : (Array.isArray(window.getFavorites?.()) ? window.getFavorites().length : 0);
+                const wishlistCount = document.getElementById('wishlistCount');
+                if (wishlistCount) {
+                    wishlistCount.textContent = count;
+                    wishlistCount.classList.remove('hidden');
+                    wishlistCount.setAttribute('aria-label', `Favoritos: ${count}`);
+                    wishlistCount.setAttribute('title', `Favoritos: ${count}`);
+                }
+            } catch (error) {
+                console.warn('Erro ao atualizar ícone de favoritos:', error);
+            }
+        }
+
+        // Função para atualizar contador de favoritos
+        function updateFavoritesCount() {
+            try {
+                if (typeof window.getFavorites === 'function') {
+                    const favorites = window.getFavorites();
+                    const count = favorites.length;
+                    const wishlistCount = document.getElementById('wishlistCount');
+                    if (wishlistCount) {
+                        wishlistCount.textContent = count;
+                        wishlistCount.classList.toggle('hidden', count === 0);
+                        console.log('📊 Contador de favoritos atualizado:', count);
+                    }
+                } else {
+                    console.warn('⚠️ Função getFavorites não está disponível');
+                }
+            } catch (error) {
+                console.warn('Erro ao atualizar contador de favoritos:', error);
+            }
+        }
+
+        // Initialize icons
+        updateCartIcon();
+        updateWishlistIcon();
+        updateFavoritesCount();
+        
+        // Escuta mudanças nos favoritos
+        window.addEventListener('favoritesUpdated', () => {
+            console.log('🔄 Favoritos atualizados, atualizando contador...');
+            updateFavoritesCount();
+            updateFavoriteIcons();
+        });
+    </script>
+    
+    <!-- Adidas Style Header Script -->
+    <script src="js/adidas-style-header.js"></script>
+</body>
+</html>

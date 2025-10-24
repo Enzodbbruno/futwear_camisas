@@ -1,0 +1,107 @@
+/* Basic Header */
+.basic-header {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.basic-header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.basic-header .logo:hover {
+    color: #3498db;
+}
+
+.basic-header .nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.basic-header .nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.basic-header .nav a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.basic-header .nav a.active {
+    background: #3498db;
+}
+
+.basic-header .icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.basic-header .icons a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    position: relative;
+}
+
+.basic-header .icons a:hover {
+    color: #3498db;
+}
+
+.basic-header .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e74c3c;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+}
+
+body {
+    padding-top: 70px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f8f9fa;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .basic-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .basic-header .nav {
+        order: 2;
+        gap: 15px;
+    }
+    
+    .basic-header .icons {
+        order: 3;
+    }
+    
+    body {
+        padding-top: 120px;
+    }
+}
