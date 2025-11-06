@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const mercadopago = require('mercadopago');
+const admin = require('firebase-admin');
 
 function parseJSON(req) {
   return new Promise((resolve, reject) => {
@@ -40,6 +41,14 @@ module.exports = async (req, res) => {
     // Se quiser consultar o pagamento para confirmar STATUS APPROVED:
     const token = process.env.MP_ACCESS_TOKEN;
     if (token) mercadopago.configure({ access_token: token });
+    if (!admin.apps.length) {
+      const projectId = process.env.FIREBASE_PROJECT_ID;
+      const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+      let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+      if (privateKey && privateKey.includes('\\n')) privateKey = privateKey.replace(/\\n/g, '\n');
+      admin.initializeApp({ credential: admin.credential.cert({ projectId, clientEmail, privateKey }) });
+    }
+    const db = admin.firestore();
 
     const topic = req.query.type || req.query.topic || (body && body.type) || (body && body.action);
     const dataId = (body && body.data && body.data.id) || req.query['data.id'] || req.query.id;
@@ -49,7 +58,22 @@ module.exports = async (req, res) => {
         const payment = await mercadopago.payment.findById(dataId);
         const p = payment && payment.body ? payment.body : payment;
         console.log('MP payment status:', p && p.status, 'id:', dataId);
-        // TODO: Se desejar, integrar com Firestore/DB aqui.
+        if (p && p.status === 'approved') {
+          const prefId = (p.metadata && (p.metadata.preference_id || p.metadata.preferenceId))
+            || (p.order && p.order.id)
+            || (p.additional_info && p.additional_info.items && p.additional_info.items.length ? p.additional_info.items[0].id : null);
+          const docId = prefId || String(p.id);
+          try {
+            await db.collection('orders').doc(docId).set({
+              status: 'completed',
+              paymentStatus: 'paid',
+              updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+              payment: { id: p.id, status: p.status, status_detail: p.status_detail }
+            }, { merge: true });
+          } catch (e) {
+            console.error('Erro ao atualizar pedido no Firestore:', e.message);
+          }
+        }
       } catch (e) {
         console.error('Erro consultando pagamento MP:', e.message);
       }

@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getFirestore, collection, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, doc, query, where, orderBy, limit, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
@@ -16,54 +17,81 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 // Export firebaseConfig for use in other files
-export { firebaseConfig, auth };
+export { firebaseConfig, auth, storage, db as default };
 
-// Cache simples em memória e sessionStorage para melhorar performance
+// Cache avançado em memória com TTL e pré-carregamento
 let __camisasCache = null;
 let __camisasCacheTs = 0;
-const CAMISAS_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
+const CAMISAS_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutos
+let productsCollection = null;
+
+// Inicializar a coleção de produtos uma única vez
+function getProductsCollection() {
+  if (!productsCollection) {
+    productsCollection = collection(db, 'products');
+  }
+  return productsCollection;
+}
 
 export async function buscarCamisas(force = false) {
-  console.log('🌐 Sistema EXTERNO: Carregando camisas do banco de dados...');
-  // Permite forçar atualização via ?force=1 na URL
-  try {
-    const urlForce = typeof window !== 'undefined' && new URL(window.location.href).searchParams.get('force') === '1';
-    if (urlForce) force = true;
-  } catch {}
+  // Se já temos cache válido e não for forçado, retornar do cache
+  const now = Date.now();
+  if (!force && __camisasCache && (now - __camisasCacheTs) < CAMISAS_CACHE_TTL_MS) {
+    console.log('📦 Retornando produtos do cache');
+    return __camisasCache;
+  }
+
+  console.log('🌐 Buscando produtos do Firestore...');
   
   try {
-    // Importa o sistema de banco externo dinamicamente
-    const { buscarCamisasExterno } = await import('./external-database.js');
+    const productsCol = getProductsCollection();
+    const snapshot = await getDocs(productsCol);
     
-    // Busca do banco externo (JSONBin)
-    const data = await buscarCamisasExterno(force);
-    
-    if (data && data.length > 0) {
-      console.log('✅ Camisas carregadas do banco externo:', data.length, 'produtos');
+    if (!snapshot.empty) {
+      const products = [];
+      snapshot.forEach(doc => {
+        products.push({ id: doc.id, ...doc.data() });
+      });
       
-      // Atualiza cache em memória
-      __camisasCache = data;
-      __camisasCacheTs = Date.now();
+      console.log(`✅ ${products.length} produtos carregados do Firestore`);
       
-      return data;
+      // Atualizar cache
+      __camisasCache = products;
+      __camisasCacheTs = now;
+      
+      // Salvar backup no localStorage
+      try {
+        localStorage.setItem('camisas_backup', JSON.stringify(products));
+        localStorage.setItem('camisas_backup_ts', now.toString());
+      } catch (e) {
+        console.warn('⚠️ Não foi possível salvar no localStorage:', e.message);
+      }
+      
+      return products;
+    } else {
+      console.warn('Nenhum produto encontrado no Firestore');
+      throw new Error('Nenhum produto encontrado');
     }
-    
-    throw new Error('Nenhum dado retornado do banco externo');
-    
   } catch (error) {
-    console.error('❌ Erro ao carregar do banco externo:', error);
+    console.error('❌ Erro ao buscar produtos:', error);
     
-    // Fallback: tenta localStorage
+    // Tentar recuperar do localStorage se a requisição falhar
     try {
       const localData = localStorage.getItem('camisas_backup');
-      if (localData) {
+      const localTs = localStorage.getItem('camisas_backup_ts');
+      
+      if (localData && localTs) {
         const data = JSON.parse(localData);
-        if (Array.isArray(data) && data.length > 0) {
+        const timestamp = parseInt(localTs, 10);
+        
+        // Se os dados não forem muito antigos (1 dia)
+        if (now - timestamp < 24 * 60 * 60 * 1000) {
           console.log('📦 Usando backup do localStorage:', data.length, 'produtos');
           __camisasCache = data;
-          __camisasCacheTs = Date.now();
+          __camisasCacheTs = timestamp;
           return data;
         }
       }
@@ -75,7 +103,7 @@ export async function buscarCamisas(force = false) {
     const defaultData = getDefaultProducts();
     console.log('🔄 Retornando dados hardcoded como fallback final');
     __camisasCache = defaultData;
-    __camisasCacheTs = Date.now();
+    __camisasCacheTs = now;
     return defaultData;
   }
 }
@@ -684,29 +712,83 @@ export async function getProducts(category = null, limitCount = null) {
 }
 
 export async function getProductById(productId) {
+  if (!productId) return null;
+  
+  // Tenta buscar do cache primeiro
+  if (__camisasCache) {
+    const cached = __camisasCache.find(p => p.id === productId);
+    if (cached) return cached;
+  }
+  
+  // Função para buscar do Firestore
   const firestoreFunction = async (productId) => {
-    const productRef = doc(db, 'products', productId);
-    const productSnap = await getDoc(productRef);
+    const docRef = doc(db, 'products', productId);
+    const docSnap = await getDoc(docRef);
     
-    if (productSnap.exists()) {
-      return { success: true, data: { id: productSnap.id, ...productSnap.data() } };
-    } else {
-      return { success: false, error: 'Produto não encontrado' };
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
     }
+    return null;
   };
-
+  
+  // Função para buscar do localStorage
   const localStorageFunction = async (productId) => {
-    const products = JSON.parse(localStorage.getItem('products') || '[]');
-    const product = products.find(p => p.id === productId);
-    
-    if (product) {
-      return { success: true, data: product };
-    } else {
-      return { success: false, error: 'Produto não encontrado' };
+    try {
+      const localData = localStorage.getItem('camisas_backup');
+      if (localData) {
+        const products = JSON.parse(localData);
+        return products.find(p => p.id === productId) || null;
+      }
+    } catch (e) {
+      console.warn('Erro ao buscar do localStorage:', e);
     }
+    return null;
   };
-
-  return tryFirestore(firestoreFunction, localStorageFunction, productId);
+  
+  try {
+    // Tenta buscar do Firestore primeiro
+    const product = await firestoreFunction(productId);
+    
+    // Se encontrou no Firestore, atualiza o cache e retorna
+    if (product) {
+      // Atualiza o cache
+      if (__camisasCache) {
+        const index = __camisasCache.findIndex(p => p.id === productId);
+        if (index !== -1) {
+          __camisasCache[index] = product; // Atualiza existente
+        } else {
+          __camisasCache.push(product); // Adiciona novo
+        }
+      }
+      return product;
+    }
+    
+    // Se não encontrou no Firestore, tenta do localStorage
+    const localProduct = await localStorageFunction(productId);
+    if (localProduct) {
+      console.log('Produto encontrado no backup do localStorage');
+      return localProduct;
+    }
+    
+    console.warn('Produto não encontrado:', productId);
+    return null;
+    
+  } catch (error) {
+    console.error('Erro ao buscar produto:', error);
+    
+    // Em caso de erro, tenta do localStorage como último recurso
+    try {
+      const localProduct = await localStorageFunction(productId);
+      if (localProduct) {
+        console.log('Produto encontrado no backup do localStorage após erro');
+        return localProduct;
+      }
+    } catch (e) {
+      console.warn('Erro ao buscar do localStorage:', e);
+    }
+    
+    return null;
+  }
 }
 
 export async function addProduct(productData) {

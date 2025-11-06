@@ -1,4 +1,5 @@
 const mercadopago = require('mercadopago');
+const admin = require('firebase-admin');
 
 function parseJSON(req) {
   return new Promise((resolve, reject) => {
@@ -44,6 +45,14 @@ module.exports = async (req, res) => {
     const token = process.env.MP_ACCESS_TOKEN;
     if (!token) return res.status(500).json({ error: 'MP_ACCESS_TOKEN não configurado' });
     mercadopago.configure({ access_token: token });
+    if (!admin.apps.length) {
+      const projectId = process.env.FIREBASE_PROJECT_ID;
+      const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+      let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+      if (privateKey && privateKey.includes('\\n')) privateKey = privateKey.replace(/\\n/g, '\n');
+      admin.initializeApp({ credential: admin.credential.cert({ projectId, clientEmail, privateKey }) });
+    }
+    const db = admin.firestore();
 
     const body = await parseJSON(req);
     const { items = [], shipping = 0, discount = 0, metadata = {} } = body || {};
@@ -75,6 +84,21 @@ module.exports = async (req, res) => {
 
     const result = await mercadopago.preferences.create(preference);
     const pref = result && result.body ? result.body : result;
+
+    try {
+      await db.collection('orders').doc(pref.id).set({
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        status: 'pending',
+        paymentStatus: 'pending',
+        provider: 'mercadopago',
+        preferenceId: pref.id,
+        init_point: pref.init_point,
+        sandbox_init_point: pref.sandbox_init_point,
+        items,
+        shipping,
+        discount
+      }, { merge: true });
+    } catch {}
 
     return res.status(200).json({ init_point: pref.init_point || pref.sandbox_init_point, preference_id: pref.id });
   } catch (err) {

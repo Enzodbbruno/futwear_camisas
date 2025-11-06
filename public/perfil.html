@@ -523,61 +523,115 @@
             document.getElementById('avatarInput').click();
         }
 
-        function handleAvatarChange(event) {
+        async function handleAvatarChange(event) {
             const file = event.target.files[0];
             
             if (!file) return;
             
-            // Validate file type
-            if (!file.type.startsWith('image/')) {
-                showToast('Por favor, selecione apenas arquivos de imagem!', 'error');
-                return;
-            }
+            // Mostrar loading
+            const avatarImg = document.getElementById('userAvatar');
+            const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+            const originalSrc = avatarImg.src;
             
-            // Validate file size (max 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('A imagem deve ter no máximo 5MB!', 'error');
-                return;
-            }
+            // Mostrar preview imediata
+            const previewUrl = URL.createObjectURL(file);
+            avatarImg.src = previewUrl;
+            avatarImg.style.display = 'block';
+            avatarPlaceholder.style.display = 'none';
             
-            // Create preview
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const avatarImg = document.getElementById('userAvatar');
-                const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+            try {
+                // Importa dinamicamente o módulo de upload
+                const { updateProfilePicture } = await import('./js/image-uploader.js');
                 
-                // Show the image and hide placeholder
-                avatarImg.src = e.target.result;
-                avatarImg.style.display = 'block';
-                avatarPlaceholder.style.display = 'none';
+                // Faz o upload da imagem
+                const result = await updateProfilePicture(file);
                 
-                // Save to localStorage
-                if (userData) {
-                    userData.avatar = e.target.result;
-                    localStorage.setItem('user', JSON.stringify(userData));
+                if (result.success) {
+                    // Atualiza a imagem com a URL do Storage
+                    avatarImg.src = result.url;
                     
-                    // Update header avatar if exists
+                    // Atualiza o header se existir
                     const headerAvatar = document.querySelector('.header-avatar');
                     if (headerAvatar) {
-                        headerAvatar.src = e.target.result;
+                        headerAvatar.src = result.url;
                     }
                     
                     showToast('Foto de perfil atualizada com sucesso!', 'success');
+                } else {
+                    // Reverte para a imagem original em caso de erro
+                    avatarImg.src = originalSrc;
+                    showToast(result.error || 'Erro ao atualizar a foto de perfil', 'error');
                 }
-            };
-            
-            reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Erro ao processar a imagem:', error);
+                avatarImg.src = originalSrc;
+                showToast('Erro ao processar a imagem. Tente novamente.', 'error');
+            } finally {
+                // Libera a URL do objeto
+                URL.revokeObjectURL(previewUrl);
+            }
         }
 
-        function loadUserAvatar() {
+        async function loadUserAvatar() {
             const avatarImg = document.getElementById('userAvatar');
             const avatarPlaceholder = document.getElementById('avatarPlaceholder');
             
-            if (userData && userData.avatar) {
-                avatarImg.src = userData.avatar;
-                avatarImg.style.display = 'block';
-                avatarPlaceholder.style.display = 'none';
-            } else {
+            // Mostra o placeholder enquanto carrega
+            avatarImg.style.display = 'none';
+            avatarPlaceholder.style.display = 'flex';
+            
+            try {
+                // Tenta carregar a foto do usuário autenticado
+                const user = getCurrentUser();
+                if (user) {
+                    // Importa dinamicamente o módulo de upload
+                    const { getProfilePictureUrl } = await import('./js/image-uploader.js');
+                    
+                    // Obtém a URL da foto de perfil
+                    const photoURL = await getProfilePictureUrl(user.uid);
+                    
+                    // Atualiza a imagem
+                    avatarImg.onload = function() {
+                        avatarImg.style.display = 'block';
+                        avatarPlaceholder.style.display = 'none';
+                    };
+                    avatarImg.onerror = function() {
+                        // Se a imagem não carregar, mostra o placeholder
+                        avatarImg.style.display = 'none';
+                        avatarPlaceholder.style.display = 'flex';
+                    };
+                    avatarImg.src = photoURL;
+                    
+                    // Atualiza o header se existir
+                    const headerAvatar = document.querySelector('.header-avatar');
+                    if (headerAvatar) {
+                        headerAvatar.src = photoURL;
+                    }
+                    
+                    // Atualiza o localStorage
+                    if (userData) {
+                        userData.avatar = photoURL;
+                        localStorage.setItem('user', JSON.stringify(userData));
+                    }
+                } else if (userData && userData.avatar) {
+                    // Fallback para o localStorage se o usuário não estiver autenticado
+                    avatarImg.onload = function() {
+                        avatarImg.style.display = 'block';
+                        avatarPlaceholder.style.display = 'none';
+                    };
+                    avatarImg.onerror = function() {
+                        avatarImg.style.display = 'none';
+                        avatarPlaceholder.style.display = 'flex';
+                    };
+                    avatarImg.src = userData.avatar;
+                } else {
+                    // Se não houver usuário nem dados locais, mantém o placeholder
+                    avatarImg.style.display = 'none';
+                    avatarPlaceholder.style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar a foto de perfil:', error);
+                // Mantém o placeholder visível em caso de erro
                 avatarImg.style.display = 'none';
                 avatarPlaceholder.style.display = 'flex';
             }
