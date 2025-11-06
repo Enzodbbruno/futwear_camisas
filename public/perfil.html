@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/adidas-style-header.css">
+    <script src="firebase-hybrid.js"></script>
     <style>
         /* Enhanced Animations */
         @keyframes fadeIn {
@@ -543,10 +544,44 @@
                 // Importa dinamicamente o módulo de upload
                 const { updateProfilePicture } = await import('./js/image-uploader.js');
                 
-                // Faz o upload da imagem
-                const result = await updateProfilePicture(file);
+                // Verifica se o Firebase está pronto
+                const isFirebaseReady = await new Promise((resolve) => {
+                    // Tenta pegar o usuário imediatamente
+                    const user = getCurrentUser();
+                    if (user) {
+                        console.log('Usuário já autenticado:', user.email);
+                        return resolve(true);
+                    }
+                    
+                    // Se não estiver pronto, espera pelo evento de autenticação
+                    console.log('Aguardando autenticação do Firebase...');
+                    const timeout = setTimeout(() => {
+                        window.removeEventListener('authStateChanged', onAuthStateChanged);
+                        console.warn('Timeout ao aguardar autenticação do Firebase');
+                        resolve(false);
+                    }, 5000); // Timeout de 5 segundos
+                    
+                    function onAuthStateChanged(event) {
+                        if (event.detail && event.detail.isAuthenticated) {
+                            clearTimeout(timeout);
+                            window.removeEventListener('authStateChanged', onAuthStateChanged);
+                            console.log('Usuário autenticado via evento:', event.detail.user.email);
+                            resolve(true);
+                        }
+                    }
+                    
+                    window.addEventListener('authStateChanged', onAuthStateChanged);
+                });
                 
-                if (result.success) {
+                if (!isFirebaseReady) {
+                    throw new Error('Não foi possível verificar a autenticação. Tente novamente.');
+                }
+                
+                console.log('Iniciando upload da imagem...');
+                const result = await updateProfilePicture(file);
+                console.log('Resultado do upload:', result);
+                
+                if (result && result.success) {
                     // Atualiza a imagem com a URL do Storage
                     avatarImg.src = result.url;
                     
@@ -556,19 +591,28 @@
                         headerAvatar.src = result.url;
                     }
                     
+                    // Atualiza o localStorage
+                    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+                    userData.photoURL = result.url;
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    
                     showToast('Foto de perfil atualizada com sucesso!', 'success');
                 } else {
                     // Reverte para a imagem original em caso de erro
                     avatarImg.src = originalSrc;
-                    showToast(result.error || 'Erro ao atualizar a foto de perfil', 'error');
+                    const errorMessage = result && result.error ? result.error : 'Erro ao atualizar a foto de perfil';
+                    showToast(errorMessage, 'error');
                 }
             } catch (error) {
                 console.error('Erro ao processar a imagem:', error);
                 avatarImg.src = originalSrc;
-                showToast('Erro ao processar a imagem. Tente novamente.', 'error');
+                showToast(error.message || 'Erro ao processar a imagem. Tente novamente.', 'error');
             } finally {
                 // Libera a URL do objeto
                 URL.revokeObjectURL(previewUrl);
+                
+                // Limpa o input para permitir o upload do mesmo arquivo novamente
+                event.target.value = '';
             }
         }
 
