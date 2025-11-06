@@ -216,19 +216,5 @@ async function getProfilePictureUrl(userId) {
   }
 }
 
-/**
- * Converte um arquivo para base64
- * @param {File} file - O arquivo a ser convertido
- * @returns {Promise<string>} O arquivo em formato base64
- */
-async function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
 // Exporta as funções
-export { uploadImage, updateProfilePicture, getProfilePictureUrl, fileToBase64 };
+export { uploadImage, updateProfilePicture, getProfilePictureUrl };
