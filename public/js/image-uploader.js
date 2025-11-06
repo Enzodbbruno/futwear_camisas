@@ -83,31 +83,63 @@ async function uploadImage(file) {
 async function updateProfilePicture(file) {
   console.log('Iniciando upload da imagem...');
   try {
-    // Aguarda um pouco para garantir que o Firebase esteja pronto
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Tenta obter o usuário atual
+    let user = getCurrentUser();
+    let userId = null;
     
-    const user = getCurrentUser();
-    console.log('Usuário atual no updateProfilePicture:', user);
-    
+    // Se não conseguir pegar o usuário, tenta do localStorage
     if (!user || !user.uid) {
-      console.error('Usuário não autenticado ou sem UID');
-      // Tenta pegar o usuário do localStorage como último recurso
+      console.warn('Usuário não encontrado no Firebase, tentando localStorage...');
       const userData = JSON.parse(localStorage.getItem('user') || '{}');
-      if (!userData || !userData.uid) {
+      if (userData && userData.uid) {
+        userId = userData.uid;
+        console.log('Usando UID do localStorage:', userId);
+      } else {
+        console.error('Nenhum usuário autenticado encontrado');
         return { success: false, error: 'Usuário não autenticado.' };
       }
-      // Usa os dados do localStorage se disponível
-      user.uid = userData.uid;
-      console.log('Usando UID do localStorage:', user.uid);
+    } else {
+      userId = user.uid;
+      console.log('Usuário autenticado:', user.email);
     }
+    
+    // Gera um ID único para o arquivo
+    const fileExt = file.name.split('.').pop();
+    const fileName = `profile_${Date.now()}.${fileExt}`;
+    const filePath = `profile_pictures/${userId}/${fileName}`;
 
-    console.log('Fazendo upload da imagem...');
-    const uploadResult = await uploadImage(file);
-    console.log('Resultado do upload:', uploadResult);
-
-    if (!uploadResult.success) {
-      console.error('Erro no upload:', uploadResult.error);
-      return uploadResult;
+    console.log('Preparando para fazer upload do arquivo:', file.name);
+    
+    // Converte o arquivo para base64
+    const base64File = await fileToBase64(file);
+    
+    console.log('Enviando para a API de upload...');
+    const response = await fetch('/api/upload-profile-picture', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        file: base64File,
+        fileName: file.name,
+        userId: userId
+      }),
+    });
+    
+    const result = await response.json();
+    console.log('Resposta da API:', result);
+    
+    if (!response.ok) {
+      console.error('Erro na API:', result.error || 'Erro desconhecido');
+      return { 
+        success: false, 
+        error: result.error || 'Erro ao fazer upload da imagem' 
+      };
+    }
+    
+    if (!result.success) {
+      console.error('Erro no upload:', result.error);
+      return { success: false, error: result.error };
     }
 
     // Atualiza o perfil do usuário no localStorage
@@ -184,5 +216,19 @@ async function getProfilePictureUrl(userId) {
   }
 }
 
+/**
+ * Converte um arquivo para base64
+ * @param {File} file - O arquivo a ser convertido
+ * @returns {Promise<string>} O arquivo em formato base64
+ */
+async function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
 // Exporta as funções
-export { uploadImage, updateProfilePicture, getProfilePictureUrl };
+export { uploadImage, updateProfilePicture, getProfilePictureUrl, fileToBase64 };

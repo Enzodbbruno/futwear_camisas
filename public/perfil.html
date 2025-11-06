@@ -541,8 +541,9 @@
             avatarPlaceholder.style.display = 'none';
             
             try {
-                // Importa dinamicamente o módulo de upload
+                // Importa dinamicamente os módulos necessários
                 const { updateProfilePicture } = await import('./js/image-uploader.js');
+                const { getCurrentUser } = await import('./firebase-hybrid.js');
                 
                 // Verifica se o Firebase está pronto
                 const isFirebaseReady = await new Promise((resolve) => {
