@@ -81,16 +81,20 @@ async function uploadImage(file) {
  * @returns {Promise<{success: boolean, url: string, error: string}>}
  */
 async function updateProfilePicture(file) {
+  console.log('Iniciando upload da imagem...');
   try {
     const user = getCurrentUser();
     if (!user) {
+      console.error('Usuário não autenticado');
       return { success: false, error: 'Usuário não autenticado.' };
     }
 
-    // Faz o upload da imagem
+    console.log('Fazendo upload da imagem...');
     const uploadResult = await uploadImage(file);
+    console.log('Resultado do upload:', uploadResult);
 
     if (!uploadResult.success) {
+      console.error('Erro no upload:', uploadResult.error);
       return uploadResult;
     }
 
@@ -98,11 +102,21 @@ async function updateProfilePicture(file) {
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
     userData.photoURL = uploadResult.url;
     localStorage.setItem('user', JSON.stringify(userData));
+    console.log('URL da imagem salva no localStorage:', uploadResult.url);
 
     // Dispara evento para atualizar a UI
-    window.dispatchEvent(new CustomEvent('userProfileUpdated', {
-      detail: { user: { ...user, photoURL: uploadResult.url } }
-    }));
+    const event = new CustomEvent('userProfileUpdated', {
+      detail: { 
+        user: { 
+          ...user, 
+          photoURL: uploadResult.url,
+          uid: user.uid
+        } 
+      }
+    });
+    
+    console.log('Disparando evento userProfileUpdated');
+    window.dispatchEvent(event);
 
     return {
       success: true,
@@ -124,19 +138,37 @@ async function updateProfilePicture(file) {
  * @returns {Promise<string>} URL da foto de perfil
  */
 async function getProfilePictureUrl(userId) {
+  console.log(`Buscando foto de perfil para o usuário: ${userId}`);
+  
   try {
     // Tenta buscar do localStorage primeiro
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
-    if (userData.photoURL) {
-      return userData.photoURL;
+    console.log('Dados do usuário no localStorage:', userData);
+    
+    if (userData && userData.photoURL) {
+      console.log('URL da foto encontrada no localStorage:', userData.photoURL);
+      
+      // Verifica se a URL é válida
+      if (typeof userData.photoURL === 'string' && 
+          (userData.photoURL.startsWith('http') || userData.photoURL.startsWith('data:image'))) {
+        return userData.photoURL;
+      } else {
+        console.warn('URL da foto no localStorage é inválida:', userData.photoURL);
+      }
+    } else {
+      console.log('Nenhuma foto de perfil encontrada no localStorage');
     }
 
     // Se não encontrar, retorna uma imagem padrão
-    return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+    const defaultAvatar = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+    console.log('Retornando avatar padrão:', defaultAvatar);
+    return defaultAvatar;
     
   } catch (error) {
     console.error('Erro ao buscar foto de perfil:', error);
-    return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+    const defaultAvatar = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+    console.log('Retornando avatar padrão devido a erro');
+    return defaultAvatar;
   }
 }
 

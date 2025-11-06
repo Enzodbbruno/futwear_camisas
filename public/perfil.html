@@ -573,6 +573,7 @@
         }
 
         async function loadUserAvatar() {
+            console.log('Iniciando carregamento do avatar...');
             const avatarImg = document.getElementById('userAvatar');
             const avatarPlaceholder = document.getElementById('avatarPlaceholder');
             
@@ -584,50 +585,90 @@
                 // Tenta carregar a foto do usuário autenticado
                 const user = getCurrentUser();
                 if (user) {
+                    console.log('Usuário autenticado encontrado, carregando foto de perfil...');
                     // Importa dinamicamente o módulo de upload
                     const { getProfilePictureUrl } = await import('./js/image-uploader.js');
                     
                     // Obtém a URL da foto de perfil
+                    console.log('Obtendo URL da foto de perfil...');
                     const photoURL = await getProfilePictureUrl(user.uid);
+                    console.log('URL da foto de perfil obtida:', photoURL);
                     
-                    // Atualiza a imagem
+                    // Configura os manipuladores de eventos primeiro
                     avatarImg.onload = function() {
+                        console.log('Imagem carregada com sucesso:', photoURL);
                         avatarImg.style.display = 'block';
                         avatarPlaceholder.style.display = 'none';
                     };
+                    
                     avatarImg.onerror = function() {
+                        console.error('Erro ao carregar a imagem:', photoURL);
                         // Se a imagem não carregar, mostra o placeholder
                         avatarImg.style.display = 'none';
                         avatarPlaceholder.style.display = 'flex';
                     };
+                    
+                    console.log('Definindo src da imagem para:', photoURL);
                     avatarImg.src = photoURL;
+                    
+                    // Força o carregamento da imagem
+                    if (avatarImg.complete) {
+                        console.log('Imagem já está em cache, disparando onload manualmente');
+                        avatarImg.onload();
+                    }
                     
                     // Atualiza o header se existir
                     const headerAvatar = document.querySelector('.header-avatar');
                     if (headerAvatar) {
+                        console.log('Atualizando header avatar...');
                         headerAvatar.src = photoURL;
+                        // Força o carregamento da imagem no header também
+                        headerAvatar.onload = function() {
+                            console.log('Header avatar carregado com sucesso');
+                        };
+                        headerAvatar.onerror = function() {
+                            console.error('Erro ao carregar header avatar');
+                        };
                     }
                     
                     // Atualiza o localStorage
-                    if (userData) {
-                        userData.avatar = photoURL;
-                        localStorage.setItem('user', JSON.stringify(userData));
-                    }
-                } else if (userData && userData.avatar) {
-                    // Fallback para o localStorage se o usuário não estiver autenticado
-                    avatarImg.onload = function() {
-                        avatarImg.style.display = 'block';
-                        avatarPlaceholder.style.display = 'none';
-                    };
-                    avatarImg.onerror = function() {
+                    let userData = JSON.parse(localStorage.getItem('user') || '{}');
+                    userData.photoURL = photoURL;
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    console.log('Dados do usuário atualizados no localStorage');
+                    
+                } else {
+                    console.log('Nenhum usuário autenticado, verificando localStorage...');
+                    // Tenta carregar do localStorage
+                    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+                    if (userData && userData.photoURL) {
+                        console.log('Carregando imagem do localStorage:', userData.photoURL);
+                        
+                        // Configura os manipuladores de eventos primeiro
+                        avatarImg.onload = function() {
+                            console.log('Imagem do localStorage carregada com sucesso');
+                            avatarImg.style.display = 'block';
+                            avatarPlaceholder.style.display = 'none';
+                        };
+                        
+                        avatarImg.onerror = function() {
+                            console.error('Erro ao carregar imagem do localStorage');
+                            avatarImg.style.display = 'none';
+                            avatarPlaceholder.style.display = 'flex';
+                        };
+                        
+                        // Define o src por último
+                        avatarImg.src = userData.photoURL;
+                        
+                        // Se a imagem já estiver em cache, força o evento onload
+                        if (avatarImg.complete) {
+                            avatarImg.onload();
+                        }
+                    } else {
+                        console.log('Nenhuma imagem de perfil encontrada');
                         avatarImg.style.display = 'none';
                         avatarPlaceholder.style.display = 'flex';
-                    };
-                    avatarImg.src = userData.avatar;
-                } else {
-                    // Se não houver usuário nem dados locais, mantém o placeholder
-                    avatarImg.style.display = 'none';
-                    avatarPlaceholder.style.display = 'flex';
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao carregar a foto de perfil:', error);
