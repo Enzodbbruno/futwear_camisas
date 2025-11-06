@@ -533,17 +533,54 @@ export function getShippingInfo() {
   };
 }
 
+// Armazena o usuário atual
+let currentUser = null;
+
+// Monitora mudanças no estado de autenticação
+auth.onAuthStateChanged((user) => {
+  console.log('Estado de autenticação alterado:', user ? 'Usuário logado' : 'Usuário não autenticado');
+  currentUser = user;
+  
+  // Dispara um evento quando o estado de autenticação mudar
+  const event = new CustomEvent('authStateChanged', { 
+    detail: { 
+      user: user,
+      isAuthenticated: !!user 
+    } 
+  });
+  window.dispatchEvent(event);
+});
+
 // Funções de autenticação
 export function getCurrentUser() {
-  return auth.currentUser;
+  // Tenta pegar o usuário atual do Firebase
+  const firebaseUser = auth.currentUser;
+  
+  // Se não tiver usuário no Firebase, tenta pegar do localStorage
+  if (!firebaseUser) {
+    try {
+      const userData = JSON.parse(localStorage.getItem('user') || '{}');
+      if (userData && userData.uid) {
+        console.log('Usuário recuperado do localStorage:', userData.email);
+        return userData;
+      }
+    } catch (error) {
+      console.error('Erro ao recuperar usuário do localStorage:', error);
+    }
+  }
+  
+  console.log('Usuário atual do Firebase:', firebaseUser ? firebaseUser.email : 'Nenhum usuário autenticado');
+  return firebaseUser || currentUser;
 }
 
 export function isUserLoggedIn() {
-  return auth.currentUser !== null;
+  const user = getCurrentUser();
+  return user !== null && user !== undefined;
 }
 
 export function getUserEmail() {
-  return auth.currentUser ? auth.currentUser.email : null;
+  const user = getCurrentUser();
+  return user ? (user.email || null) : null;
 }
 
 export function isAdmin() {

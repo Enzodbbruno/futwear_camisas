@@ -83,10 +83,22 @@ async function uploadImage(file) {
 async function updateProfilePicture(file) {
   console.log('Iniciando upload da imagem...');
   try {
+    // Aguarda um pouco para garantir que o Firebase esteja pronto
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     const user = getCurrentUser();
-    if (!user) {
-      console.error('Usuário não autenticado');
-      return { success: false, error: 'Usuário não autenticado.' };
+    console.log('Usuário atual no updateProfilePicture:', user);
+    
+    if (!user || !user.uid) {
+      console.error('Usuário não autenticado ou sem UID');
+      // Tenta pegar o usuário do localStorage como último recurso
+      const userData = JSON.parse(localStorage.getItem('user') || '{}');
+      if (!userData || !userData.uid) {
+        return { success: false, error: 'Usuário não autenticado.' };
+      }
+      // Usa os dados do localStorage se disponível
+      user.uid = userData.uid;
+      console.log('Usando UID do localStorage:', user.uid);
     }
 
     console.log('Fazendo upload da imagem...');
