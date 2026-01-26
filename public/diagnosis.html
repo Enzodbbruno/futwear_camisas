@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>FutWear - Diagnóstico de Banco de Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .status-ok { color: #16a34a; font-weight: bold; }
+        .status-error { color: #dc2626; font-weight: bold; }
+        .log-box { background: #1e293b; color: #e2e8f0; font-family: monospace; padding: 1rem; border-radius: 0.5rem; height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
+        <h1 class="text-2xl font-bold mb-4">Diagnóstico de Conexão Firebase</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="p-4 border rounded">
+                <h3 class="font-bold mb-2">Estado da Conexão</h3>
+                <div id="connectionStatus">Testando...</div>
+            </div>
+            <div class="p-4 border rounded">
+                <h3 class="font-bold mb-2">Contagem de Produtos</h3>
+                <div id="productsCount">Verificando...</div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <h3 class="font-bold mb-2">Ações de Reparo</h3>
+            <button id="btnPopulate" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
+                Forçar População (Criar Produtos)
+            </button>
+            <button id="btnClear" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-50">
+                Limpar Logs
+            </button>
+        </div>
+
+        <h3 class="font-bold mb-2">Log de Operações</h3>
+        <div id="logs" class="log-box"></div>
+    </div>
+
+    <!-- Import Firebase directly to isolate issues -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        // CONFIGURAÇÃO MANUAL (A mesma do .env.local)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
+            authDomain: "futwear-3eae2.firebaseapp.com",
+            projectId: "futwear-3eae2",
+            storageBucket: "futwear-3eae2.appspot.com",
+            messagingSenderId: "555630014709",
+            appId: "1:555630014709:web:2c1460cb26e040444d041e",
+            measurementId: "G-L6S9FH3PSX"
+        };
+
+        function log(msg, type = 'info') {
+            const box = document.getElementById('logs');
+            const line = document.createElement('div');
+            const time = new Date().toLocaleTimeString();
+            line.innerHTML = `<span class="opacity-50">[${time}]</span> ${msg}`;
+            if (type === 'error') line.style.color = '#ef4444';
+            if (type === 'success') line.style.color = '#4ade80';
+            box.appendChild(line);
+            box.scrollTop = box.scrollHeight;
+            console.log(msg);
+        }
+
+        async function init() {
+            try {
+                log('Inicializando Firebase...', 'info');
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                log('Firebase inicializado. ID do Projeto: ' + firebaseConfig.projectId, 'success');
+
+                // Testar conexão
+                log('Testando conexão com Firestore...', 'info');
+                const productsRef = collection(db, 'products'); // Note: pode ser 'camisas' dependendo do script
+                
+                // Tenta ler 'products'
+                try {
+                    const snapProducts = await getDocs(productsRef);
+                    log(`Coleção 'products': ${snapProducts.size} documentos encontrados.`, 'success');
+                    
+                    // Tenta ler 'camisas' também, pois houve confusão de nomes
+                    const camisasRef = collection(db, 'camisas');
+                    const snapCamisas = await getDocs(camisasRef);
+                    log(`Coleção 'camisas': ${snapCamisas.size} documentos encontrados.`, 'success');
+
+                    const total = snapProducts.size + snapCamisas.size;
+                    
+                    const statusEl = document.getElementById('connectionStatus');
+                    statusEl.innerHTML = `<span class="status-ok">Conectado</span>`;
+
+                    const countEl = document.getElementById('productsCount');
+                    if (total > 0) {
+                        countEl.innerHTML = `<span class="status-ok">${total} produtos encontrados</span>`;
+                    } else {
+                        countEl.innerHTML = `<span class="status-error">Banco vazio (0 produtos)</span>`;
+                        log('AVISO: O banco de dados está vazio. Use o botão "Forçar População".', 'error');
+                    }
+
+                } catch (e) {
+                    throw new Error('Falha ao ler coleção: ' + e.message);
+                }
+
+                // Configurar Botão de População
+                document.getElementById('btnPopulate').onclick = async () => {
+                   if(!confirm('Isso vai adicionar produtos de teste ao banco. Continuar?')) return;
+                   
+                   log('Iniciando população...', 'info');
+                   const sampleData = [
+                        {
+                            name: 'Camisa Flamengo 2024 (Teste)',
+                            price: 140,
+                            category: 'times-brasileiros',
+                            image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                            sizes: ['P', 'M', 'G', 'GG'],
+                            stock: 50,
+                            available: true
+                        },
+                        {
+                            name: 'Camisa Real Madrid 2024 (Teste)',
+                            price: 160,
+                            category: 'times-europeus',
+                            image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400',
+                            sizes: ['P', 'M', 'G', 'GG'],
+                            stock: 50,
+                            available: true
+                        }
+                   ];
+
+                   try {
+                       // Escreve em 'products' (padrão do firebase-hybrid.js)
+                       for (const p of sampleData) {
+                           await addDoc(collection(db, 'products'), p);
+                           log('Produto adicionado: ' + p.name, 'success');
+                       }
+                       log('População concluída! Recarregue a página principal.', 'success');
+                       setTimeout(() => location.reload(), 2000);
+                   } catch (e) {
+                       log('ERRO AO POPULAR: ' + e.message, 'error');
+                       if (e.message.includes('permission')) {
+                           log('ERRO DE PERMISSÃO: Verifique as regras de segurança do Firestore (Firestore Rules).', 'error');
+                       }
+                   }
+                };
+
+            } catch (err) {
+                const statusEl = document.getElementById('connectionStatus');
+                statusEl.innerHTML = `<span class="status-error">Erro: ${err.message}</span>`;
+                log('ERRO CRÍTICO: ' + err.message, 'error');
+                if (err.message.includes('offline')) {
+                    log('Verifique sua conexão com a internet.', 'error');
+                }
+            }
+        }
+
+        init();
+        document.getElementById('btnClear').onclick = () => document.getElementById('logs').innerHTML = '';
+    </script>
+</body>
+</html>

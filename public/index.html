@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutWear - Camisas de Times e Seleções</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <link rel="icon" type="image/png"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/adidas-style-header.css">
@@ -39,7 +41,8 @@
             color: #1f2937;
             line-height: 1.6;
             overflow-x: hidden;
-            padding-top: 80px; /* Space for fixed header */
+            padding-top: 80px;
+            /* Space for fixed header */
         }
 
         /* Category Section Styles */
@@ -99,7 +102,7 @@
 
         /* Hero Section - Ultra Modern */
         .hero-section {
-            background: 
+            background:
                 linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.8) 100%),
                 url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
@@ -124,10 +127,17 @@
         }
 
         @keyframes shimmer {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
         }
-        
+
         /* Modern Product Cards */
         .product-card {
             background: var(--secondary);
@@ -164,92 +174,202 @@
         .product-image {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .product-card:hover .product-image {
             transform: scale(1.1);
         }
-        
+
         /* Team Logos */
         .team-logo {
             filter: grayscale(100%) brightness(0.8);
             transition: all 0.3s ease;
             opacity: 0.7;
         }
-        
+
         .team-logo:hover {
             filter: grayscale(0%) brightness(1);
             opacity: 1;
             transform: scale(1.1);
         }
-        
+
         /* Enhanced Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(22, 163, 74, 0.6);
+            }
         }
 
         @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(22, 163, 74, 0.6);
+            }
         }
 
         @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         /* Animation Classes */
-        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
-        .animate-slide-up { animation: slideInUp 0.8s ease-out; }
-        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
-        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
-        .animate-scale-in { animation: scaleIn 0.6s ease-out; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-glow { animation: glow 2s ease-in-out infinite; }
-        .animate-bounce { animation: bounce 1s ease-in-out; }
-        .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
-        .animate-fade-scale { animation: fadeInScale 0.6s ease-out; }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .animate-slide-up {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 1s ease-in-out;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .animate-fade-scale {
+            animation: fadeInScale 0.6s ease-out;
+        }
 
         /* Ultra Modern Buttons */
         .btn-primary {
@@ -378,8 +498,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .animate-pulse-slow {
@@ -514,8 +641,13 @@
         }
 
         @keyframes searchShimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         /* Mobile Optimizations */
@@ -524,16 +656,17 @@
                 padding: 8px 16px;
                 font-size: 14px;
             }
-            
+
             .product-card-enhanced {
                 margin-bottom: 1rem;
             }
-            
+
             #mainSearchInput {
-                font-size: 16px; /* Prevents zoom on iOS */
+                font-size: 16px;
+                /* Prevents zoom on iOS */
                 padding: 12px 16px;
             }
-            
+
             .suggestion-chip {
                 font-size: 12px;
                 padding: 6px 12px;
@@ -545,7 +678,7 @@
             .glass-card-strong {
                 padding: 1rem;
             }
-            
+
             .filter-btn {
                 flex: 1;
                 min-width: 0;
@@ -575,58 +708,74 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body class="font-sans bg-gray-50 text-gray-900">
     <!-- Modern Header will be inserted by JavaScript -->
 
     <!-- Enhanced Hero Section -->
-    <section class="hero-section flex items-center justify-center text-white relative overflow-hidden" style="height: calc(100vh - 80px);">
+    <section class="hero-section flex items-center justify-center text-white relative overflow-hidden"
+        style="height: calc(100vh - 80px);">
         <!-- Animated Background Elements -->
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-float" style="animation-delay: 0s;"></div>
-            <div class="absolute top-40 right-20 w-16 h-16 bg-white/5 rounded-full animate-float" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-20 left-20 w-12 h-12 bg-white/10 rounded-full animate-float" style="animation-delay: 2s;"></div>
-            <div class="absolute bottom-40 right-10 w-24 h-24 bg-white/5 rounded-full animate-float" style="animation-delay: 3s;"></div>
-                </div>
-                
+            <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-float"
+                style="animation-delay: 0s;"></div>
+            <div class="absolute top-40 right-20 w-16 h-16 bg-white/5 rounded-full animate-float"
+                style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-20 left-20 w-12 h-12 bg-white/10 rounded-full animate-float"
+                style="animation-delay: 2s;"></div>
+            <div class="absolute bottom-40 right-10 w-24 h-24 bg-white/5 rounded-full animate-float"
+                style="animation-delay: 3s;"></div>
+        </div>
+
         <div class="container mx-auto px-6 text-center relative z-10">
             <div class="mb-8 animate-fade-in">
                 <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-4">
                     🏆 #1 em Camisas de Futebol no Brasil
                 </span>
             </div>
-            
+
             <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-slide-up text-gradient leading-tight">
                 A ESSÊNCIA DO<br>
                 <span class="text-white">FUTEBOL</span>
             </h1>
-            
-            <p class="text-xl md:text-2xl mb-8 animate-slide-up max-w-3xl mx-auto leading-relaxed" style="animation-delay: 0.2s;">
+
+            <p class="text-xl md:text-2xl mb-8 animate-slide-up max-w-3xl mx-auto leading-relaxed"
+                style="animation-delay: 0.2s;">
                 Camisas autênticas dos maiores times e seleções do mundo.<br>
                 <span class="text-lg opacity-90">Qualidade premium, preços justos, entrega rápida.</span>
             </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up mb-12" style="animation-delay: 0.4s;">
-                <a href="camisas.html" class="btn-primary text-white px-10 py-4 rounded-full font-medium inline-block text-lg group">
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up mb-12"
+                style="animation-delay: 0.4s;">
+                <a href="camisas.html"
+                    class="btn-primary text-white px-10 py-4 rounded-full font-medium inline-block text-lg group">
                     <i class="fas fa-shopping-bag mr-2 group-hover:scale-110 transition-transform"></i>
                     EXPLORAR COLEÇÃO
                 </a>
-                <a href="#promocoes" class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-10 py-4 rounded-full font-medium transition-all duration-300 inline-block text-lg group hover:scale-105">
+                <a href="#promocoes"
+                    class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-10 py-4 rounded-full font-medium transition-all duration-300 inline-block text-lg group hover:scale-105">
                     <i class="fas fa-tags mr-2 group-hover:scale-110 transition-transform"></i>
                     VER PROMOÇÕES
-                    </a>
-                </div>
-                
+                </a>
+            </div>
+
             <!-- Trust Indicators -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.6s;">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto animate-fade-in"
+                style="animation-delay: 0.6s;">
                 <div class="text-center">
                     <div class="text-2xl font-bold text-white">50K+</div>
                     <div class="text-sm opacity-80">Clientes</div>
-            </div>
+                </div>
                 <div class="text-center">
                     <div class="text-2xl font-bold text-white">500+</div>
                     <div class="text-sm opacity-80">Produtos</div>
@@ -634,18 +783,18 @@
                 <div class="text-center">
                     <div class="text-2xl font-bold text-white">100+</div>
                     <div class="text-sm opacity-80">Times</div>
-            </div>
+                </div>
                 <div class="text-center">
                     <div class="text-2xl font-bold text-white">99%</div>
                     <div class="text-sm opacity-80">Satisfação</div>
-        </div>
+                </div>
             </div>
         </div>
-        
+
         <!-- Scroll Indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
             <i class="fas fa-chevron-down text-white text-2xl opacity-70"></i>
-            </div>
+        </div>
     </section>
 
     <!-- Shipping Policy -->
@@ -653,17 +802,20 @@
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-8 animate-slide-up">🚚 POLÍTICA DE FRETE</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center animate-fade-scale" style="animation-delay: 0.1s;">
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center animate-fade-scale"
+                    style="animation-delay: 0.1s;">
                     <div class="text-4xl mb-4">📦</div>
                     <h3 class="text-xl font-bold mb-2">1 Camisa</h3>
                     <p class="text-2xl font-bold text-orange-300">R$ 30,00</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center animate-fade-scale" style="animation-delay: 0.2s;">
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center animate-fade-scale"
+                    style="animation-delay: 0.2s;">
                     <div class="text-4xl mb-4">📦📦</div>
                     <h3 class="text-xl font-bold mb-2">2 Camisas</h3>
                     <p class="text-2xl font-bold text-blue-300">R$ 20,00</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center animate-fade-scale" style="animation-delay: 0.3s;">
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center animate-fade-scale"
+                    style="animation-delay: 0.3s;">
                     <div class="text-4xl mb-4">🎁</div>
                     <h3 class="text-xl font-bold mb-2">3+ Camisas</h3>
                     <p class="text-2xl font-bold text-green-300">FRETE GRÁTIS</p>
@@ -679,11 +831,13 @@
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-12 animate-slide-up text-gradient">CATEGORIAS POPULARES</h2>
-            
+
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <!-- Category 1 -->
-                <div class="category-card bg-white rounded-lg shadow-enhanced overflow-hidden hover:shadow-enhanced-lg transition-all duration-300 transform hover:-translate-y-2 animate-fade-scale" style="animation-delay: 0.1s;">
-                    <div class="relative h-48" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); display: flex; align-items: center; justify-content: center;">
+                <div class="category-card bg-white rounded-lg shadow-enhanced overflow-hidden hover:shadow-enhanced-lg transition-all duration-300 transform hover:-translate-y-2 animate-fade-scale"
+                    style="animation-delay: 0.1s;">
+                    <div class="relative h-48"
+                        style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-futbol text-4xl mb-2 opacity-50"></i>
                             <div class="text-sm font-bold">TIMES BRASILEIROS</div>
@@ -692,15 +846,18 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                     <div class="p-4">
-                        <a href="camisas.html?category=clubs&league=brasileirao" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=clubs&league=brasileirao"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver produtos <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Category 2 -->
-                <div class="category-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="relative h-48" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%); display: flex; align-items: center; justify-content: center;">
+                <div
+                    class="category-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="relative h-48"
+                        style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-flag text-4xl mb-2 opacity-50"></i>
                             <div class="text-sm font-bold">SELEÇÕES</div>
@@ -709,15 +866,18 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                     <div class="p-4">
-                        <a href="camisas.html?category=national" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=national"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver produtos <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Category 3 -->
-                <div class="category-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="relative h-48" style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%); display: flex; align-items: center; justify-content: center;">
+                <div
+                    class="category-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="relative h-48"
+                        style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-crown text-4xl mb-2 opacity-50"></i>
                             <div class="text-sm font-bold">TIMES EUROPEUS</div>
@@ -726,15 +886,18 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                     <div class="p-4">
-                        <a href="camisas.html?category=clubs&league=premier" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=clubs&league=premier"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver produtos <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Category 4 -->
-                <div class="category-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="relative h-48" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%); display: flex; align-items: center; justify-content: center;">
+                <div
+                    class="category-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="relative h-48"
+                        style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-trophy text-4xl mb-2 opacity-50"></i>
                             <div class="text-sm font-bold">EDIÇÕES RETRÔ</div>
@@ -743,7 +906,8 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                     <div class="p-4">
-                        <a href="camisas.html?category=retro" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=retro"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver produtos <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -758,8 +922,10 @@
             <h2 class="text-3xl font-bold text-center mb-16">COLEÇÕES DESTACADAS</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Collection 1 -->
-                <div class="product-card overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="h-96 relative" style="background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%); display: flex; align-items: center; justify-content: center;">
+                <div
+                    class="product-card overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="h-96 relative"
+                        style="background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-shield-alt text-6xl mb-4 opacity-80"></i>
                             <div class="text-lg font-bold mb-2">CAMISAS DE CLUBES</div>
@@ -770,14 +936,17 @@
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">Camisas de Clubes</h3>
                         <p class="text-gray-600 mb-4">Os maiores clubes do mundo em nossa coleção premium</p>
-                        <a href="camisas.html?category=clubs" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=clubs"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver coleção <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
                 <!-- Collection 2 -->
-                <div class="product-card overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="h-96 relative" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%); display: flex; align-items: center; justify-content: center;">
+                <div
+                    class="product-card overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="h-96 relative"
+                        style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-globe-americas text-6xl mb-4 opacity-80"></i>
                             <div class="text-lg font-bold mb-2">CAMISAS DE SELEÇÕES</div>
@@ -788,14 +957,17 @@
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">Camisas de Seleções</h3>
                         <p class="text-gray-600 mb-4">Vista as cores do seu país com nossas camisas oficiais</p>
-                        <a href="camisas.html?category=national" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=national"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver coleção <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
                 <!-- Collection 3 -->
-                <div class="product-card overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="h-96 relative" style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%); display: flex; align-items: center; justify-content: center;">
+                <div
+                    class="product-card overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="h-96 relative"
+                        style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%); display: flex; align-items: center; justify-content: center;">
                         <div class="text-center text-white">
                             <i class="fas fa-star text-6xl mb-4 opacity-80"></i>
                             <div class="text-lg font-bold mb-2">EDIÇÕES ESPECIAIS</div>
@@ -806,7 +978,8 @@
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">Edições Especiais</h3>
                         <p class="text-gray-600 mb-4">Camisas exclusivas e edições limitadas para colecionadores</p>
-                        <a href="camisas.html?category=retro" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                        <a href="camisas.html?category=retro"
+                            class="text-green-600 font-medium hover:underline inline-flex items-center">
                             Ver coleção <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -823,41 +996,59 @@
                     <h2 class="text-3xl font-bold text-gradient mb-4">Encontre sua Camisa Ideal</h2>
                     <p class="text-gray-600 text-lg">Busque por time, seleção, cor ou qualquer termo</p>
                 </div>
-                
+
                 <!-- Enhanced Search Bar -->
                 <div class="max-w-4xl mx-auto">
                     <div class="relative">
-                        <input type="text" id="mainSearchInput" placeholder="Digite o nome do time, seleção ou camisa..." 
-                               class="w-full px-6 py-4 pl-16 pr-20 text-lg border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-lg">
-                        <i class="fas fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
-                        <button id="searchBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105">
+                        <input type="text" id="mainSearchInput"
+                            placeholder="Digite o nome do time, seleção ou camisa..."
+                            class="w-full px-6 py-4 pl-16 pr-20 text-lg border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-lg">
+                        <i
+                            class="fas fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                        <button id="searchBtn"
+                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105">
                             <i class="fas fa-search mr-2"></i>Buscar
                         </button>
                     </div>
-                    
+
                     <!-- Search Suggestions -->
                     <div id="searchSuggestions" class="mt-4 hidden">
                         <div class="bg-white border border-gray-200 rounded-xl shadow-lg p-4">
                             <div class="flex flex-wrap gap-2">
                                 <span class="text-sm text-gray-600 mb-2 w-full">Sugestões:</span>
-                                <button class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300" data-search="Flamengo">Flamengo</button>
-                                <button class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300" data-search="Brasil">Brasil</button>
-                                <button class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300" data-search="Real Madrid">Real Madrid</button>
-                                <button class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300" data-search="Barcelona">Barcelona</button>
-                                <button class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300" data-search="Manchester">Manchester</button>
+                                <button
+                                    class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300"
+                                    data-search="Flamengo">Flamengo</button>
+                                <button
+                                    class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300"
+                                    data-search="Brasil">Brasil</button>
+                                <button
+                                    class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300"
+                                    data-search="Real Madrid">Real Madrid</button>
+                                <button
+                                    class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300"
+                                    data-search="Barcelona">Barcelona</button>
+                                <button
+                                    class="suggestion-chip bg-gray-100 hover:bg-green-100 text-gray-700 hover:text-green-700 px-3 py-1 rounded-full text-sm transition-all duration-300"
+                                    data-search="Manchester">Manchester</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Quick Filters -->
                 <div class="mt-8">
                     <div class="flex flex-wrap justify-center gap-2 md:gap-4">
-                        <button class="filter-btn active text-sm md:text-base px-3 py-2 md:px-6 md:py-3" data-filter="all">Todas</button>
-                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3" data-filter="times-brasileiros">Times BR</button>
-                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3" data-filter="times-europeus">Times EU</button>
-                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3" data-filter="selecoes">Seleções</button>
-                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3" data-filter="promocoes">Promoções</button>
+                        <button class="filter-btn active text-sm md:text-base px-3 py-2 md:px-6 md:py-3"
+                            data-filter="all">Todas</button>
+                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3"
+                            data-filter="times-brasileiros">Times BR</button>
+                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3"
+                            data-filter="times-europeus">Times EU</button>
+                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3"
+                            data-filter="selecoes">Seleções</button>
+                        <button class="filter-btn text-sm md:text-base px-3 py-2 md:px-6 md:py-3"
+                            data-filter="promocoes">Promoções</button>
                     </div>
                 </div>
             </div>
@@ -876,7 +1067,7 @@
                     As camisas mais procuradas pelos nossos clientes. Qualidade garantida e preços imbatíveis.
                 </p>
             </div>
-            
+
             <div class="flex items-center justify-between mb-8">
                 <div class="flex items-center space-x-4">
                     <div class="flex space-x-2">
@@ -886,13 +1077,15 @@
                         <button class="filter-btn" data-filter="promocoes">Promoções</button>
                     </div>
                 </div>
-                <a href="camisas.html" class="text-green-600 font-medium hover:underline inline-flex items-center group">
+                <a href="camisas.html"
+                    class="text-green-600 font-medium hover:underline inline-flex items-center group">
                     Ver todos <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
-            
-            <div id="produtos-destaque" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-            
+
+            <div id="produtos-destaque" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+
             <!-- Loading State -->
             <div id="loading-products" class="hidden text-center py-12">
                 <div class="inline-flex items-center space-x-2 text-gray-600">
@@ -945,9 +1138,9 @@
                 console.error('❌ Container não encontrado:', containerId);
                 return;
             }
-            
+
             console.log(`🎨 Renderizando ${produtos.length} produtos em ${containerId}`);
-            
+
             if (!produtos || produtos.length === 0) {
                 container.innerHTML = `
                     <div class="col-span-full text-center py-12">
@@ -958,22 +1151,22 @@
                 `;
                 return;
             }
-            
+
             const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
             const produtosToShow = produtos.slice(0, max);
-            
+
             container.innerHTML = produtosToShow.map((produto, index) => {
                 const isFav = wishlist.some(i => i.id === produto.id);
                 const favClasses = isFav ? 'wishlist-btn absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center bg-red-500 text-white transition duration-300 active cursor-pointer hover:bg-red-600 shadow-md hover:shadow-lg' : 'wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer shadow-md hover:shadow-lg';
-                
+
                 // Calculate discounted price if promo active
                 const promoActive = produto.discount && produto.discount > 0 && isPromoActive(produto);
                 const discountedPrice = promoActive ?
                     produto.price * (1 - produto.discount / 100) :
                     produto.price;
-                
+
                 console.log(`📦 Renderizando produto: ${produto.name} - R$ ${discountedPrice.toFixed(2)}`);
-                
+
                 return `
                 <div class="product-card-enhanced rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 text-gray-900 animate-fade-in" data-product-id="${produto.id}" style="animation-delay: ${index * 0.1}s;">
                     <div class="relative group">
@@ -1006,26 +1199,26 @@
                                 ${promoActive ? `<span class='text-sm text-gray-500 line-through ml-2'>R$ ${produto.price.toFixed(2).replace('.', ',')}</span>` : ''}
                             </div>
                             ${(() => {
-                                try {
-                                    const saved = localStorage.getItem(`reviews_${produto.id}`);
-                                    const reviews = saved ? JSON.parse(saved) : [];
-                                    const count = Array.isArray(reviews) ? reviews.length : 0;
-                                    const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
-                                    const stars = (() => {
-                                        let html = '';
-                                        for (let i = 1; i <= 5; i++) {
-                                            let cls = 'fas fa-star ';
-                                            if (i <= Math.floor(avg) || (i === Math.ceil(avg) && avg % 1 !== 0)) cls += 'text-yellow-400';
-                                            else cls += 'text-gray-300';
-                                            html += `<i class=\"${cls} text-xs\"></i>`;
-                                        }
-                                        return html;
-                                    })();
-                                    return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${stars}</div><span class=\"text-xs text-gray-500\">(${avg.toFixed(1)})</span></div>`;
-                                } catch {
-                                    return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${'<i class=\\"fas fa-star text-gray-300 text-xs\\"></i>'.repeat(5)}</div><span class=\"text-xs text-gray-500\">(0.0)</span></div>`;
+                        try {
+                            const saved = localStorage.getItem(`reviews_${produto.id}`);
+                            const reviews = saved ? JSON.parse(saved) : [];
+                            const count = Array.isArray(reviews) ? reviews.length : 0;
+                            const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
+                            const stars = (() => {
+                                let html = '';
+                                for (let i = 1; i <= 5; i++) {
+                                    let cls = 'fas fa-star ';
+                                    if (i <= Math.floor(avg) || (i === Math.ceil(avg) && avg % 1 !== 0)) cls += 'text-yellow-400';
+                                    else cls += 'text-gray-300';
+                                    html += `<i class=\"${cls} text-xs\"></i>`;
                                 }
-                            })()}
+                                return html;
+                            })();
+                            return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${stars}</div><span class=\"text-xs text-gray-500\">(${avg.toFixed(1)})</span></div>`;
+                        } catch {
+                            return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${'<i class=\\"fas fa-star text-gray-300 text-xs\\"></i>'.repeat(5)}</div><span class=\"text-xs text-gray-500\">(0.0)</span></div>`;
+                        }
+                    })()}
                         </div>
                         <div class="flex space-x-2">
                             <a href="produto.html?id=${produto.id}" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-center hover:scale-105 shadow-lg">COMPRAR</a>
@@ -1034,33 +1227,33 @@
                 </div>
             `;
             }).join('');
-            
+
             console.log(`✅ ${produtosToShow.length} produtos renderizados em ${containerId}`);
-            
+
             // Add event listeners for wishlist buttons
             addWishlistEventListeners();
         }
         async function renderAllSections() {
             console.log('🔄 Carregando seções da página...');
-            
+
             // Show loading skeletons
             renderSkeletons('produtos-destaque', 4);
             renderSkeletons('promocoes-grid', 6);
             renderSkeletons('mais-vendidos', 4);
-            
+
             try {
                 // Load products from database
-            const produtos = await buscarCamisas();
+                const produtos = await buscarCamisas();
                 console.log('📦 Produtos carregados:', produtos);
-                
+
                 if (!produtos || produtos.length === 0) {
                     console.log('⚠️ Nenhum produto encontrado');
                     showEmptyStates();
                     return;
                 }
-                
+
                 produtosCache = produtos;
-                
+
                 // Featured Products (Produtos em Destaque)
                 const destaque = [...produtos].sort((a, b) => {
                     // Prioritize products with discount, then by name
@@ -1069,62 +1262,62 @@
                     return a.name.localeCompare(b.name);
                 });
                 console.log('⭐ Produtos em destaque:', destaque.slice(0, 4));
-            renderGrid('produtos-destaque', destaque, 4);
-                
+                renderGrid('produtos-destaque', destaque, 4);
+
                 // Promotions (Produtos com desconto)
                 const promocoes = produtos.filter(p => p.discount && p.discount > 0)
                     .sort((a, b) => (b.discount || 0) - (a.discount || 0));
                 console.log('🏷️ Promoções:', promocoes.slice(0, 6));
-            renderGrid('promocoes-grid', promocoes, 6);
-                
+                renderGrid('promocoes-grid', promocoes, 6);
+
                 // Best Sellers (Mais Vendidos)
                 const maisVendidos = produtos.filter(p => p.estoque && p.estoque >= 1)
                     .sort((a, b) => (b.estoque || 0) - (a.estoque || 0));
                 console.log('🔥 Mais vendidos:', maisVendidos.slice(0, 4));
-            renderGrid('mais-vendidos', maisVendidos, 4);
-                
+                renderGrid('mais-vendidos', maisVendidos, 4);
+
                 // Brazilian Teams
                 const timesBrasileiros = produtos.filter(p => p.categoria === 'brasileiro' || p.time?.toLowerCase().includes('flamengo') || p.time?.toLowerCase().includes('corinthians') || p.time?.toLowerCase().includes('palmeiras') || p.time?.toLowerCase().includes('são paulo') || p.time?.toLowerCase().includes('santos') || p.time?.toLowerCase().includes('vasco') || p.time?.toLowerCase().includes('botafogo'))
                     .sort((a, b) => a.name.localeCompare(b.name));
                 console.log('🇧🇷 Times Brasileiros:', timesBrasileiros.slice(0, 8));
                 renderGrid('times-brasileiros', timesBrasileiros, 8);
-                
+
                 // National Teams
                 const selecoes = produtos.filter(p => p.categoria === 'selecao' || p.time?.toLowerCase().includes('brasil') || p.time?.toLowerCase().includes('argentina') || p.time?.toLowerCase().includes('frança') || p.time?.toLowerCase().includes('alemanha') || p.time?.toLowerCase().includes('espanha') || p.time?.toLowerCase().includes('inglaterra') || p.time?.toLowerCase().includes('italia'))
                     .sort((a, b) => a.name.localeCompare(b.name));
                 console.log('🌍 Seleções:', selecoes.slice(0, 8));
                 renderGrid('selecoes', selecoes, 8);
-                
+
                 // European Teams
                 const timesEuropeus = produtos.filter(p => p.categoria === 'europeu' || p.time?.toLowerCase().includes('real madrid') || p.time?.toLowerCase().includes('barcelona') || p.time?.toLowerCase().includes('manchester') || p.time?.toLowerCase().includes('liverpool') || p.time?.toLowerCase().includes('chelsea') || p.time?.toLowerCase().includes('arsenal') || p.time?.toLowerCase().includes('bayern') || p.time?.toLowerCase().includes('juventus') || p.time?.toLowerCase().includes('milan'))
                     .sort((a, b) => a.name.localeCompare(b.name));
                 console.log('🇪🇺 Times Europeus:', timesEuropeus.slice(0, 8));
                 renderGrid('times-europeus', timesEuropeus, 8);
-                
+
                 // Retro Editions
                 const edicoesRetro = produtos.filter(p => p.categoria === 'retro' || p.edicaoRetro || p.name?.toLowerCase().includes('retro') || p.name?.toLowerCase().includes('clássica') || p.name?.toLowerCase().includes('vintage') || p.name?.toLowerCase().includes('histórica'))
                     .sort((a, b) => (b.anoRetro || 0) - (a.anoRetro || 0));
                 console.log('🕰️ Edições Retrô:', edicoesRetro.slice(0, 8));
                 renderGrid('edicoes-retro', edicoesRetro, 8);
-                
+
                 // Special Editions
                 const edicoesEspeciais = produtos.filter(p => p.categoria === 'especial' || p.edicaoEspecial || p.name?.toLowerCase().includes('especial') || p.name?.toLowerCase().includes('comemorativa') || p.name?.toLowerCase().includes('título') || p.name?.toLowerCase().includes('campeão') || p.name?.toLowerCase().includes('copa'))
                     .sort((a, b) => new Date(b.dataLancamento || 0) - new Date(a.dataLancamento || 0));
                 console.log('⭐ Edições Especiais:', edicoesEspeciais.slice(0, 8));
                 renderGrid('edicoes-especiais', edicoesEspeciais, 8);
-                
+
                 atualizarIconeCarrinho();
                 console.log('✅ Todas as seções renderizadas com sucesso');
-                
+
                 // Load featured product after all products are loaded
                 setTimeout(() => {
                     loadFeaturedProduct();
                 }, 500);
-                
+
             } catch (error) {
                 console.error('❌ Erro ao carregar produtos:', error);
                 console.error('Detalhes do erro:', error.message);
-                
+
                 // Tentar usar dados padrão como fallback
                 try {
                     console.log('🔄 Tentando usar dados padrão...');
@@ -1278,33 +1471,33 @@
                             dataLancamento: '2024-01-01'
                         }
                     ];
-                    
+
                     produtosCache = produtosPadrao;
                     renderGrid('produtos-destaque', produtosPadrao.filter(p => p.destaque), 4);
                     renderGrid('promocoes-grid', produtosPadrao.filter(p => p.discount > 0), 3);
                     renderGrid('mais-vendidos', produtosPadrao, 4);
-                    
+
                     // Render category sections with fallback products
                     renderGrid('times-brasileiros', produtosPadrao.filter(p => p.category === 'times-brasileiros'), 8);
                     renderGrid('selecoes', produtosPadrao.filter(p => p.category === 'selecoes'), 8);
                     renderGrid('times-europeus', produtosPadrao.filter(p => p.category === 'times-europeus'), 8);
                     renderGrid('edicoes-retro', produtosPadrao.filter(p => p.category === 'edicoes-retro'), 8);
                     renderGrid('edicoes-especiais', produtosPadrao.filter(p => p.category === 'edicoes-especiais'), 8);
-                    
+
                     console.log('✅ Dados padrão carregados com sucesso');
-                    
+
                     // Load featured product with fallback data
                     setTimeout(() => {
                         loadFeaturedProduct();
                     }, 500);
-                    
+
                 } catch (fallbackError) {
                     console.error('❌ Erro no fallback:', fallbackError);
                     showErrorStates();
                 }
             }
         }
-        
+
         // Show empty states when no products
         function showEmptyStates() {
             const containers = ['produtos-destaque', 'promocoes-grid', 'mais-vendidos'];
@@ -1321,7 +1514,7 @@
                 }
             });
         }
-        
+
         // Show error states
         function showErrorStates() {
             const containers = ['produtos-destaque', 'promocoes-grid', 'mais-vendidos'];
@@ -1341,32 +1534,32 @@
                 }
             });
         }
-        
+
         // Load Featured Product (Random Shirt)
         async function loadFeaturedProduct() {
             try {
                 console.log('🎯 Carregando produto em destaque...');
-                
+
                 // Use cached products if available, otherwise fetch from database
                 let produtos = produtosCache;
                 if (!produtos || produtos.length === 0) {
                     console.log('🔄 Cache vazio, buscando produtos do banco...');
                     produtos = await buscarCamisas();
                 }
-                
+
                 if (!produtos || produtos.length === 0) {
                     console.log('⚠️ Nenhum produto disponível para destaque');
                     return;
                 }
-                
+
                 // Select a random product
                 const randomIndex = Math.floor(Math.random() * produtos.length);
                 const produto = produtos[randomIndex];
-                
+
                 console.log('✨ Produto selecionado:', produto);
                 console.log('📊 Total de produtos disponíveis:', produtos.length);
                 console.log('🎲 Índice aleatório selecionado:', randomIndex);
-                
+
                 // Update HTML elements
                 const imageEl = document.getElementById('featured-product-image');
                 const titleEl = document.getElementById('featured-product-title');
@@ -1375,7 +1568,7 @@
                 const installmentsEl = document.getElementById('featured-product-installments');
                 const buyLinkEl = document.getElementById('featured-product-buy-link');
                 const moreLinkEl = document.getElementById('featured-product-more-link');
-                
+
                 console.log('🔍 Elementos HTML encontrados:', {
                     image: !!imageEl,
                     title: !!titleEl,
@@ -1385,28 +1578,28 @@
                     buyLink: !!buyLinkEl,
                     moreLink: !!moreLinkEl
                 });
-                
+
                 if (imageEl) {
                     imageEl.innerHTML = `<img src="${produto.image || 'https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=1470'}" alt="${produto.name}" class="w-full h-full object-cover rounded-lg">`;
                     console.log('🖼️ Imagem atualizada:', produto.image);
                 }
-                
+
                 if (titleEl) {
                     titleEl.innerHTML = produto.name.toUpperCase();
                     titleEl.className = 'text-3xl font-bold mb-6';
                     console.log('📝 Título atualizado:', titleEl.textContent);
                 }
-                
+
                 if (descriptionEl) {
-                    descriptionEl.innerHTML = produto.description || 
+                    descriptionEl.innerHTML = produto.description ||
                         `Camisa oficial ${produto.time || produto.name}. Feita com tecido tecnológico que oferece máximo conforto e desempenho, mantendo você fresco mesmo nos jogos mais intensos.`;
                     descriptionEl.className = 'text-gray-600 mb-6';
                     console.log('📄 Descrição atualizada:', descriptionEl.textContent.substring(0, 50) + '...');
                 }
-                
+
                 const price = produto.price || 0;
                 const installmentValue = (price / 10).toFixed(2);
-                
+
                 if (priceEl) {
                     priceEl.innerHTML = `R$ ${price.toFixed(2).replace('.', ',')}`;
                     priceEl.className = 'text-2xl font-bold mr-4';
@@ -1417,7 +1610,7 @@
                     installmentsEl.className = 'text-sm text-gray-500';
                     console.log('💳 Parcelamento atualizado:', installmentsEl.textContent);
                 }
-                
+
                 // Update links based on category
                 let categoryLink = 'camisas.html';
                 if (produto.categoria === 'brasileiro') {
@@ -1431,7 +1624,7 @@
                 } else if (produto.categoria === 'especial') {
                     categoryLink = 'camisas.html?category=special';
                 }
-                
+
                 if (buyLinkEl) {
                     buyLinkEl.innerHTML = '';
                     buyLinkEl.className = 'bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-medium transition duration-300 cursor-pointer';
@@ -1446,7 +1639,7 @@
                     moreLinkEl.onclick = () => window.location.href = categoryLink;
                     console.log('🔗 Link "Ver mais" atualizado:', categoryLink);
                 }
-                
+
                 console.log('✅ Produto em destaque carregado com sucesso');
                 console.log('🎯 Produto final:', {
                     id: produto.id,
@@ -1455,15 +1648,15 @@
                     categoria: produto.categoria,
                     time: produto.time
                 });
-                
+
             } catch (error) {
                 console.error('❌ Erro ao carregar produto em destaque:', error);
             }
         }
-        
+
         renderAllSections();
         atualizarIconeCarrinho();
-        
+
         // Ensure featured product loads after page is fully loaded
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -1490,7 +1683,7 @@
                 searchInput.addEventListener('input', (e) => {
                     clearTimeout(searchTimeout);
                     const query = e.target.value.toLowerCase().trim();
-                    
+
                     if (query.length > 0) {
                         searchTimeout = setTimeout(() => {
                             performSearch(query);
@@ -1543,7 +1736,7 @@
                     filterBtns.forEach(b => b.classList.remove('active'));
                     // Add active class to clicked button
                     btn.classList.add('active');
-                    
+
                     currentFilter = btn.dataset.filter;
                     applyFilter(currentFilter);
                 });
@@ -1564,7 +1757,7 @@
         async function performSearch(query) {
             try {
                 console.log('🔍 Realizando busca por:', query);
-                
+
                 // Show loading state
                 const searchBtn = document.getElementById('searchBtn');
                 if (searchBtn) {
@@ -1587,21 +1780,21 @@
                         produto.league?.toLowerCase() || '',
                         produto.type?.toLowerCase() || ''
                     ];
-                    
+
                     return searchFields.some(field => field.includes(query));
                 });
 
                 console.log(`✅ Encontrados ${filtered.length} produtos para "${query}"`);
-                
+
                 // Update search results
                 searchResults = filtered;
-                
+
                 // Render filtered products
                 renderSearchResults(filtered);
-                
+
                 // Update filter buttons to show "search results"
                 updateFilterButtonsForSearch(query);
-                
+
             } catch (error) {
                 console.error('❌ Erro na busca:', error);
                 showNotification('Erro ao realizar busca', 'error');
@@ -1636,7 +1829,7 @@
             container.innerHTML = products.map((produto, index) => {
                 const isFav = wishlist.some(i => i.id === produto.id);
                 const favClasses = isFav ? 'wishlist-btn absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center bg-red-500 text-white transition duration-300 active cursor-pointer hover:bg-red-600 shadow-md hover:shadow-lg' : 'wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer shadow-md hover:shadow-lg';
-                
+
                 return `
                 <div class="product-card-enhanced rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 text-gray-900 animate-fade-in" data-product-id="${produto.id}" style="animation-delay: ${index * 0.1}s;">
                     <div class="relative group">
@@ -1666,26 +1859,26 @@
                                 ${produto.oldPrice ? `<span class='text-sm text-gray-500 line-through ml-2'>R$ ${produto.oldPrice.toFixed(2).replace('.', ',')}</span>` : ''}
                             </div>
                             ${(() => {
-                                try {
-                                    const saved = localStorage.getItem(`reviews_${produto.id}`);
-                                    const reviews = saved ? JSON.parse(saved) : [];
-                                    const count = Array.isArray(reviews) ? reviews.length : 0;
-                                    const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
-                                    const stars = (() => {
-                                        let html = '';
-                                        for (let i = 1; i <= 5; i++) {
-                                            let cls = 'fas fa-star ';
-                                            if (i <= Math.floor(avg) || (i === Math.ceil(avg) && avg % 1 !== 0)) cls += 'text-yellow-400';
-                                            else cls += 'text-gray-300';
-                                            html += `<i class=\"${cls} text-xs\"></i>`;
-                                        }
-                                        return html;
-                                    })();
-                                    return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${stars}</div><span class=\"text-xs text-gray-500\">(${avg.toFixed(1)})</span></div>`;
-                                } catch {
-                                    return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${'<i class=\\"fas fa-star text-gray-300 text-xs\\"></i>'.repeat(5)}</div><span class=\"text-xs text-gray-500\">(0.0)</span></div>`;
+                        try {
+                            const saved = localStorage.getItem(`reviews_${produto.id}`);
+                            const reviews = saved ? JSON.parse(saved) : [];
+                            const count = Array.isArray(reviews) ? reviews.length : 0;
+                            const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
+                            const stars = (() => {
+                                let html = '';
+                                for (let i = 1; i <= 5; i++) {
+                                    let cls = 'fas fa-star ';
+                                    if (i <= Math.floor(avg) || (i === Math.ceil(avg) && avg % 1 !== 0)) cls += 'text-yellow-400';
+                                    else cls += 'text-gray-300';
+                                    html += `<i class=\"${cls} text-xs\"></i>`;
                                 }
-                            })()}
+                                return html;
+                            })();
+                            return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${stars}</div><span class=\"text-xs text-gray-500\">(${avg.toFixed(1)})</span></div>`;
+                        } catch {
+                            return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${'<i class=\\"fas fa-star text-gray-300 text-xs\\"></i>'.repeat(5)}</div><span class=\"text-xs text-gray-500\">(0.0)</span></div>`;
+                        }
+                    })()}
                         </div>
                         <div class="flex space-x-2">
                             <a href="produto.html?id=${produto.id}" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-center hover:scale-105 shadow-lg">COMPRAR</a>
@@ -1699,7 +1892,7 @@
         // Apply filter
         function applyFilter(filter) {
             console.log('🔍 Aplicando filtro:', filter);
-            
+
             if (filter === 'all') {
                 showAllProducts();
                 return;
@@ -1756,7 +1949,7 @@
             ];
 
             // Filter suggestions based on query
-            const filteredSuggestions = popularTerms.filter(term => 
+            const filteredSuggestions = popularTerms.filter(term =>
                 term.toLowerCase().includes(query)
             ).slice(0, 6);
 
@@ -1796,17 +1989,20 @@
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">VANTAGENS EXCLUSIVAS</h2>
-                <p class="text-xl text-gray-600">Descubra por que a FutWear é a escolha certa para sua paixão pelo futebol</p>
+                <p class="text-xl text-gray-600">Descubra por que a FutWear é a escolha certa para sua paixão pelo
+                    futebol</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Benefit 1 -->
-                <div class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
+                <div
+                    class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
                     <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-certificate text-green-600 text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-4">Produtos 100% Originais</h3>
-                    <p class="text-gray-600 mb-6">Todas as nossas camisas são autênticas, vindas diretamente dos fabricantes oficiais.</p>
+                    <p class="text-gray-600 mb-6">Todas as nossas camisas são autênticas, vindas diretamente dos
+                        fabricantes oficiais.</p>
                     <div class="flex items-center justify-center space-x-2 text-green-600">
                         <i class="fas fa-check-circle"></i>
                         <span class="text-sm font-medium">Garantia de autenticidade</span>
@@ -1814,12 +2010,14 @@
                 </div>
 
                 <!-- Benefit 2 -->
-                <div class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
+                <div
+                    class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
                     <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-truck text-green-600 text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-4">Entrega Rápida e Segura</h3>
-                    <p class="text-gray-600 mb-6">Receba sua camisa em 2-5 dias úteis com rastreamento completo da entrega.</p>
+                    <p class="text-gray-600 mb-6">Receba sua camisa em 2-5 dias úteis com rastreamento completo da
+                        entrega.</p>
                     <div class="flex items-center justify-center space-x-2 text-green-600">
                         <i class="fas fa-check-circle"></i>
                         <span class="text-sm font-medium">Rastreamento em tempo real</span>
@@ -1827,12 +2025,14 @@
                 </div>
 
                 <!-- Benefit 3 -->
-                <div class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
+                <div
+                    class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
                     <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-undo text-green-600 text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-4">Troca e Devolução Fácil</h3>
-                    <p class="text-gray-600 mb-6">30 dias para trocar ou devolver qualquer produto, sem complicações.</p>
+                    <p class="text-gray-600 mb-6">30 dias para trocar ou devolver qualquer produto, sem complicações.
+                    </p>
                     <div class="flex items-center justify-center space-x-2 text-green-600">
                         <i class="fas fa-check-circle"></i>
                         <span class="text-sm font-medium">Política flexível</span>
@@ -1840,7 +2040,8 @@
                 </div>
 
                 <!-- Benefit 4 -->
-                <div class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
+                <div
+                    class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
                     <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-credit-card text-green-600 text-3xl"></i>
                     </div>
@@ -1853,7 +2054,8 @@
                 </div>
 
                 <!-- Benefit 5 -->
-                <div class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
+                <div
+                    class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
                     <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-headset text-green-600 text-3xl"></i>
                     </div>
@@ -1866,7 +2068,8 @@
                 </div>
 
                 <!-- Benefit 6 -->
-                <div class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
+                <div
+                    class="benefit-card bg-gray-50 rounded-lg p-8 text-center hover:bg-green-50 transition-all duration-300">
                     <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-gift text-green-600 text-3xl"></i>
                     </div>
@@ -1890,7 +2093,8 @@
             </div>
             <div id="promocoes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             <div class="text-center mt-12">
-                <a href="camisas.html?promotion=true" class="bg-white text-red-600 hover:bg-gray-100 px-8 py-3 rounded-full font-medium transition duration-300 inline-block">
+                <a href="camisas.html?promotion=true"
+                    class="bg-white text-red-600 hover:bg-gray-100 px-8 py-3 rounded-full font-medium transition duration-300 inline-block">
                     VER TODAS AS PROMOÇÕES
                 </a>
             </div>
@@ -1905,7 +2109,8 @@
                     <h2 class="text-3xl font-bold mb-2">MAIS VENDIDOS</h2>
                     <p class="text-gray-600">As camisas mais populares entre nossos clientes</p>
                 </div>
-                <a href="camisas.html?sort=popular" class="text-green-600 font-medium hover:underline inline-flex items-center">
+                <a href="camisas.html?sort=popular"
+                    class="text-green-600 font-medium hover:underline inline-flex items-center">
                     Ver todos <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
@@ -1918,13 +2123,18 @@
     <section class="py-16 bg-gray-100">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-12">NOSSOS PARCEIROS</h2>
-            
+
             <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sporting_Clube_de_Portugal_logo.svg/1200px-Sporting_Clube_de_Portugal_logo.svg.png" alt="Sporting" class="h-16 object-contain team-logo opacity-70">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/1200px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png" alt="Bayern Munich" class="h-16 object-contain team-logo opacity-70">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" alt="Barcelona" class="h-16 object-contain team-logo opacity-70">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Juventus_FC_2017_logo.svg/1200px-Juventus_FC_2017_logo.svg.png" alt="Juventus" class="h-16 object-contain team-logo opacity-70">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png" alt="Manchester United" class="h-16 object-contain team-logo opacity-70">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sporting_Clube_de_Portugal_logo.svg/1200px-Sporting_Clube_de_Portugal_logo.svg.png"
+                    alt="Sporting" class="h-16 object-contain team-logo opacity-70">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/1200px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png"
+                    alt="Bayern Munich" class="h-16 object-contain team-logo opacity-70">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png"
+                    alt="Barcelona" class="h-16 object-contain team-logo opacity-70">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Juventus_FC_2017_logo.svg/1200px-Juventus_FC_2017_logo.svg.png"
+                    alt="Juventus" class="h-16 object-contain team-logo opacity-70">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+                    alt="Manchester United" class="h-16 object-contain team-logo opacity-70">
             </div>
         </div>
     </section>
@@ -1936,7 +2146,7 @@
                 <h2 class="text-4xl font-bold mb-4">POR QUE ESCOLHER A FUTWEAR?</h2>
                 <p class="text-xl opacity-90">Números que falam por si só</p>
             </div>
-            
+
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="text-center">
                     <div class="text-5xl font-bold mb-2" data-count="50000">0</div>
@@ -1967,7 +2177,8 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-                    <div id="featured-product-image" class="w-full h-96 bg-gray-200 rounded-lg shadow-xl flex items-center justify-center">
+                    <div id="featured-product-image"
+                        class="w-full h-96 bg-gray-200 rounded-lg shadow-xl flex items-center justify-center">
                         <div class="text-center">
                             <i class="fas fa-spinner fa-spin text-4xl text-gray-400 mb-4"></i>
                             <p class="text-gray-500">Carregando produto em destaque...</p>
@@ -1975,8 +2186,10 @@
                     </div>
                 </div>
                 <div class="md:w-1/2">
-                    <div id="featured-product-title" class="text-3xl font-bold mb-6 bg-gray-200 h-8 rounded animate-pulse"></div>
-                    <div id="featured-product-description" class="text-gray-600 mb-6 bg-gray-200 h-20 rounded animate-pulse"></div>
+                    <div id="featured-product-title"
+                        class="text-3xl font-bold mb-6 bg-gray-200 h-8 rounded animate-pulse"></div>
+                    <div id="featured-product-description"
+                        class="text-gray-600 mb-6 bg-gray-200 h-20 rounded animate-pulse"></div>
                     <ul class="mb-8 space-y-2">
                         <li class="flex items-center">
                             <i class="fas fa-check text-green-600 mr-2"></i>
@@ -1992,12 +2205,16 @@
                         </li>
                     </ul>
                     <div class="flex items-center mb-6">
-                        <div id="featured-product-price" class="text-2xl font-bold mr-4 bg-gray-200 h-8 w-32 rounded animate-pulse"></div>
-                        <div id="featured-product-installments" class="text-sm text-gray-500 bg-gray-200 h-4 w-40 rounded animate-pulse"></div>
+                        <div id="featured-product-price"
+                            class="text-2xl font-bold mr-4 bg-gray-200 h-8 w-32 rounded animate-pulse"></div>
+                        <div id="featured-product-installments"
+                            class="text-sm text-gray-500 bg-gray-200 h-4 w-40 rounded animate-pulse"></div>
                     </div>
                     <div class="flex space-x-4">
-                        <div id="featured-product-buy-link" class="bg-gray-200 h-12 w-32 rounded-full animate-pulse"></div>
-                        <div id="featured-product-more-link" class="bg-gray-200 h-12 w-32 rounded-full animate-pulse"></div>
+                        <div id="featured-product-buy-link" class="bg-gray-200 h-12 w-32 rounded-full animate-pulse">
+                        </div>
+                        <div id="featured-product-more-link" class="bg-gray-200 h-12 w-32 rounded-full animate-pulse">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2008,7 +2225,7 @@
     <section class="py-20 bg-gray-100">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-16">O QUE NOSSOS CLIENTES DIZEM</h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Testimonial 1 -->
                 <div class="bg-white p-8 rounded-lg shadow-md">
@@ -2019,16 +2236,18 @@
                         <i class="fas fa-star text-yellow-400 mr-1"></i>
                         <i class="fas fa-star text-yellow-400"></i>
                     </div>
-                    <p class="text-gray-600 mb-6">"Comprei a camisa do Flamengo e a qualidade é impressionante. O material é muito confortável e o design é exatamente como nas lojas oficiais do clube."</p>
+                    <p class="text-gray-600 mb-6">"Comprei a camisa do Flamengo e a qualidade é impressionante. O
+                        material é muito confortável e o design é exatamente como nas lojas oficiais do clube."</p>
                     <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Silva" class="h-10 w-10 rounded-full mr-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Silva"
+                            class="h-10 w-10 rounded-full mr-4">
                         <div>
                             <h4 class="font-semibold">Carlos Silva</h4>
                             <p class="text-sm text-gray-500">São Paulo, SP</p>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Testimonial 2 -->
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <div class="flex items-center mb-4">
@@ -2038,16 +2257,18 @@
                         <i class="fas fa-star text-yellow-400 mr-1"></i>
                         <i class="fas fa-star text-yellow-400"></i>
                     </div>
-                    <p class="text-gray-600 mb-6">"A camisa da Argentina que comprei para meu filho chegou antes do prazo e ele adorou! O atendimento foi excelente e a embalagem muito bem cuidada."</p>
+                    <p class="text-gray-600 mb-6">"A camisa da Argentina que comprei para meu filho chegou antes do
+                        prazo e ele adorou! O atendimento foi excelente e a embalagem muito bem cuidada."</p>
                     <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Oliveira" class="h-10 w-10 rounded-full mr-4">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Oliveira"
+                            class="h-10 w-10 rounded-full mr-4">
                         <div>
                             <h4 class="font-semibold">Ana Oliveira</h4>
                             <p class="text-sm text-gray-500">Belo Horizonte, MG</p>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Testimonial 3 -->
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <div class="flex items-center mb-4">
@@ -2057,9 +2278,11 @@
                         <i class="fas fa-star text-yellow-400 mr-1"></i>
                         <i class="fas fa-star-half-alt text-yellow-400"></i>
                     </div>
-                    <p class="text-gray-600 mb-6">"Sou colecionador de camisas de futebol há anos e a FutWear tem os melhores produtos. A edição especial do Real Madrid que comprei é simplesmente perfeita."</p>
+                    <p class="text-gray-600 mb-6">"Sou colecionador de camisas de futebol há anos e a FutWear tem os
+                        melhores produtos. A edição especial do Real Madrid que comprei é simplesmente perfeita."</p>
                     <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Ricardo Santos" class="h-10 w-10 rounded-full mr-4">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Ricardo Santos"
+                            class="h-10 w-10 rounded-full mr-4">
                         <div>
                             <h4 class="font-semibold">Ricardo Santos</h4>
                             <p class="text-sm text-gray-500">Porto Alegre, RS</p>
@@ -2075,9 +2298,10 @@
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">SOBRE A FUTWEAR</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Somos apaixonados por futebol e comprometidos em oferecer as melhores camisas dos maiores times e seleções do mundo.</p>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Somos apaixonados por futebol e comprometidos em
+                    oferecer as melhores camisas dos maiores times e seleções do mundo.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Feature 1 -->
                 <div class="text-center">
@@ -2085,28 +2309,31 @@
                         <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Produtos Autênticos</h3>
-                    <p class="text-gray-600">Todas as nossas camisas são 100% originais, garantindo qualidade e autenticidade.</p>
+                    <p class="text-gray-600">Todas as nossas camisas são 100% originais, garantindo qualidade e
+                        autenticidade.</p>
                 </div>
-                
+
                 <!-- Feature 2 -->
                 <div class="text-center">
                     <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-shipping-fast text-green-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Entrega Rápida</h3>
-                    <p class="text-gray-600">Entregamos em todo o Brasil com prazo de 2-5 dias úteis para sua comodidade.</p>
+                    <p class="text-gray-600">Entregamos em todo o Brasil com prazo de 2-5 dias úteis para sua
+                        comodidade.</p>
                 </div>
-                
+
                 <!-- Feature 3 -->
                 <div class="text-center">
                     <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-headset text-green-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Suporte Premium</h3>
-                    <p class="text-gray-600">Nossa equipe está sempre pronta para ajudar com qualquer dúvida ou problema.</p>
+                    <p class="text-gray-600">Nossa equipe está sempre pronta para ajudar com qualquer dúvida ou
+                        problema.</p>
                 </div>
             </div>
-            
+
             <div class="mt-16 text-center">
                 <h3 class="text-2xl font-bold mb-8">NOSSOS NÚMEROS</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -2136,8 +2363,9 @@
         <div class="container mx-auto px-6 text-center">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6">PRONTO PARA VESTIR SUA PAIXÃO?</h2>
-                <p class="text-xl mb-8 opacity-90">Junte-se a mais de 50 mil clientes que já escolheram a FutWear para suas camisas de futebol</p>
-                
+                <p class="text-xl mb-8 opacity-90">Junte-se a mais de 50 mil clientes que já escolheram a FutWear para
+                    suas camisas de futebol</p>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                     <div class="text-center">
                         <div class="bg-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -2161,13 +2389,15 @@
                         <p class="text-sm opacity-75">30 dias garantia</p>
                     </div>
                 </div>
-                
+
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="camisas.html" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-medium transition duration-300 inline-block text-lg">
+                    <a href="camisas.html"
+                        class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-medium transition duration-300 inline-block text-lg">
                         <i class="fas fa-shopping-bag mr-2"></i>
                         EXPLORAR COLEÇÃO
                     </a>
-                    <a href="#promocoes" class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-full font-medium transition duration-300 inline-block text-lg">
+                    <a href="#promocoes"
+                        class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-full font-medium transition duration-300 inline-block text-lg">
                         <i class="fas fa-tags mr-2"></i>
                         VER PROMOÇÕES
                     </a>
@@ -2177,41 +2407,45 @@
     </section>
 
     <!-- Enhanced Newsletter -->
-    <section class="py-20 bg-gradient-to-r from-green-600 via-green-700 to-green-800 text-white relative overflow-hidden">
+    <section
+        class="py-20 bg-gradient-to-r from-green-600 via-green-700 to-green-800 text-white relative overflow-hidden">
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10">
             <div class="absolute top-10 left-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
-            <div class="absolute bottom-10 right-10 w-24 h-24 bg-white rounded-full animate-pulse" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-white rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+            <div class="absolute bottom-10 right-10 w-24 h-24 bg-white rounded-full animate-pulse"
+                style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-white rounded-full animate-pulse"
+                style="animation-delay: 2s;"></div>
         </div>
-        
+
         <div class="container mx-auto px-6 text-center relative z-10">
             <div class="max-w-4xl mx-auto">
                 <div class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
                     📧 Newsletter Exclusiva
                 </div>
-                
+
                 <h2 class="text-4xl md:text-5xl font-bold mb-6">
                     FIQUE POR DENTRO DAS<br>
                     <span class="text-yellow-300">NOVIDADES</span>
                 </h2>
-                
+
                 <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-                    Assine nossa newsletter e receba ofertas exclusivas, lançamentos e descontos especiais antes de todo mundo
+                    Assine nossa newsletter e receba ofertas exclusivas, lançamentos e descontos especiais antes de todo
+                    mundo
                 </p>
-                
+
                 <form class="max-w-lg mx-auto mb-8" id="newsletter-form">
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <input type="email" placeholder="Seu melhor e-mail" 
-                               class="flex-grow px-6 py-4 rounded-full focus:outline-none text-gray-900 text-lg"
-                               required>
-                        <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105">
+                        <input type="email" placeholder="Seu melhor e-mail"
+                            class="flex-grow px-6 py-4 rounded-full focus:outline-none text-gray-900 text-lg" required>
+                        <button type="submit"
+                            class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105">
                             <i class="fas fa-paper-plane mr-2"></i>
                             ASSINAR
                         </button>
                     </div>
-            </form>
-                
+                </form>
+
                 <!-- Benefits -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
                     <div class="flex items-center justify-center space-x-3">
@@ -2242,25 +2476,30 @@
                             FUT<span class="text-green-400">WEAR</span>
                         </h3>
                         <p class="text-gray-400 mb-6 leading-relaxed">
-                            A essência do futebol em cada detalhe. Camisas autênticas dos maiores times e seleções do mundo.
+                            A essência do futebol em cada detalhe. Camisas autênticas dos maiores times e seleções do
+                            mundo.
                         </p>
-                        
+
                         <!-- Social Media -->
                         <div class="flex space-x-4 mb-6">
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
                                 <i class="fab fa-youtube"></i>
                             </a>
                         </div>
-                        
+
                         <!-- Trust Badges -->
                         <div class="space-y-2">
                             <div class="flex items-center text-sm text-gray-400">
@@ -2278,33 +2517,46 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Products -->
                 <div>
                     <h3 class="text-lg font-semibold mb-6">PRODUTOS</h3>
                     <ul class="space-y-3">
-                        <li><a href="camisas.html?category=clubs&league=brasileirao" class="text-gray-400 hover:text-white transition-colors">Times Brasileiros</a></li>
-                        <li><a href="camisas.html?category=clubs&league=premier" class="text-gray-400 hover:text-white transition-colors">Times Europeus</a></li>
-                        <li><a href="camisas.html?category=national" class="text-gray-400 hover:text-white transition-colors">Seleções</a></li>
-                        <li><a href="camisas.html?category=retro" class="text-gray-400 hover:text-white transition-colors">Edições Retrô</a></li>
-                        <li><a href="#promocoes" class="text-gray-400 hover:text-white transition-colors">Promoções</a></li>
-                        <li><a href="camisas.html" class="text-green-400 hover:text-green-300 transition-colors font-medium">Ver todos</a></li>
+                        <li><a href="camisas.html?category=clubs&league=brasileirao"
+                                class="text-gray-400 hover:text-white transition-colors">Times Brasileiros</a></li>
+                        <li><a href="camisas.html?category=clubs&league=premier"
+                                class="text-gray-400 hover:text-white transition-colors">Times Europeus</a></li>
+                        <li><a href="camisas.html?category=national"
+                                class="text-gray-400 hover:text-white transition-colors">Seleções</a></li>
+                        <li><a href="camisas.html?category=retro"
+                                class="text-gray-400 hover:text-white transition-colors">Edições Retrô</a></li>
+                        <li><a href="#promocoes" class="text-gray-400 hover:text-white transition-colors">Promoções</a>
+                        </li>
+                        <li><a href="camisas.html"
+                                class="text-green-400 hover:text-green-300 transition-colors font-medium">Ver todos</a>
+                        </li>
                     </ul>
                 </div>
-                
+
                 <!-- Support -->
                 <div>
                     <h3 class="text-lg font-semibold mb-6">ATENDIMENTO</h3>
                     <ul class="space-y-3">
                         <li><a href="#sobre" class="text-gray-400 hover:text-white transition-colors">Sobre Nós</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Perguntas Frequentes</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Trocas e Devoluções</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Política de Privacidade</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Termos e Condições</a></li>
-                        <li><a href="#" class="text-green-400 hover:text-green-300 transition-colors font-medium">Central de Ajuda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Perguntas
+                                Frequentes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Trocas e Devoluções</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Política de
+                                Privacidade</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Termos e Condições</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-green-400 hover:text-green-300 transition-colors font-medium">Central de
+                                Ajuda</a></li>
                     </ul>
                 </div>
-                
+
                 <!-- Contact -->
                 <div>
                     <h3 class="text-lg font-semibold mb-6">CONTATO</h3>
@@ -2329,19 +2581,20 @@
                                 <div class="text-gray-400">contato@futwear.com.br</div>
                                 <div class="text-sm text-gray-500">Resposta em até 2h</div>
                             </div>
-                </div>
-            </div>
-            
+                        </div>
+                    </div>
+
                     <!-- WhatsApp -->
                     <div class="mt-6">
-                        <a href="https://wa.me/551140028922" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
+                        <a href="https://wa.me/551140028922"
+                            class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
                             <i class="fab fa-whatsapp mr-2"></i>
                             WhatsApp
                         </a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Bottom Bar -->
             <div class="border-t border-gray-800 pt-8">
                 <div class="flex flex-col md:flex-row justify-between items-center">
@@ -2369,30 +2622,36 @@
         <div class="absolute right-0 top-0 h-full w-full sm:w-[28rem] bg-white shadow-2xl p-6 overflow-y-auto">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-xl font-bold">Favoritos</h3>
-                <button class="text-gray-500 hover:text-gray-700" onclick="closeWishlist()"><i class="fas fa-times"></i></button>
+                <button class="text-gray-500 hover:text-gray-700" onclick="closeWishlist()"><i
+                        class="fas fa-times"></i></button>
             </div>
             <div id="wishlist-items" class="space-y-4"></div>
             <div class="mt-6">
-                <a href="camisas.html" class="w-full inline-block text-center bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium">Ver mais produtos</a>
+                <a href="camisas.html"
+                    class="w-full inline-block text-center bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium">Ver
+                    mais produtos</a>
             </div>
         </div>
     </div>
 
+    <!-- Auto-populate Firestore -->
+    <script type="module" src="check-firestore.js"></script>
+
     <script>
-        // Cart functionality
+        // ... (existing script content)
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 
         // Update cart count via helper if available
         function updateCartCount() {
             if (window.atualizarIconeCarrinho) {
-                try { window.atualizarIconeCarrinho(); return; } catch {}
+                try { window.atualizarIconeCarrinho(); return; } catch { }
             }
             const cartCount = document.getElementById('cart-count');
             if (cartCount) {
                 const raw = localStorage.getItem('cart');
                 let arr = [];
-                try { arr = raw ? JSON.parse(raw) : []; } catch {}
+                try { arr = raw ? JSON.parse(raw) : []; } catch { }
                 const total = Array.isArray(arr) ? arr.reduce((sum, i) => sum + (i.quantity || 1), 0) : 0;
                 cartCount.textContent = total;
             }
@@ -2415,7 +2674,7 @@
                     <div class="flex-1 min-w-0">
                         <a href="produto.html?id=${item.id}" class="font-semibold text-gray-800 hover:text-green-600 line-clamp-1">${item.name}</a>
                         <div class="text-sm text-gray-600">${item.team || ''}</div>
-                        <div class="text-sm font-bold">R$ ${Number(item.price||0).toFixed(2).replace('.', ',')}</div>
+                        <div class="text-sm font-bold">R$ ${Number(item.price || 0).toFixed(2).replace('.', ',')}</div>
                     </div>
                     <button class="text-red-500 hover:text-red-600" onclick="removeFromWishlist('${item.id}')"><i class="fas fa-trash"></i></button>
                 </div>
@@ -2442,18 +2701,18 @@
         window.removeFromWishlist = removeFromWishlist;
 
         // Wishlist functionality
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (e.target.closest('.wishlist-btn')) {
                 const btn = e.target.closest('.wishlist-btn');
                 const productCard = btn.closest('.product-card');
                 const productId = productCard.dataset.productId || 'unknown';
-                
+
                 btn.classList.toggle('active');
                 btn.classList.toggle('bg-red-500');
                 btn.classList.toggle('text-white');
                 btn.classList.toggle('bg-white');
                 btn.classList.toggle('text-gray-600');
-                
+
                 // Add/remove from wishlist
                 const product = getProductById(productId);
                 if (product) {
@@ -2505,7 +2764,7 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `fixed top-20 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transition-all duration-300 transform translate-x-full`;
-            
+
             if (type === 'success') {
                 notification.classList.add('bg-green-600');
             } else if (type === 'error') {
@@ -2513,15 +2772,15 @@
             } else {
                 notification.classList.add('bg-blue-600');
             }
-            
+
             notification.textContent = message;
             document.body.appendChild(notification);
-            
+
             // Animate in
             setTimeout(() => {
                 notification.classList.remove('translate-x-full');
             }, 100);
-            
+
             // Animate out and remove
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
@@ -2543,42 +2802,42 @@
                         }
                     });
                 }, { threshold: 0.5 });
-                
+
                 observer.observe(statsSection);
             }
         }
 
         // Enhanced Newsletter subscription
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const newsletterForm = document.getElementById('newsletter-form');
             if (newsletterForm) {
-                newsletterForm.addEventListener('submit', function(e) {
+                newsletterForm.addEventListener('submit', function (e) {
                     e.preventDefault();
                     const email = this.querySelector('input[type="email"]').value;
                     const button = this.querySelector('button[type="submit"]');
-                    
+
                     if (email) {
                         // Show loading state
                         button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Assinando...';
                         button.disabled = true;
-                        
+
                         // Simulate API call
                         setTimeout(() => {
                             showNotification('Newsletter assinada com sucesso! 🎉', 'success');
-                        this.querySelector('input[type="email"]').value = '';
+                            this.querySelector('input[type="email"]').value = '';
                             button.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>ASSINAR';
                             button.disabled = false;
                         }, 1500);
                     }
                 });
             }
-            
+
             // Initialize testimonials carousel
             initializeTestimonialsCarousel();
-            
+
             // Initialize scroll animations
             initializeScrollAnimations();
-            
+
             // Initialize filter functionality
             initializeProductFilters();
 
@@ -2596,8 +2855,8 @@
                         entry.target.classList.add('animate-fade-in');
                     }
                 });
-            }, {threshold: 0.1});
-            
+            }, { threshold: 0.1 });
+
             document.querySelectorAll('section').forEach(section => {
                 observer.observe(section);
             });
@@ -2612,7 +2871,7 @@
             }
             // Invalida cache de vitrine se algum dado de usuário muda
             if (e.key === 'cart' || e.key === 'wishlist') {
-                try { invalidateCamisasCache(); } catch {}
+                try { invalidateCamisasCache(); } catch { }
             }
         });
 
@@ -2638,7 +2897,7 @@
                 const duration = 2000; // 2 seconds
                 const step = target / (duration / 16); // 60fps
                 let current = 0;
-                
+
                 const timer = setInterval(() => {
                     current += step;
                     if (current >= target) {
@@ -2661,59 +2920,59 @@
 
         // Initialize admin check
         checkAdminAccess();
-        
+
         // Initialize authentication
         import('./auth.js').then(({ initAuth, onAuthChange, updateAuthUI, doLogout }) => {
             // Make logout function globally available
             window.doLogout = doLogout;
-            
+
             initAuth().then(() => {
                 // Atualizar interface
                 updateAuthUI();
             });
         });
-        
+
         // Testimonials Carousel
         function initializeTestimonialsCarousel() {
             const container = document.getElementById('testimonials-container');
             const prevBtn = document.getElementById('prev-testimonial');
             const nextBtn = document.getElementById('next-testimonial');
-            
+
             if (!container || !prevBtn || !nextBtn) return;
-            
+
             let currentIndex = 0;
             const items = container.children;
             const totalItems = items.length;
-            
+
             function updateCarousel() {
                 const translateX = -currentIndex * (100 / 3); // 3 items visible
                 container.style.transform = `translateX(${translateX}%)`;
             }
-            
+
             prevBtn.addEventListener('click', () => {
                 currentIndex = Math.max(0, currentIndex - 1);
                 updateCarousel();
             });
-            
+
             nextBtn.addEventListener('click', () => {
                 currentIndex = Math.min(totalItems - 3, currentIndex + 1);
                 updateCarousel();
             });
-            
+
             // Auto-advance carousel
             setInterval(() => {
                 currentIndex = (currentIndex + 1) % (totalItems - 2);
                 updateCarousel();
             }, 5000);
         }
-        
+
         // Scroll Animations
         function initializeScrollAnimations() {
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
             };
-            
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -2722,37 +2981,37 @@
                     }
                 });
             }, observerOptions);
-            
+
             // Observe all sections
             document.querySelectorAll('section').forEach(section => {
                 observer.observe(section);
             });
         }
-        
+
         // Product Filters
         function initializeProductFilters() {
             const filterBtns = document.querySelectorAll('.filter-btn[data-filter]');
-            
+
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     // Remove active class from all buttons
                     filterBtns.forEach(b => b.classList.remove('active'));
                     // Add active class to clicked button
                     btn.classList.add('active');
-                    
+
                     const filter = btn.dataset.filter;
                     applyProductFilter(filter);
                 });
             });
         }
-        
+
         // Apply product filter
         function applyProductFilter(filter) {
             const container = document.getElementById('produtos-destaque');
             if (!container) return;
-            
+
             console.log('🔍 Aplicando filtro:', filter);
-            
+
             // Show loading state
             container.innerHTML = `
                 <div class="col-span-full text-center py-12">
@@ -2762,34 +3021,34 @@
                     </div>
                 </div>
             `;
-            
+
             // Filter products based on category
             setTimeout(() => {
                 let filteredProducts = [];
-                
+
                 if (filter === 'all') {
                     filteredProducts = produtosCache;
                 } else {
                     filteredProducts = produtosCache.filter(produto => {
                         switch (filter) {
                             case 'times-brasileiros':
-                                return produto.league === 'Brasileirão' || 
-                                       produto.team?.includes('Flamengo') || 
-                                       produto.team?.includes('Corinthians') || 
-                                       produto.team?.includes('Palmeiras') ||
-                                       produto.team?.includes('São Paulo') ||
-                                       produto.team?.includes('Santos');
+                                return produto.league === 'Brasileirão' ||
+                                    produto.team?.includes('Flamengo') ||
+                                    produto.team?.includes('Corinthians') ||
+                                    produto.team?.includes('Palmeiras') ||
+                                    produto.team?.includes('São Paulo') ||
+                                    produto.team?.includes('Santos');
                             case 'times-europeus':
-                                return produto.league === 'Premier League' || 
-                                       produto.league === 'La Liga' || 
-                                       produto.league === 'Serie A' ||
-                                       produto.league === 'Bundesliga';
+                                return produto.league === 'Premier League' ||
+                                    produto.league === 'La Liga' ||
+                                    produto.league === 'Serie A' ||
+                                    produto.league === 'Bundesliga';
                             case 'selecoes':
-                                return produto.type === 'Seleção' || 
-                                       produto.team?.includes('Brasil') || 
-                                       produto.team?.includes('Argentina') ||
-                                       produto.team?.includes('França') ||
-                                       produto.team?.includes('Alemanha');
+                                return produto.type === 'Seleção' ||
+                                    produto.team?.includes('Brasil') ||
+                                    produto.team?.includes('Argentina') ||
+                                    produto.team?.includes('França') ||
+                                    produto.team?.includes('Alemanha');
                             case 'promocoes':
                                 return produto.discount && produto.discount > 0;
                             default:
@@ -2797,9 +3056,9 @@
                         }
                     });
                 }
-                
+
                 console.log(`📦 ${filteredProducts.length} produtos encontrados para filtro: ${filter}`);
-                
+
                 if (filteredProducts.length === 0) {
                     container.innerHTML = `
                         <div class="col-span-full text-center py-12">
@@ -2813,12 +3072,12 @@
                 }
             }, 300);
         }
-        
+
         // Enhanced notification system
         function showNotification(message, type = 'info', duration = 3000) {
             const notification = document.createElement('div');
             notification.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-lg text-white font-medium transition-all duration-300 transform translate-x-full shadow-lg`;
-            
+
             // Set colors based on type
             if (type === 'success') {
                 notification.classList.add('bg-green-600');
@@ -2829,22 +3088,22 @@
             } else {
                 notification.classList.add('bg-blue-600');
             }
-            
+
             // Add icon based on type
             let icon = '';
             if (type === 'success') icon = '<i class="fas fa-check-circle mr-2"></i>';
             else if (type === 'error') icon = '<i class="fas fa-exclamation-circle mr-2"></i>';
             else if (type === 'warning') icon = '<i class="fas fa-exclamation-triangle mr-2"></i>';
             else icon = '<i class="fas fa-info-circle mr-2"></i>';
-            
+
             notification.innerHTML = icon + message;
             document.body.appendChild(notification);
-            
+
             // Animate in
             setTimeout(() => {
                 notification.classList.remove('translate-x-full');
             }, 100);
-            
+
             // Animate out and remove
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
@@ -2855,10 +3114,10 @@
                 }, 300);
             }, duration);
         }
-        
+
         // Make notification function global
         window.showNotification = showNotification;
-        
+
         // Wishlist functionality
         function addWishlistEventListeners() {
             const wishlistBtns = document.querySelectorAll('.wishlist-btn');
@@ -2866,29 +3125,29 @@
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     const productCard = btn.closest('.product-card-enhanced');
                     if (!productCard) return;
-                    
+
                     const productId = productCard.dataset.productId;
                     if (!productId) return;
-                    
+
                     toggleWishlist(productId, btn);
                 });
             });
         }
-        
+
         function toggleWishlist(productId, btn) {
             let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
             const product = produtosCache.find(p => p.id === productId);
-            
+
             if (!product) {
                 console.error('❌ Produto não encontrado:', productId);
                 return;
             }
-            
+
             const isInWishlist = wishlist.some(item => item.id === productId);
-            
+
             if (isInWishlist) {
                 // Remove from wishlist
                 wishlist = wishlist.filter(item => item.id !== productId);
@@ -2908,21 +3167,22 @@
                 btn.classList.remove('bg-white', 'text-gray-600');
                 showNotification('Adicionado aos favoritos', 'success');
             }
-            
+
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            
+
             // Update wishlist count in header
             if (window.updateFavoritesCount) {
                 window.updateFavoritesCount();
             }
         }
-        
+
         // Make wishlist functions global
         window.toggleWishlist = toggleWishlist;
         window.addWishlistEventListeners = addWishlistEventListeners;
     </script>
-    
+
     <!-- Adidas Style Header Script -->
     <script src="js/adidas-style-header.js"></script>
 </body>
+
 </html>
