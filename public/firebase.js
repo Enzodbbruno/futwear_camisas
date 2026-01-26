@@ -1,31 +1,31 @@
 // Importa e inicializa o Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { 
-    getFirestore, 
-    collection, 
-    getDocs, 
-    getDoc, 
-    addDoc, 
-    setDoc,
-    updateDoc, 
-    deleteDoc, 
-    doc, 
-    query, 
-    where, 
-    orderBy, 
-    limit,
-    serverTimestamp,
-    onSnapshot
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  addDoc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where,
+  orderBy,
+  limit,
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
-  authDomain: "futwear-d3c3c.firebaseapp.com",
-  projectId: "futwear-d3c3c",
-  storageBucket: "futwear-d3c3c.appspot.com",
-  messagingSenderId: "696943900731",
-  appId: "1:696943900731:web:2c1460cb26e040444d041e",
+  authDomain: "futwear-3eae2.firebaseapp.com",
+  projectId: "futwear-3eae2",
+  storageBucket: "futwear-3eae2.appspot.com",
+  messagingSenderId: "555630014709",
+  appId: "1:555630014709:web:2c1460cb26e040444d041e",
   measurementId: "G-L6S9FH3PSX"
 };
 
@@ -58,7 +58,7 @@ export async function buscarCamisas(force = false) {
           return data;
         }
       }
-    } catch {}
+    } catch { }
   }
   // Busca no Firestore
   const camisasCol = collection(db, 'camisas');
@@ -69,7 +69,7 @@ export async function buscarCamisas(force = false) {
   __camisasCacheTs = Date.now();
   try {
     sessionStorage.setItem('camisasCache', JSON.stringify({ ts: __camisasCacheTs, data }));
-  } catch {}
+  } catch { }
   return data;
 }
 
@@ -77,7 +77,7 @@ export async function buscarCamisas(force = false) {
 export function invalidateCamisasCache() {
   __camisasCache = null;
   __camisasCacheTs = 0;
-  try { sessionStorage.removeItem('camisasCache'); } catch {}
+  try { sessionStorage.removeItem('camisasCache'); } catch { }
 }
 
 // Funções utilitárias para carrinho
@@ -165,7 +165,7 @@ export async function createUserProfile(userId, userData) {
       updatedAt: serverTimestamp(),
       isActive: true
     };
-    
+
     await setDoc(userRef, userDoc);
     return { success: true, id: userId };
   } catch (error) {
@@ -178,7 +178,7 @@ export async function getUserProfile(userId) {
   try {
     const userRef = doc(db, 'users', userId);
     const userSnap = await getDoc(userRef);
-    
+
     if (userSnap.exists()) {
       return { success: true, data: userSnap.data() };
     } else {
@@ -208,21 +208,21 @@ export async function updateUserProfile(userId, updateData) {
 export async function getProducts(category = null, limitCount = null) {
   try {
     let q = collection(db, 'products');
-    
+
     if (category) {
       q = query(q, where('category', '==', category));
     }
-    
+
     if (limitCount) {
       q = query(q, limit(limitCount));
     }
-    
+
     const querySnapshot = await getDocs(q);
     const products = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
-    
+
     return { success: true, data: products };
   } catch (error) {
     console.error('Erro ao buscar produtos:', error);
@@ -234,7 +234,7 @@ export async function getProductById(productId) {
   try {
     const productRef = doc(db, 'products', productId);
     const productSnap = await getDoc(productRef);
-    
+
     if (productSnap.exists()) {
       return { success: true, data: { id: productSnap.id, ...productSnap.data() } };
     } else {
@@ -255,7 +255,7 @@ export async function addProduct(productData) {
       updatedAt: serverTimestamp(),
       isActive: true
     });
-    
+
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error('Erro ao adicionar produto:', error);
@@ -288,7 +288,7 @@ export async function createOrder(orderData) {
       status: 'pending',
       paymentStatus: 'pending'
     });
-    
+
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error('Erro ao criar pedido:', error);
@@ -301,12 +301,12 @@ export async function getOrdersByUser(userId) {
     const ordersRef = collection(db, 'orders');
     const q = query(ordersRef, where('userId', '==', userId), orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
-    
+
     const orders = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
-    
+
     return { success: true, data: orders };
   } catch (error) {
     console.error('Erro ao buscar pedidos do usuário:', error);
@@ -319,12 +319,12 @@ export async function getAllOrders() {
     const ordersRef = collection(db, 'orders');
     const q = query(ordersRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
-    
+
     const orders = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
-    
+
     return { success: true, data: orders };
   } catch (error) {
     console.error('Erro ao buscar todos os pedidos:', error);
@@ -339,11 +339,11 @@ export async function updateOrderStatus(orderId, status, paymentStatus = null) {
       status,
       updatedAt: serverTimestamp()
     };
-    
+
     if (paymentStatus) {
       updateData.paymentStatus = paymentStatus;
     }
-    
+
     await updateDoc(orderRef, updateData);
     return { success: true };
   } catch (error) {
@@ -357,9 +357,9 @@ export async function getOrderStats() {
   try {
     const ordersRef = collection(db, 'orders');
     const querySnapshot = await getDocs(ordersRef);
-    
+
     const orders = querySnapshot.docs.map(doc => doc.data());
-    
+
     const stats = {
       totalOrders: orders.length,
       pendingOrders: orders.filter(order => order.status === 'pending').length,
@@ -371,7 +371,7 @@ export async function getOrderStats() {
       paidOrders: orders.filter(order => order.paymentStatus === 'paid').length,
       unpaidOrders: orders.filter(order => order.paymentStatus === 'pending').length
     };
-    
+
     return { success: true, data: stats };
   } catch (error) {
     console.error('Erro ao buscar estatísticas:', error);
@@ -383,7 +383,7 @@ export async function getOrderStats() {
 export function subscribeToOrders(callback) {
   const ordersRef = collection(db, 'orders');
   const q = query(ordersRef, orderBy('createdAt', 'desc'));
-  
+
   return onSnapshot(q, (snapshot) => {
     const orders = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -396,7 +396,7 @@ export function subscribeToOrders(callback) {
 export function subscribeToUserOrders(userId, callback) {
   const ordersRef = collection(db, 'orders');
   const q = query(ordersRef, where('userId', '==', userId), orderBy('createdAt', 'desc'));
-  
+
   return onSnapshot(q, (snapshot) => {
     const orders = snapshot.docs.map(doc => ({
       id: doc.id,

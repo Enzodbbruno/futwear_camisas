@@ -4,11 +4,11 @@ import { getFirestore, collection, getDocs, addDoc, doc, setDoc } from "https://
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPvUv2sCOeomoHnE0WIPwGmdJ3NHWP2_4",
-  authDomain: "futwear-d3c3c.firebaseapp.com",
-  projectId: "futwear-d3c3c",
-  storageBucket: "futwear-d3c3c.appspot.com",
-  messagingSenderId: "696943900731",
-  appId: "1:696943900731:web:2c1460cb26e040444d041e",
+  authDomain: "futwear-3eae2.firebaseapp.com",
+  projectId: "futwear-3eae2",
+  storageBucket: "futwear-3eae2.appspot.com",
+  messagingSenderId: "555630014709",
+  appId: "1:555630014709:web:2c1460cb26e040444d041e",
   measurementId: "G-L6S9FH3PSX"
 };
 
@@ -112,16 +112,16 @@ const sampleProducts = [
 async function checkAndPopulateFirestore() {
   try {
     console.log('🔍 Verificando coleção "camisas"...');
-    
+
     // Verificar se a coleção existe e tem dados
     const camisasRef = collection(db, 'camisas');
     const snapshot = await getDocs(camisasRef);
-    
+
     console.log(`📊 Encontrados ${snapshot.docs.length} produtos na coleção "camisas"`);
-    
+
     if (snapshot.docs.length === 0) {
       console.log('📝 Coleção vazia, populando com dados de exemplo...');
-      
+
       for (const product of sampleProducts) {
         try {
           await addDoc(camisasRef, product);
@@ -130,7 +130,7 @@ async function checkAndPopulateFirestore() {
           console.error(`❌ Erro ao adicionar ${product.name}:`, error);
         }
       }
-      
+
       console.log('🎉 Coleção populada com sucesso!');
     } else {
       console.log('✅ Coleção já possui dados');
@@ -138,7 +138,7 @@ async function checkAndPopulateFirestore() {
         console.log(`- ${doc.data().name} (${doc.id})`);
       });
     }
-    
+
   } catch (error) {
     console.error('❌ Erro ao verificar Firestore:', error);
     console.error('Detalhes:', error.message);
