@@ -1,4 +1,5 @@
-import { onAuthStateChange, getCurrentUser, isAdmin, getAllOrders, updateOrderStatus, addProduct, updateProduct, buscarCamisas, getOrderStats, listAllReviews, approveReview, deleteReview } from '../firebase-hybrid.js';
+import { onAuthStateChange, getCurrentUser, isAdmin, getAllOrders, updateOrderStatus, getOrderStats, listAllReviews, approveReview, deleteReview } from '../firebase-hybrid.js';
+import { buscarCamisasExterno as buscarCamisas, adicionarCamisaExterno as addProduct, atualizarCamisaExterno as updateProduct } from '../external-database.js';
 
 // Categorias do site (compatível com filtros existentes)
 const CATEGORIES = [
@@ -60,18 +61,18 @@ const LEAGUES = [
 ];
 
 const TEAMS_BY_LEAGUE = {
-  'Brasileirão Série A': ['Flamengo','Palmeiras','Corinthians','São Paulo','Santos','Vasco da Gama','Botafogo','Fluminense','Grêmio','Internacional','Atlético Mineiro','Cruzeiro','Bahia','Athletico Paranaense','Fortaleza'],
-  'Premier League': ['Manchester United','Manchester City','Liverpool','Arsenal','Chelsea','Tottenham','Newcastle United','Aston Villa','West Ham','Everton'],
-  'La Liga': ['Real Madrid','Barcelona','Atlético de Madrid','Sevilla','Valencia','Real Sociedad','Villarreal','Athletic Club'],
-  'Serie A': ['Juventus','Inter','Milan','Napoli','Roma','Lazio','Fiorentina','Atalanta'],
-  'Bundesliga': ['Bayern Munich','Borussia Dortmund','RB Leipzig','Bayer Leverkusen','Schalke 04','Borussia Mönchengladbach'],
-  'Ligue 1': ['Paris Saint-Germain','Marseille','Lyon','Monaco','Lille','Nice'],
-  'Liga Portugal': ['Benfica','Porto','Sporting CP','Braga','Vitória SC'],
-  'Eredivisie': ['Ajax','PSV','Feyenoord','AZ Alkmaar','Twente'],
-  'Jupiler Pro League': ['Club Brugge','Anderlecht','Genk','Gent','Antwerp'],
-  'Primera División (ARG)': ['Boca Juniors','River Plate','Racing Club','Independiente','San Lorenzo'],
-  'MLS': ['LA Galaxy','LAFC','Inter Miami','Seattle Sounders','Atlanta United'],
-  'Seleções': ['Brasil','Argentina','França','Alemanha','Espanha','Inglaterra','Itália','Portugal']
+  'Brasileirão Série A': ['Flamengo', 'Palmeiras', 'Corinthians', 'São Paulo', 'Santos', 'Vasco da Gama', 'Botafogo', 'Fluminense', 'Grêmio', 'Internacional', 'Atlético Mineiro', 'Cruzeiro', 'Bahia', 'Athletico Paranaense', 'Fortaleza'],
+  'Premier League': ['Manchester United', 'Manchester City', 'Liverpool', 'Arsenal', 'Chelsea', 'Tottenham', 'Newcastle United', 'Aston Villa', 'West Ham', 'Everton'],
+  'La Liga': ['Real Madrid', 'Barcelona', 'Atlético de Madrid', 'Sevilla', 'Valencia', 'Real Sociedad', 'Villarreal', 'Athletic Club'],
+  'Serie A': ['Juventus', 'Inter', 'Milan', 'Napoli', 'Roma', 'Lazio', 'Fiorentina', 'Atalanta'],
+  'Bundesliga': ['Bayern Munich', 'Borussia Dortmund', 'RB Leipzig', 'Bayer Leverkusen', 'Schalke 04', 'Borussia Mönchengladbach'],
+  'Ligue 1': ['Paris Saint-Germain', 'Marseille', 'Lyon', 'Monaco', 'Lille', 'Nice'],
+  'Liga Portugal': ['Benfica', 'Porto', 'Sporting CP', 'Braga', 'Vitória SC'],
+  'Eredivisie': ['Ajax', 'PSV', 'Feyenoord', 'AZ Alkmaar', 'Twente'],
+  'Jupiler Pro League': ['Club Brugge', 'Anderlecht', 'Genk', 'Gent', 'Antwerp'],
+  'Primera División (ARG)': ['Boca Juniors', 'River Plate', 'Racing Club', 'Independiente', 'San Lorenzo'],
+  'MLS': ['LA Galaxy', 'LAFC', 'Inter Miami', 'Seattle Sounders', 'Atlanta United'],
+  'Seleções': ['Brasil', 'Argentina', 'França', 'Alemanha', 'Espanha', 'Inglaterra', 'Itália', 'Portugal']
 };
 
 let leagueData = null; // carregado do JSON
@@ -86,7 +87,7 @@ async function loadLeagueData() {
         leagueData = cache.data;
       }
     }
-  } catch {}
+  } catch { }
 
   if (!leagueData) {
     try {
@@ -95,7 +96,7 @@ async function loadLeagueData() {
         leagueData = await res.json();
         localStorage.setItem('leagueTeamsData', JSON.stringify({ ts: Date.now(), data: leagueData }));
       }
-    } catch {}
+    } catch { }
   }
 
   // fallback estático se ainda não obtido
@@ -125,8 +126,8 @@ async function loadPromotions() {
       ph.value = '';
       ph.textContent = 'Todas as categorias';
       catSel.appendChild(ph);
-      const cats = Array.from(new Set(produtos.map(p => p.category || p.categoria).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
-      cats.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; catSel.appendChild(o); });
+      const cats = Array.from(new Set(produtos.map(p => p.category || p.categoria).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+      cats.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; catSel.appendChild(o); });
       catSel.onchange = () => renderPromoRows();
     }
     const search = document.getElementById('promoSearch');
@@ -166,7 +167,7 @@ async function loadPromotions() {
             </div>
           </td>
           <td class="p-2">R$ ${price.toFixed(2).replace('.', ',')}</td>
-          <td class="p-2"><input type="number" min="0" step="0.01" value="${discount>0? (price*(1-discount/100)).toFixed(2): ''}" data-target="${p.id}" class="w-24 border rounded p-1" placeholder="R$" /></td>
+          <td class="p-2"><input type="number" min="0" step="0.01" value="${discount > 0 ? (price * (1 - discount / 100)).toFixed(2) : ''}" data-target="${p.id}" class="w-24 border rounded p-1" placeholder="R$" /></td>
           <td class="p-2"><input type="number" min="0" max="90" step="1" value="${discount}" data-discount="${p.id}" class="w-20 border rounded p-1"></td>
           <td class="p-2">
             <div class="flex gap-1">
@@ -200,11 +201,11 @@ async function loadPromotions() {
       tbody.querySelectorAll('[data-target]').forEach(inp => {
         inp.addEventListener('input', () => {
           const id = inp.getAttribute('data-target');
-          const p = window.__PROMO_ALL_PRODUCTS__.find(x=>x.id===id);
+          const p = window.__PROMO_ALL_PRODUCTS__.find(x => x.id === id);
           if (!p) return;
-          const price = Number(p.price||0);
-          const tgt = Number(inp.value||0);
-          const perc = price>0 ? Math.max(0, Math.min(90, Math.round((1 - (tgt/price)) * 100))) : 0;
+          const price = Number(p.price || 0);
+          const tgt = Number(inp.value || 0);
+          const perc = price > 0 ? Math.max(0, Math.min(90, Math.round((1 - (tgt / price)) * 100))) : 0;
           const percInput = tbody.querySelector(`[data-discount="${id}"]`);
           if (percInput) percInput.value = perc;
         });
@@ -249,8 +250,8 @@ async function loadPromotions() {
         const start = document.getElementById('promoStart')?.value || '';
         const end = document.getElementById('promoEnd')?.value || '';
         for (const p of items) {
-          const price = Number(p.price||0);
-          const computedPerc = tgt>0 && price>0 ? Math.max(0, Math.min(90, Math.round((1 - (tgt/price)) * 100))) : Math.max(0, Math.min(90, perc));
+          const price = Number(p.price || 0);
+          const computedPerc = tgt > 0 && price > 0 ? Math.max(0, Math.min(90, Math.round((1 - (tgt / price)) * 100))) : Math.max(0, Math.min(90, perc));
           await updateProduct(p.id, { discount: computedPerc, promoStart: start, promoEnd: end });
         }
         await loadPromotions();
@@ -267,10 +268,10 @@ async function loadPromotions() {
         const start = document.getElementById('promoStart')?.value || '';
         const end = document.getElementById('promoEnd')?.value || '';
         for (const id of selectedIds) {
-          const p = window.__PROMO_ALL_PRODUCTS__.find(x=>x.id===id);
+          const p = window.__PROMO_ALL_PRODUCTS__.find(x => x.id === id);
           if (!p) continue;
-          const price = Number(p.price||0);
-          const computedPerc = tgt>0 && price>0 ? Math.max(0, Math.min(90, Math.round((1 - (tgt/price)) * 100))) : Math.max(0, Math.min(90, perc));
+          const price = Number(p.price || 0);
+          const computedPerc = tgt > 0 && price > 0 ? Math.max(0, Math.min(90, Math.round((1 - (tgt / price)) * 100))) : Math.max(0, Math.min(90, perc));
           await updateProduct(id, { discount: computedPerc, promoStart: start, promoEnd: end });
         }
         await loadPromotions();
@@ -304,7 +305,7 @@ async function loadReviews() {
     const q = (document.getElementById('reviewsSearch')?.value || '').toLowerCase();
     const status = document.getElementById('reviewsStatus')?.value || 'all';
     const filtered = items.filter(r => {
-      const matchesQ = !q || `${r.productId||''} ${r.userEmail||''} ${r.text||''}`.toLowerCase().includes(q);
+      const matchesQ = !q || `${r.productId || ''} ${r.userEmail || ''} ${r.text || ''}`.toLowerCase().includes(q);
       const matchesS = status === 'all' || (status === 'approved' ? !!r.approved : !r.approved);
       return matchesQ && matchesS;
     });
@@ -384,7 +385,7 @@ async function populateLeagueSelect(selectEl) {
   // ordenar por nome, preservando principais no topo se existirem
   const priority = new Set(LEAGUES.map(l => l.value));
   const prioritized = leagueNames.filter(n => priority.has(n));
-  const others = leagueNames.filter(n => !priority.has(n)).sort((a,b)=>a.localeCompare(b));
+  const others = leagueNames.filter(n => !priority.has(n)).sort((a, b) => a.localeCompare(b));
   const ordered = [...prioritized, ...others];
 
   ordered.forEach(name => {
@@ -483,7 +484,7 @@ async function loadKpis() {
       document.getElementById('kpiRevenue').textContent = `R$ ${s.totalRevenue.toFixed(2).replace('.', ',')}`;
       return;
     }
-  } catch {}
+  } catch { }
 
   // Fallback simples
   document.getElementById('kpiOrders').textContent = '-';
