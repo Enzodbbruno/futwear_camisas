@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutWear - Meus Pedidos</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/premium-header.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap"
@@ -258,11 +259,19 @@
                 <a href="#" class="nav-link">OFERTAS</a>
             </nav>
 
-            <!-- Actions -->
+            <!-- Actions & Search -->
             <div class="nav-actions">
-                <button class="icon-btn" onclick="toggleSearch()">
+                <!-- Search Bar (Desktop) -->
+                <div class="search-bar-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Buscar camisas..." class="search-input" id="desktopSearchInput">
+                </div>
+
+                <!-- Mobile Search Button -->
+                <button class="icon-btn mobile-search-btn" onclick="toggleSearch()">
                     <i class="fas fa-search"></i>
                 </button>
+
                 <a href="favoritos.html" class="icon-btn relative">
                     <i class="fas fa-heart"></i>
                     <span id="wishlist-count" class="cart-badge hidden">0</span>
@@ -704,6 +713,7 @@
 
     <!-- Adidas Style Header Script -->
 
+    <script src="js/header.js"></script>
 </body>
 
 </html>

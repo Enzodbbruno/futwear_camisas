@@ -470,54 +470,57 @@
 
 <body class="font-sans bg-gray-50 text-gray-900">
     <!-- Header -->
-    <header class="fixed w-full header-glass shadow-enhanced z-50 animate-slide-down">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center animate-slide-left">
-                    <a href="index.html" class="text-2xl font-bold text-gradient">FUT<span
-                            class="text-green-600">WEAR</span></a>
+    <link rel="stylesheet" href="css/premium-header.css">
+    <!-- Header -->
+    <header class="header-glass" id="main-header">
+        <div class="header-container">
+            <!-- Mobile Toggle -->
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Logo -->
+            <a href="index.html" class="logo-container">
+                <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">INÍCIO</a>
+                <a href="camisas.html" class="nav-link">COLEÇÕES</a>
+                <a href="camisas.html?category=clubs" class="nav-link">TIMES</a>
+                <a href="camisas.html?category=national" class="nav-link">SELEÇÕES</a>
+                <a href="#" class="nav-link">OFERTAS</a>
+            </nav>
+
+            <!-- Actions & Search -->
+            <div class="nav-actions">
+                <!-- Search Bar (Desktop) -->
+                <div class="search-bar-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Buscar camisas..." class="search-input" id="desktopSearchInput">
                 </div>
 
-                <nav class="hidden md:flex items-center space-x-8 animate-slide-up">
-                    <a href="index.html"
-                        class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Início</a>
-                    <a href="camisas.html"
-                        class="text-green-600 font-medium hover:scale-105 transition-transform">Coleções</a>
-                    <a href="camisas.html?category=clubs"
-                        class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Times</a>
-                    <a href="camisas.html?category=national"
-                        class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Seleções</a>
-                    <a href="#promocoes"
-                        class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Promoções</a>
-                    <a href="#sobre"
-                        class="text-gray-800 hover:text-green-600 hover:scale-105 transition-transform">Sobre</a>
-                </nav>
+                <!-- Mobile Search Button -->
+                <button class="icon-btn mobile-search-btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
 
-                <div class="flex items-center space-x-4 animate-slide-right">
-                    <button onclick="toggleSearch()"
-                        class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button onclick="toggleWishlist()"
-                        class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform relative">
-                        <i class="fas fa-heart"></i>
-                        <span id="wishlistCount"
-                            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-                    </button>
-                    <a href="carrinho.html"
-                        class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform relative">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span id="cartCount"
-                            class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                    </a>
-                    <a href="perfil.html"
-                        class="text-gray-800 hover:text-green-600 hover:scale-110 transition-transform">
-                        <i class="fas fa-user"></i>
-                    </a>
-                </div>
+                <a href="favoritos.html" class="icon-btn relative">
+                    <i class="fas fa-heart"></i>
+                    <span id="wishlist-count" class="cart-badge hidden">0</span>
+                </a>
+                <a href="carrinho.html" class="icon-btn relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+                <a href="perfil.html" class="icon-btn">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
     </header>
+
 
     <div id="sticky-buy-bar">
         <div class="container mx-auto px-6 py-3 flex items-center justify-between">
@@ -1866,6 +1869,7 @@
 
     <!-- Adidas Style Header Script -->
 
+    <script src="js/header.js"></script>
 </body>
 
 </html>
