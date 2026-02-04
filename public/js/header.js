@@ -1,8 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile Menu Logic
   const mobileToggle = document.querySelector('.mobile-toggle');
-  // We would need a mobile menu container to toggle. 
-  // For now, let's assume we might implement a simple dropdown or sidebar later.
+  const navMenu = document.querySelector('.nav-menu');
+
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      const icon = mobileToggle.querySelector('i');
+      if (navMenu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+  }
 
   // Highlight Active Link
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -10,50 +23,102 @@ document.addEventListener('DOMContentLoaded', () => {
 
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
-    if (href === currentPath) {
+    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
       link.classList.add('active');
     }
   });
 
-  // Cart Badge Update (Mock)
+  // Profile Button Logic
+  const profileBtn = document.getElementById('profile-btn') || document.querySelector('a[href="perfil.html"]');
+  if (profileBtn) {
+    profileBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        window.location.href = 'perfil.html';
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    // Update styling if logged in (optional, e.g. change icon)
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      // Maybe add a small dot or change icon color to indicate logged in
+      profileBtn.classList.add('text-green-500');
+    }
+  }
+
+  // Initialize Counters
   updateCartCount();
+  updateWishlistCount();
+
+  // Listen for events
+  window.addEventListener('storage', () => {
+    updateCartCount();
+    updateWishlistCount();
+  });
+
+  window.addEventListener('cartUpdated', updateCartCount);
+  window.addEventListener('favoritesUpdated', updateWishlistCount);
+  window.addEventListener('userLogin', () => {
+    if (profileBtn) profileBtn.classList.add('text-green-500');
+  });
+  window.addEventListener('userLogout', () => {
+    if (profileBtn) profileBtn.classList.remove('text-green-500');
+  });
 });
 
 window.toggleSearch = function () {
   const searchBar = document.querySelector('.search-bar-container');
   if (searchBar) {
-    if (window.innerWidth < 768) {
-      // Special mobile behavior
-      if (searchBar.style.display === 'flex') {
-        searchBar.style.display = '';
-      } else {
-        searchBar.style.display = 'flex';
-        searchBar.style.position = 'absolute';
-        searchBar.style.top = '100%';
-        searchBar.style.left = '0';
-        searchBar.style.width = '100%';
-        searchBar.style.padding = '1rem';
-        searchBar.style.background = 'white';
-        searchBar.style.zIndex = '999';
-        searchBar.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+    if (window.innerWidth < 1024) { // Mobile/Tablet
+      searchBar.classList.toggle('show-mobile');
+      if (searchBar.classList.contains('show-mobile')) {
+        const input = searchBar.querySelector('input');
+        if (input) setTimeout(() => input.focus(), 100);
       }
     } else {
-      searchBar.querySelector('input').focus();
+      const input = searchBar.querySelector('input');
+      if (input) input.focus();
     }
   }
 };
 
 function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+    const badges = document.querySelectorAll('#cart-count, .cart-count');
 
-  const badges = document.querySelectorAll('.cart-badge');
-  badges.forEach(badge => {
-    badge.textContent = count;
-    if (count > 0) {
-      badge.classList.remove('hidden');
-    } else {
-      badge.classList.add('hidden');
-    }
-  });
+    badges.forEach(badge => {
+      badge.textContent = count;
+      if (count > 0) {
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    });
+  } catch (e) {
+    console.error('Error updating cart count:', e);
+  }
+}
+
+function updateWishlistCount() {
+  try {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const count = favorites.length;
+    const badges = document.querySelectorAll('#wishlist-count, .wishlist-count');
+
+    badges.forEach(badge => {
+      badge.textContent = count;
+      if (count > 0) {
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    });
+  } catch (e) {
+    console.error('Error updating wishlist count:', e);
+  }
 }
