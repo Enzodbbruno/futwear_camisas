@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento Pendente - FutWear</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/adidas-style-header.css">
+
 </head>
+
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
     <div class="max-w-md w-full mx-4">
         <div class="bg-white rounded-lg shadow-lg p-8 text-center">
@@ -17,11 +19,12 @@
                     <i class="fas fa-clock text-4xl text-yellow-600 animate-pulse"></i>
                 </div>
             </div>
-            
+
             <!-- Pending Message -->
             <h1 class="text-2xl font-bold text-gray-800 mb-2">Pagamento Pendente</h1>
-            <p class="text-gray-600 mb-6">Seu pagamento está sendo processado. Você receberá uma confirmação assim que for aprovado.</p>
-            
+            <p class="text-gray-600 mb-6">Seu pagamento está sendo processado. Você receberá uma confirmação assim que
+                for aprovado.</p>
+
             <!-- Order Info -->
             <div class="bg-gray-50 rounded-lg p-4 mb-6">
                 <h3 class="font-semibold text-gray-800 mb-2">Detalhes do Pedido</h3>
@@ -29,7 +32,7 @@
                 <p class="text-sm text-gray-600" id="orderTotal">Total: R$ <span id="totalAmount">-</span></p>
                 <p class="text-sm text-gray-600" id="paymentMethod">Método: <span id="method">-</span></p>
             </div>
-            
+
             <!-- Status Check -->
             <div class="bg-blue-50 rounded-lg p-4 mb-6">
                 <div class="flex items-center justify-center text-blue-700">
@@ -37,17 +40,19 @@
                     <span>Verificando status do pagamento...</span>
                 </div>
             </div>
-            
+
             <!-- Actions -->
             <div class="space-y-3">
-                <button onclick="checkPaymentStatus()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                <button onclick="checkPaymentStatus()"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
                     <i class="fas fa-refresh mr-2"></i>Verificar Status
                 </button>
-                <a href="index.html" class="w-full bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors inline-block">
+                <a href="index.html"
+                    class="w-full bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors inline-block">
                     <i class="fas fa-home mr-2"></i>Voltar ao Início
                 </a>
             </div>
-            
+
             <!-- Info -->
             <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
                 <div class="flex items-center text-sm text-yellow-700">
@@ -65,23 +70,23 @@
         const total = urlParams.get('total') || 'N/A';
         const method = urlParams.get('method') || 'N/A';
         const paymentId = urlParams.get('payment') || null;
-        
+
         // Atualizar informações na página
         document.getElementById('orderNumber').textContent = orderId;
         document.getElementById('totalAmount').textContent = total;
         document.getElementById('method').textContent = method;
-        
+
         // Verificar status do pagamento
         async function checkPaymentStatus() {
             if (!paymentId) {
                 alert('ID do pagamento não encontrado');
                 return;
             }
-            
+
             try {
                 const response = await fetch(`/api/payments/status/${paymentId}?method=${method}`);
                 const result = await response.json();
-                
+
                 if (result.success) {
                     if (result.status === 'approved') {
                         window.location.href = `checkout-success.html?order=${orderId}&total=${total}&method=${method}`;
@@ -98,14 +103,15 @@
                 alert('Erro ao verificar status do pagamento');
             }
         }
-        
+
         // Verificar automaticamente a cada 30 segundos
         if (paymentId) {
             setInterval(checkPaymentStatus, 30000);
         }
     </script>
-    
+
     <!-- Adidas Style Header Script -->
-    <script src="js/adidas-style-header.js"></script>
+
 </body>
+
 </html>

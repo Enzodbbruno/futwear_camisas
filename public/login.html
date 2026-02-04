@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutWear - Login e Cadastro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/adidas-style-header.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         /* Enhanced Background */
         .auth-bg {
-            background: 
+            background:
                 linear-gradient(135deg, rgba(22, 163, 74, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%),
-                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
                 url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -28,98 +34,239 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 80%, rgba(22, 163, 74, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
             animation: backgroundShift 20s ease-in-out infinite;
         }
 
         @keyframes backgroundShift {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(22, 163, 74, 0.6);
+            }
         }
 
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
-        
+
         /* Enhanced Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(22, 163, 74, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(22, 163, 74, 0.6);
+            }
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         @keyframes bounce {
-            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
-            40%, 43% { transform: translate3d(0, -30px, 0); }
-            70% { transform: translate3d(0, -15px, 0); }
-            90% { transform: translate3d(0, -4px, 0); }
+
+            0%,
+            20%,
+            53%,
+            80%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            40%,
+            43% {
+                transform: translate3d(0, -30px, 0);
+            }
+
+            70% {
+                transform: translate3d(0, -15px, 0);
+            }
+
+            90% {
+                transform: translate3d(0, -4px, 0);
+            }
         }
-        
+
         /* Animation Classes */
-        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
-        .animate-slide-up { animation: slideInUp 0.8s ease-out; }
-        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
-        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
-        .animate-scale-in { animation: scaleIn 0.6s ease-out; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-glow { animation: glow 2s ease-in-out infinite; }
-        .animate-bounce { animation: bounce 1s ease-in-out; }
-        .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
-        .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
-        .animate-slide-right { animation: slideInRight 0.8s ease-out; }
-        .animate-fade-scale { animation: fadeInScale 0.6s ease-out; }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .animate-slide-up {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 1s ease-in-out;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .animate-fade-scale {
+            animation: fadeInScale 0.6s ease-out;
+        }
 
         /* Enhanced Form Card */
         .form-card {
@@ -128,7 +275,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px rgba(0, 0, 0, 0.15),
                 0 0 0 1px rgba(255, 255, 255, 0.05);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -136,7 +283,7 @@
 
         .form-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 
+            box-shadow:
                 0 35px 70px rgba(0, 0, 0, 0.2),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -184,7 +331,7 @@
 
         .input-group input:focus {
             border-color: #16a34a;
-            box-shadow: 
+            box-shadow:
                 0 0 0 4px rgba(22, 163, 74, 0.1),
                 0 8px 25px rgba(22, 163, 74, 0.15);
             transform: translateY(-2px);
@@ -206,7 +353,7 @@
             z-index: 2;
         }
 
-        .input-group input:focus ~ .icon {
+        .input-group input:focus~.icon {
             color: #16a34a;
             transform: translateY(-50%) scale(1.1);
         }
@@ -318,8 +465,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Enhanced Buttons */
@@ -402,7 +554,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
 
@@ -533,7 +685,7 @@
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(248, 250, 252, 0.1) 100%);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 
+            box-shadow:
                 0 25px 50px rgba(0, 0, 0, 0.15),
                 0 0 0 1px rgba(255, 255, 255, 0.05);
         }
@@ -574,8 +726,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
         }
 
         /* Enhanced Text Gradients */
@@ -621,9 +782,10 @@
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
-            opacity: 1;
-            transform: translateX(0);
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
@@ -636,6 +798,7 @@
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -647,7 +810,7 @@
                 margin: 1rem;
                 padding: 1.5rem;
             }
-            
+
             .auth-bg {
                 padding-top: 100px;
             }
@@ -664,46 +827,46 @@
         }
     </style>
 </head>
+
 <body class="font-sans">
-    <!-- Header -->
-    <header class="fixed w-full bg-white/95 backdrop-blur-md shadow-lg z-50 border-b border-gray-200/50">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <a href="index.html" class="text-2xl font-bold text-gray-800 hover:scale-105 transition-transform duration-300">
-                        FUT<span class="text-gradient">WEAR</span>
-                    </a>
-                </div>
-                
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-800 hover:text-green-600 transition-colors duration-300 font-medium">Início</a>
-                    <a href="camisas.html" class="text-gray-800 hover:text-green-600 transition-colors duration-300 font-medium">Camisas</a>
-                    <a href="#" class="text-gray-800 hover:text-green-600 transition-colors duration-300 font-medium">Times</a>
-                    <a href="#" class="text-gray-800 hover:text-green-600 transition-colors duration-300 font-medium">Seleções</a>
-                    <a href="#" class="text-gray-800 hover:text-green-600 transition-colors duration-300 font-medium">Sobre</a>
-                </nav>
-                
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="text-gray-800 hover:text-green-600 transition-colors duration-300 p-2 rounded-lg hover:bg-gray-100">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <a href="#" class="text-gray-800 hover:text-green-600 relative transition-colors duration-300 p-2 rounded-lg hover:bg-gray-100" id="wishlist-btn">
-                        <i class="fas fa-heart"></i>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]" id="wishlist-count">0</span>
-                    </a>
-                    <a href="login.html" class="text-green-600 relative p-2 rounded-lg bg-green-50">
-                        <i class="fas fa-user"></i>
-                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    </a>
-                    <a href="carrinho.html" class="text-gray-800 hover:text-green-600 relative transition-colors duration-300 p-2 rounded-lg hover:bg-gray-100">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="cart-count">0</span>
-                    </a>
-                </div>
-                
-                <button class="md:hidden focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300" id="mobile-menu-btn">
-                    <i class="fas fa-bars text-gray-800 text-xl"></i>
+    <!-- Premium Glass Header -->
+    <header class="header-glass" id="main-header">
+        <div class="header-container">
+            <!-- Mobile Toggle -->
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Logo -->
+            <a href="index.html" class="logo-container">
+                <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">INÍCIO</a>
+                <a href="camisas.html" class="nav-link">COLEÇÕES</a>
+                <a href="camisas.html?category=clubs" class="nav-link">TIMES</a>
+                <a href="camisas.html?category=national" class="nav-link">SELEÇÕES</a>
+                <a href="#" class="nav-link">OFERTAS</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="nav-actions">
+                <button class="icon-btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i>
                 </button>
+                <a href="favoritos.html" class="icon-btn relative">
+                    <i class="fas fa-heart"></i>
+                    <span id="wishlist-count" class="cart-badge hidden">0</span>
+                </a>
+                <a href="carrinho.html" class="icon-btn relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+                <a href="perfil.html" class="icon-btn">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
     </header>
@@ -713,54 +876,67 @@
         <div class="container mx-auto px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    
+
                     <!-- Auth Container -->
                     <div class="form-card rounded-3xl shadow-2xl p-10 animate-slide-up" style="animation-delay: 0.2s;">
-                        
+
                         <!-- Tab Navigation -->
                         <div class="flex mb-10 bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl p-2 shadow-inner">
-                            <button id="loginTab" class="tab-button active flex-1 py-3 px-6 rounded-xl font-semibold text-lg" onclick="switchToLogin()">
+                            <button id="loginTab"
+                                class="tab-button active flex-1 py-3 px-6 rounded-xl font-semibold text-lg"
+                                onclick="switchToLogin()">
                                 <i class="fas fa-sign-in-alt mr-2"></i>Entrar
                             </button>
-                            <button id="registerTab" class="tab-button flex-1 py-3 px-6 rounded-xl font-semibold text-lg" onclick="switchToRegister()">
+                            <button id="registerTab"
+                                class="tab-button flex-1 py-3 px-6 rounded-xl font-semibold text-lg"
+                                onclick="switchToRegister()">
                                 <i class="fas fa-user-plus mr-2"></i>Cadastrar
                             </button>
                         </div>
-                    
-                    <!-- Login Form -->
+
+                        <!-- Login Form -->
                         <div id="loginFormContainer" class="auth-form">
                             <div class="text-center mb-10">
-                                <h2 class="text-4xl font-bold text-gradient mb-3 animate-slide-left">Bem-vindo de volta!</h2>
-                                <p class="text-gray-600 text-lg animate-slide-left" style="animation-delay: 0.1s;">Entre na sua conta para continuar</p>
-                        </div>
-                        
-                        <form id="loginForm" class="space-y-6">
-                                <div class="input-group animate-slide-up" style="animation-delay: 0.2s;">
-                                    <input type="email" id="loginEmail" placeholder="Seu e-mail" class="w-full border-0 focus:outline-none" required>
-                                <i class="fas fa-envelope icon"></i>
+                                <h2 class="text-4xl font-bold text-gradient mb-3 animate-slide-left">Bem-vindo de volta!
+                                </h2>
+                                <p class="text-gray-600 text-lg animate-slide-left" style="animation-delay: 0.1s;">Entre
+                                    na sua conta para continuar</p>
                             </div>
-                            
+
+                            <form id="loginForm" class="space-y-6">
+                                <div class="input-group animate-slide-up" style="animation-delay: 0.2s;">
+                                    <input type="email" id="loginEmail" placeholder="Seu e-mail"
+                                        class="w-full border-0 focus:outline-none" required>
+                                    <i class="fas fa-envelope icon"></i>
+                                </div>
+
                                 <div class="input-group animate-slide-up" style="animation-delay: 0.3s;">
-                                    <input type="password" id="loginPassword" placeholder="Sua senha" class="w-full border-0 focus:outline-none" required>
-                                <i class="fas fa-lock icon"></i>
+                                    <input type="password" id="loginPassword" placeholder="Sua senha"
+                                        class="w-full border-0 focus:outline-none" required>
+                                    <i class="fas fa-lock icon"></i>
                                     <button type="button" id="toggleLoginPassword" class="password-toggle">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                            </div>
-                            
-                                <div class="flex items-center justify-between animate-slide-up" style="animation-delay: 0.4s;">
+                                </div>
+
+                                <div class="flex items-center justify-between animate-slide-up"
+                                    style="animation-delay: 0.4s;">
                                     <label class="flex items-center remember-me cursor-pointer">
                                         <input type="checkbox" id="rememberMe" class="mr-3">
                                         <span class="text-sm text-gray-600 font-medium">Lembrar de mim</span>
-                                </label>
-                                    <button type="button" id="forgotPasswordBtn" class="text-sm text-green-600 hover:text-green-700 font-medium forgot-password">Esqueceu a senha?</button>
-                            </div>
-                            
-                                <button type="submit" class="w-full btn-primary text-white font-semibold animate-slide-up" style="animation-delay: 0.5s;">
+                                    </label>
+                                    <button type="button" id="forgotPasswordBtn"
+                                        class="text-sm text-green-600 hover:text-green-700 font-medium forgot-password">Esqueceu
+                                        a senha?</button>
+                                </div>
+
+                                <button type="submit"
+                                    class="w-full btn-primary text-white font-semibold animate-slide-up"
+                                    style="animation-delay: 0.5s;">
                                     <i class="fas fa-sign-in-alt mr-2"></i>ENTRAR
-                            </button>
-                        </form>
-                        
+                                </button>
+                            </form>
+
                             <div class="mt-8 animate-slide-up" style="animation-delay: 0.6s;">
                                 <div class="relative">
                                     <div class="absolute inset-0 flex items-center">
@@ -771,76 +947,91 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="social-buttons-container mt-6">
-                                <button type="button" id="googleLoginBtn" class="w-full social-btn google animate-slide-up" style="animation-delay: 0.7s;">
+                                <button type="button" id="googleLoginBtn"
+                                    class="w-full social-btn google animate-slide-up" style="animation-delay: 0.7s;">
                                     <i class="fab fa-google mr-3 text-lg"></i>Entrar com Google
-                        </button>
-                        
-                                <button type="button" id="facebookLoginBtn" class="w-full social-btn facebook animate-slide-up" style="animation-delay: 0.8s;">
+                                </button>
+
+                                <button type="button" id="facebookLoginBtn"
+                                    class="w-full social-btn facebook animate-slide-up" style="animation-delay: 0.8s;">
                                     <i class="fab fa-facebook-f mr-3 text-lg"></i>Entrar com Facebook
                                 </button>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Register Form -->
+
+                        <!-- Register Form -->
                         <div id="registerFormContainer" class="auth-form hidden">
                             <div class="text-center mb-10">
                                 <h2 class="text-4xl font-bold text-gradient mb-3 animate-slide-left">Crie sua conta</h2>
-                                <p class="text-gray-600 text-lg animate-slide-left" style="animation-delay: 0.1s;">Junte-se à comunidade FutWear</p>
-                        </div>
-                        
+                                <p class="text-gray-600 text-lg animate-slide-left" style="animation-delay: 0.1s;">
+                                    Junte-se à comunidade FutWear</p>
+                            </div>
+
                             <form id="registerFormElement" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div class="input-group animate-slide-up" style="animation-delay: 0.2s;">
-                                        <input type="text" id="registerFirstName" placeholder="Nome" class="w-full border-0 focus:outline-none" required>
-                                    <i class="fas fa-user icon"></i>
-                                </div>
+                                        <input type="text" id="registerFirstName" placeholder="Nome"
+                                            class="w-full border-0 focus:outline-none" required>
+                                        <i class="fas fa-user icon"></i>
+                                    </div>
                                     <div class="input-group animate-slide-up" style="animation-delay: 0.3s;">
-                                        <input type="text" id="registerLastName" placeholder="Sobrenome" class="w-full border-0 focus:outline-none" required>
-                                    <i class="fas fa-user icon"></i>
+                                        <input type="text" id="registerLastName" placeholder="Sobrenome"
+                                            class="w-full border-0 focus:outline-none" required>
+                                        <i class="fas fa-user icon"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            
+
                                 <div class="input-group animate-slide-up" style="animation-delay: 0.4s;">
-                                    <input type="email" id="registerEmail" placeholder="E-mail" class="w-full border-0 focus:outline-none" required>
-                                <i class="fas fa-envelope icon"></i>
-                            </div>
-                            
+                                    <input type="email" id="registerEmail" placeholder="E-mail"
+                                        class="w-full border-0 focus:outline-none" required>
+                                    <i class="fas fa-envelope icon"></i>
+                                </div>
+
                                 <div class="input-group animate-slide-up" style="animation-delay: 0.5s;">
-                                    <input type="tel" id="registerPhone" placeholder="Telefone" class="w-full border-0 focus:outline-none" required>
-                                <i class="fas fa-phone icon"></i>
-                            </div>
-                            
+                                    <input type="tel" id="registerPhone" placeholder="Telefone"
+                                        class="w-full border-0 focus:outline-none" required>
+                                    <i class="fas fa-phone icon"></i>
+                                </div>
+
                                 <div class="input-group animate-slide-up" style="animation-delay: 0.6s;">
-                                    <input type="password" id="registerPassword" placeholder="Senha (mín. 6 caracteres)" class="w-full border-0 focus:outline-none" required>
-                                <i class="fas fa-lock icon"></i>
+                                    <input type="password" id="registerPassword" placeholder="Senha (mín. 6 caracteres)"
+                                        class="w-full border-0 focus:outline-none" required>
+                                    <i class="fas fa-lock icon"></i>
                                     <button type="button" id="toggleRegisterPassword" class="password-toggle">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                            </div>
-                            
+                                </div>
+
                                 <div class="input-group animate-slide-up" style="animation-delay: 0.7s;">
-                                    <input type="password" id="registerConfirmPassword" placeholder="Confirmar senha" class="w-full border-0 focus:outline-none" required>
-                                <i class="fas fa-lock icon"></i>
+                                    <input type="password" id="registerConfirmPassword" placeholder="Confirmar senha"
+                                        class="w-full border-0 focus:outline-none" required>
+                                    <i class="fas fa-lock icon"></i>
                                     <button type="button" id="toggleConfirmPassword" class="password-toggle">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                            </div>
-                            
+                                </div>
+
                                 <div class="flex items-start animate-slide-up" style="animation-delay: 0.8s;">
                                     <input type="checkbox" id="termsCheckbox" class="mr-3 mt-1" required>
                                     <span class="text-sm text-gray-600 font-medium">
-                                        Concordo com os <a href="#" class="text-green-600 hover:text-green-700 hover:underline font-semibold">Termos de Uso</a> e 
-                                        <a href="#" class="text-green-600 hover:text-green-700 hover:underline font-semibold">Política de Privacidade</a>
-                                </span>
-                            </div>
-                            
-                                <button type="submit" class="w-full btn-primary text-white font-semibold animate-slide-up" style="animation-delay: 0.9s;">
+                                        Concordo com os <a href="#"
+                                            class="text-green-600 hover:text-green-700 hover:underline font-semibold">Termos
+                                            de Uso</a> e
+                                        <a href="#"
+                                            class="text-green-600 hover:text-green-700 hover:underline font-semibold">Política
+                                            de Privacidade</a>
+                                    </span>
+                                </div>
+
+                                <button type="submit"
+                                    class="w-full btn-primary text-white font-semibold animate-slide-up"
+                                    style="animation-delay: 0.9s;">
                                     <i class="fas fa-user-plus mr-2"></i>CRIAR CONTA
-                            </button>
-                        </form>
-                        
+                                </button>
+                            </form>
+
                             <div class="mt-8 animate-slide-up" style="animation-delay: 1.0s;">
                                 <div class="relative">
                                     <div class="absolute inset-0 flex items-center">
@@ -849,57 +1040,68 @@
                                     <div class="relative flex justify-center text-sm">
                                         <span class="px-4 bg-white text-gray-500 font-medium">Ou cadastre-se com</span>
                                     </div>
+                                </div>
                             </div>
-                        </div>
-                        
+
                             <div class="social-buttons-container mt-6">
-                                <button id="registerGoogleBtn" class="w-full social-btn google animate-slide-up" style="animation-delay: 1.1s;">
+                                <button id="registerGoogleBtn" class="w-full social-btn google animate-slide-up"
+                                    style="animation-delay: 1.1s;">
                                     <i class="fab fa-google mr-3 text-lg"></i>Cadastrar com Google
                                 </button>
-                                <button id="registerFacebookBtn" class="w-full social-btn facebook animate-slide-up" style="animation-delay: 1.2s;">
+                                <button id="registerFacebookBtn" class="w-full social-btn facebook animate-slide-up"
+                                    style="animation-delay: 1.2s;">
                                     <i class="fab fa-facebook-f mr-3 text-lg"></i>Cadastrar com Facebook
                                 </button>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Info Section -->
-                    <div class="hidden lg:flex flex-col justify-center text-white animate-slide-right" style="animation-delay: 0.4s;">
+                    <div class="hidden lg:flex flex-col justify-center text-white animate-slide-right"
+                        style="animation-delay: 0.4s;">
                         <div class="max-w-lg">
                             <h1 class="text-5xl font-bold mb-8 animate-float">
-                                A ESSÊNCIA DO 
-                                <span class="text-gradient bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">FUTEBOL</span>
+                                A ESSÊNCIA DO
+                                <span
+                                    class="text-gradient bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">FUTEBOL</span>
                             </h1>
-                            <p class="text-xl mb-10 text-gray-200 animate-slide-left" style="animation-delay: 0.6s;">Junte-se à comunidade FutWear e tenha acesso a:</p>
-                            
+                            <p class="text-xl mb-10 text-gray-200 animate-slide-left" style="animation-delay: 0.6s;">
+                                Junte-se à comunidade FutWear e tenha acesso a:</p>
+
                             <ul class="space-y-6 mb-10">
-                                <li class="flex items-center feature-item animate-slide-left" style="animation-delay: 0.8s;">
+                                <li class="flex items-center feature-item animate-slide-left"
+                                    style="animation-delay: 0.8s;">
                                     <i class="fas fa-check-circle mr-4 text-2xl"></i>
                                     <span class="text-lg font-medium">Camisas oficiais dos maiores times</span>
                                 </li>
-                                <li class="flex items-center feature-item animate-slide-left" style="animation-delay: 1.0s;">
+                                <li class="flex items-center feature-item animate-slide-left"
+                                    style="animation-delay: 1.0s;">
                                     <i class="fas fa-check-circle mr-4 text-2xl"></i>
                                     <span class="text-lg font-medium">Ofertas exclusivas para membros</span>
                                 </li>
-                                <li class="flex items-center feature-item animate-slide-left" style="animation-delay: 1.2s;">
+                                <li class="flex items-center feature-item animate-slide-left"
+                                    style="animation-delay: 1.2s;">
                                     <i class="fas fa-check-circle mr-4 text-2xl"></i>
                                     <span class="text-lg font-medium">Frete grátis em compras acima de R$ 199</span>
                                 </li>
-                                <li class="flex items-center feature-item animate-slide-left" style="animation-delay: 1.4s;">
+                                <li class="flex items-center feature-item animate-slide-left"
+                                    style="animation-delay: 1.4s;">
                                     <i class="fas fa-check-circle mr-4 text-2xl"></i>
                                     <span class="text-lg font-medium">Programa de pontos e recompensas</span>
                                 </li>
-                                <li class="flex items-center feature-item animate-slide-left" style="animation-delay: 1.6s;">
+                                <li class="flex items-center feature-item animate-slide-left"
+                                    style="animation-delay: 1.6s;">
                                     <i class="fas fa-check-circle mr-4 text-2xl"></i>
                                     <span class="text-lg font-medium">Atendimento prioritário</span>
                                 </li>
                             </ul>
-                            
+
                             <div class="info-card rounded-2xl p-8 animate-slide-up" style="animation-delay: 1.8s;">
                                 <h3 class="text-2xl font-bold mb-3 text-gradient">
                                     <i class="fas fa-gift mr-2"></i>Oferta especial!
                                 </h3>
-                                <p class="text-lg font-medium text-gray-200">Cadastre-se hoje e ganhe <span class="text-green-400 font-bold">10% de desconto</span> na primeira compra</p>
+                                <p class="text-lg font-medium text-gray-200">Cadastre-se hoje e ganhe <span
+                                        class="text-green-400 font-bold">10% de desconto</span> na primeira compra</p>
                                 <div class="mt-4 flex items-center text-sm text-gray-300">
                                     <i class="fas fa-clock mr-2"></i>
                                     <span>Oferta válida por tempo limitado</span>
@@ -920,7 +1122,8 @@
                     <h3 class="text-xl font-bold text-gray-800 flex items-center">
                         <i class="fas fa-heart text-red-500 mr-3"></i>Meus Favoritos
                     </h3>
-                    <button onclick="closeWishlist()" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-300">
+                    <button onclick="closeWishlist()"
+                        class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-300">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
@@ -944,20 +1147,22 @@
                     <h3 class="text-3xl font-bold text-gradient mb-3">Recuperar Senha</h3>
                     <p class="text-gray-600">Digite seu e-mail para receber um link de recuperação</p>
                 </div>
-                
+
                 <form id="forgotPasswordForm" class="space-y-6">
                     <div class="input-group">
-                        <input type="email" id="forgotEmail" placeholder="Seu e-mail" class="w-full border-0 focus:outline-none" required>
+                        <input type="email" id="forgotEmail" placeholder="Seu e-mail"
+                            class="w-full border-0 focus:outline-none" required>
                         <i class="fas fa-envelope icon"></i>
                     </div>
-                    
+
                     <button type="submit" class="w-full btn-primary text-white font-semibold">
                         <i class="fas fa-paper-plane mr-2"></i>ENVIAR LINK
                     </button>
                 </form>
-                
+
                 <div class="mt-6 text-center">
-                    <button type="button" id="closeForgotModal" class="text-gray-600 hover:text-gray-800 font-medium hover:underline">
+                    <button type="button" id="closeForgotModal"
+                        class="text-gray-600 hover:text-gray-800 font-medium hover:underline">
                         <i class="fas fa-arrow-left mr-2"></i>Voltar ao login
                     </button>
                 </div>
@@ -980,34 +1185,34 @@
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            
+
             const colors = {
                 success: 'bg-green-500',
                 error: 'bg-red-500',
                 warning: 'bg-yellow-500',
                 info: 'bg-blue-500'
             };
-            
+
             const icons = {
                 success: 'fas fa-check',
                 error: 'fas fa-times',
                 warning: 'fas fa-exclamation',
                 info: 'fas fa-info'
             };
-            
+
             toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 transform translate-x-full transition-transform duration-300`;
             toast.innerHTML = `
                 <i class="${icons[type]}"></i>
                 <span>${message}</span>
             `;
-            
+
             container.appendChild(toast);
-            
+
             // Animate in
             setTimeout(() => {
                 toast.classList.remove('translate-x-full');
             }, 100);
-            
+
             // Auto remove
             setTimeout(() => {
                 toast.classList.add('translate-x-full');
@@ -1032,9 +1237,9 @@
         function showFieldError(fieldId, message) {
             const field = document.getElementById(fieldId);
             const errorDiv = field.parentNode.querySelector('.error-message');
-            
+
             field.classList.add('input-error');
-            
+
             if (errorDiv) {
                 errorDiv.textContent = message;
             } else {
@@ -1048,7 +1253,7 @@
         function clearFieldError(fieldId) {
             const field = document.getElementById(fieldId);
             const errorDiv = field.parentNode.querySelector('.error-message');
-            
+
             field.classList.remove('input-error');
             if (errorDiv) {
                 errorDiv.remove();
@@ -1058,7 +1263,7 @@
         function clearAllErrors() {
             const errorMessages = document.querySelectorAll('.error-message');
             const errorFields = document.querySelectorAll('.input-error');
-            
+
             errorMessages.forEach(msg => msg.remove());
             errorFields.forEach(field => field.classList.remove('input-error'));
         }
@@ -1078,7 +1283,7 @@
         function renderWishlist() {
             const content = document.getElementById('wishlist-content');
             const favoritos = getFavoritos();
-            
+
             if (favoritos.length === 0) {
                 content.innerHTML = `
                     <div class="text-center py-8">
@@ -1128,7 +1333,7 @@
         function togglePassword(inputId, button) {
             const input = document.getElementById(inputId);
             const icon = button.querySelector('i');
-            
+
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.classList.remove('fa-eye');
@@ -1149,7 +1354,7 @@
                 localStorage.removeItem('rememberedEmail');
                 localStorage.removeItem('rememberMe');
             }
-            
+
             // Salvar dados do usuário para persistência
             const userData = {
                 email: email,
@@ -1159,7 +1364,7 @@
             localStorage.setItem('user', JSON.stringify(userData));
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('userEmail', email);
-            
+
             // Disparar evento de login
             window.dispatchEvent(new CustomEvent('userLogin', { detail: userData }));
         }
@@ -1167,11 +1372,11 @@
         function loadRememberedCredentials() {
             const rememberedEmail = localStorage.getItem('rememberedEmail');
             const rememberMe = localStorage.getItem('rememberMe');
-            
+
             if (rememberedEmail && rememberMe === 'true') {
                 const emailField = document.getElementById('loginEmail');
                 const rememberCheckbox = document.getElementById('rememberMe');
-                
+
                 if (emailField) emailField.value = rememberedEmail;
                 if (rememberCheckbox) rememberCheckbox.checked = true;
             }
@@ -1180,7 +1385,7 @@
         function checkExistingLogin() {
             const user = JSON.parse(localStorage.getItem('user') || 'null');
             const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-            
+
             if (user && user.email && isAuthenticated) {
                 console.log('Usuário já está logado:', user.email);
                 // Redirecionar para a página principal se já estiver logado
@@ -1196,10 +1401,10 @@
             localStorage.removeItem('isAuthenticated');
             localStorage.removeItem('userEmail');
             localStorage.removeItem('isAdmin');
-            
+
             // Disparar evento de logout
             window.dispatchEvent(new CustomEvent('userLogout'));
-            
+
             // Redirecionar para login
             window.location.href = 'login.html';
         }
@@ -1211,24 +1416,24 @@
             const registerTab = document.getElementById('registerTab');
             const loginForm = document.getElementById('loginFormContainer');
             const registerForm = document.getElementById('registerFormContainer');
-            
+
             console.log('Elements found:', { loginTab, registerTab, loginForm, registerForm });
-            
+
             if (!loginTab || !registerTab || !loginForm || !registerForm) {
                 console.error('Required elements not found');
                 return;
             }
-            
+
             // Update tab states
             loginTab.classList.add('active');
             registerTab.classList.remove('active');
-            
+
             // Show/hide forms
             loginForm.classList.remove('hidden');
             registerForm.classList.add('hidden');
-            
+
             console.log('Switched to login form');
-            
+
             // Clear errors
             clearAllErrors();
         }
@@ -1239,24 +1444,24 @@
             const registerTab = document.getElementById('registerTab');
             const loginForm = document.getElementById('loginFormContainer');
             const registerForm = document.getElementById('registerFormContainer');
-            
+
             console.log('Elements found:', { loginTab, registerTab, loginForm, registerForm });
-            
+
             if (!loginTab || !registerTab || !loginForm || !registerForm) {
                 console.error('Required elements not found');
                 return;
             }
-            
+
             // Update tab states
             registerTab.classList.add('active');
             loginTab.classList.remove('active');
-            
+
             // Show/hide forms
             registerForm.classList.remove('hidden');
             loginForm.classList.add('hidden');
-            
+
             console.log('Switched to register form');
-            
+
             // Clear errors
             clearAllErrors();
         }
@@ -1264,21 +1469,21 @@
         // Make functions globally available
         window.switchToLogin = switchToLogin;
         window.switchToRegister = switchToRegister;
-        
+
         // Initialize tab functionality
         function initializeTabs() {
             const loginTab = document.getElementById('loginTab');
             const registerTab = document.getElementById('registerTab');
-            
+
             if (loginTab) {
                 loginTab.addEventListener('click', switchToLogin);
             }
-            
+
             if (registerTab) {
                 registerTab.addEventListener('click', switchToRegister);
             }
         }
-        
+
         // Initialize on DOM ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeTabs);
@@ -1291,7 +1496,7 @@
             const input = document.getElementById(inputId);
             const button = document.getElementById(buttonId);
             const icon = button.querySelector('i');
-            
+
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.className = 'fas fa-eye-slash';
@@ -1303,27 +1508,27 @@
 
         // Social login handlers
         async function handleGoogleLogin() {
-                const provider = new GoogleAuthProvider();
-                try {
-                    await signInWithPopup(auth, provider);
+            const provider = new GoogleAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
                 showToast('Login com Google realizado com sucesso!', 'success');
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1500);
-                } catch (error) {
+            } catch (error) {
                 showToast('Erro ao fazer login com Google', 'error');
             }
         }
 
         async function handleFacebookLogin() {
             const provider = new FacebookAuthProvider();
-                try {
-                    await signInWithPopup(auth, provider);
+            try {
+                await signInWithPopup(auth, provider);
                 showToast('Login com Facebook realizado com sucesso!', 'success');
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1500);
-                } catch (error) {
+            } catch (error) {
                 showToast('Erro ao fazer login com Facebook', 'error');
             }
         }
@@ -1333,7 +1538,7 @@
             const isAuth = localStorage.getItem('isAuthenticated') === 'true';
             const userEmail = localStorage.getItem('userEmail');
             const isAdmin = localStorage.getItem('isAdmin') === 'true';
-            
+
             return {
                 isAuthenticated: isAuth,
                 userEmail: userEmail,
@@ -1342,16 +1547,16 @@
         }
 
         // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Initialize page
             initializePage();
             setupEventListeners();
             updateWishlistCount();
             atualizarIconeCarrinho();
-            
+
             // Load remembered credentials
             loadRememberedCredentials();
-            
+
             // Verificar se usuário já está logado
             checkExistingLogin();
         });
@@ -1361,7 +1566,7 @@
             const menuButton = document.getElementById('mobile-menu-btn');
             const nav = document.querySelector('nav.hidden');
             if (menuButton && nav) {
-                menuButton.addEventListener('click', function() {
+                menuButton.addEventListener('click', function () {
                     nav.classList.toggle('hidden');
                 });
             }
@@ -1369,7 +1574,7 @@
             // Wishlist button
             const wishlistBtn = document.getElementById('wishlist-btn');
             if (wishlistBtn) {
-                wishlistBtn.addEventListener('click', function(e) {
+                wishlistBtn.addEventListener('click', function (e) {
                     e.preventDefault();
                     openWishlist();
                 });
@@ -1378,38 +1583,38 @@
 
         function setupEventListeners() {
             // Cross-tab synchronization
-            window.addEventListener('storage', function(e) {
+            window.addEventListener('storage', function (e) {
                 if (e.key === 'cart') {
                     atualizarIconeCarrinho();
                 } else if (e.key === 'favoritos') {
                     updateWishlistCount();
                 }
             });
-            
+
             // Tab switching
             const loginTab = document.getElementById('loginTab');
             const registerTab = document.getElementById('registerTab');
-            
+
             console.log('Setting up tab listeners:', { loginTab, registerTab });
-            
+
             if (loginTab) {
-                loginTab.addEventListener('click', function(e) {
-                e.preventDefault();
+                loginTab.addEventListener('click', function (e) {
+                    e.preventDefault();
                     console.log('Login tab clicked via event listener');
                     switchToLogin();
-            });
+                });
             }
-            
+
             if (registerTab) {
-                registerTab.addEventListener('click', function(e) {
-                e.preventDefault();
+                registerTab.addEventListener('click', function (e) {
+                    e.preventDefault();
                     console.log('Register tab clicked via event listener');
                     switchToRegister();
                 });
             }
-            
+
             // Test function for debugging
-            window.testTabs = function() {
+            window.testTabs = function () {
                 console.log('Testing tab functionality...');
                 console.log('Current state:', {
                     loginTab: document.getElementById('loginTab'),
@@ -1425,19 +1630,19 @@
             const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
 
             if (toggleLoginPassword) {
-                toggleLoginPassword.addEventListener('click', function() {
+                toggleLoginPassword.addEventListener('click', function () {
                     togglePasswordVisibility('loginPassword', 'toggleLoginPassword');
                 });
             }
 
             if (toggleRegisterPassword) {
-                toggleRegisterPassword.addEventListener('click', function() {
+                toggleRegisterPassword.addEventListener('click', function () {
                     togglePasswordVisibility('registerPassword', 'toggleRegisterPassword');
                 });
             }
 
             if (toggleConfirmPassword) {
-                toggleConfirmPassword.addEventListener('click', function() {
+                toggleConfirmPassword.addEventListener('click', function () {
                     togglePasswordVisibility('registerConfirmPassword', 'toggleConfirmPassword');
                 });
             }
@@ -1448,24 +1653,24 @@
             const forgotPasswordModal = document.getElementById('forgotPasswordModal');
 
             if (forgotPasswordBtn) {
-                forgotPasswordBtn.addEventListener('click', function() {
+                forgotPasswordBtn.addEventListener('click', function () {
                     forgotPasswordModal.classList.remove('hidden');
                 });
             }
 
             if (closeForgotModal) {
-                closeForgotModal.addEventListener('click', function() {
+                closeForgotModal.addEventListener('click', function () {
                     forgotPasswordModal.classList.add('hidden');
                 });
             }
 
             if (forgotPasswordModal) {
-                forgotPasswordModal.addEventListener('click', function(e) {
+                forgotPasswordModal.addEventListener('click', function (e) {
                     if (e.target === this) {
                         this.classList.add('hidden');
-                }
-            });
-        }
+                    }
+                });
+            }
 
             // Social login buttons
             const googleLoginBtn = document.getElementById('googleLoginBtn');
@@ -1495,17 +1700,17 @@
             const loginForm = document.getElementById('loginForm');
             if (loginForm) {
                 loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+                    e.preventDefault();
                     clearAllErrors();
-                    
+
                     const email = document.getElementById('loginEmail').value;
                     const password = document.getElementById('loginPassword').value;
                     const rememberMe = document.getElementById('rememberMe').checked;
                     const submitBtn = e.target.querySelector('button[type="submit"]');
-                    
+
                     // Validation
                     let hasErrors = false;
-                    
+
                     if (!email) {
                         showFieldError('loginEmail', 'E-mail é obrigatório');
                         hasErrors = true;
@@ -1513,7 +1718,7 @@
                         showFieldError('loginEmail', 'E-mail inválido');
                         hasErrors = true;
                     }
-                    
+
                     if (!password) {
                         showFieldError('loginPassword', 'Senha é obrigatória');
                         hasErrors = true;
@@ -1521,17 +1726,17 @@
                         showFieldError('loginPassword', 'Senha deve ter pelo menos 6 caracteres');
                         hasErrors = true;
                     }
-                    
+
                     if (hasErrors) return;
-                    
+
                     // Show loading state
                     submitBtn.classList.add('loading');
                     submitBtn.disabled = true;
-                    
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
+
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
                         saveUserCredentials(email, rememberMe);
-                        
+
                         // Check if user is admin
                         if (email === 'admin@futwear.com') {
                             localStorage.setItem('isAdmin', 'true');
@@ -1542,10 +1747,10 @@
                         } else {
                             showToast('Login realizado com sucesso!', 'success');
                             setTimeout(() => {
-                    window.location.href = 'index.html';
+                                window.location.href = 'index.html';
                             }, 1500);
                         }
-                } catch (error) {
+                    } catch (error) {
                         let errorMessage = 'Erro ao fazer login';
                         switch (error.code) {
                             case 'auth/user-not-found':
@@ -1570,17 +1775,17 @@
                     } finally {
                         submitBtn.classList.remove('loading');
                         submitBtn.disabled = false;
-                }
-            });
-        }
+                    }
+                });
+            }
 
             // Register form submission
             const registerForm = document.getElementById('registerFormElement');
             if (registerForm) {
                 registerForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+                    e.preventDefault();
                     clearAllErrors();
-                    
+
                     const firstName = document.getElementById('registerFirstName').value;
                     const lastName = document.getElementById('registerLastName').value;
                     const email = document.getElementById('registerEmail').value;
@@ -1589,20 +1794,20 @@
                     const confirmPassword = document.getElementById('registerConfirmPassword').value;
                     const termsAccepted = document.getElementById('termsCheckbox').checked;
                     const submitBtn = e.target.querySelector('button[type="submit"]');
-                    
+
                     // Validation
                     let hasErrors = false;
-                    
+
                     if (!firstName) {
                         showFieldError('registerFirstName', 'Nome é obrigatório');
                         hasErrors = true;
                     }
-                    
+
                     if (!lastName) {
                         showFieldError('registerLastName', 'Sobrenome é obrigatório');
                         hasErrors = true;
                     }
-                    
+
                     if (!email) {
                         showFieldError('registerEmail', 'E-mail é obrigatório');
                         hasErrors = true;
@@ -1610,12 +1815,12 @@
                         showFieldError('registerEmail', 'E-mail inválido');
                         hasErrors = true;
                     }
-                    
+
                     if (!phone) {
                         showFieldError('registerPhone', 'Telefone é obrigatório');
                         hasErrors = true;
                     }
-                    
+
                     if (!password) {
                         showFieldError('registerPassword', 'Senha é obrigatória');
                         hasErrors = true;
@@ -1623,7 +1828,7 @@
                         showFieldError('registerPassword', 'Senha deve ter pelo menos 6 caracteres');
                         hasErrors = true;
                     }
-                    
+
                     if (!confirmPassword) {
                         showFieldError('registerConfirmPassword', 'Confirmação de senha é obrigatória');
                         hasErrors = true;
@@ -1636,40 +1841,40 @@
                         showToast('Você deve aceitar os termos de uso', 'error');
                         hasErrors = true;
                     }
-                    
+
                     if (hasErrors) return;
-                    
+
                     // Show loading state
                     submitBtn.classList.add('loading');
                     submitBtn.disabled = true;
-                    
-                try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-                    
-                    // Criar perfil do usuário no banco de dados
-                    const userData = {
-                        email: email,
-                        firstName: firstName,
-                        lastName: lastName,
-                        phone: phone,
-                        isAdmin: email === 'admin@futwear.com'
-                    };
-                    
-                    const profileResult = await createUserProfile(user.uid, userData);
-                    
-                    if (profileResult.success) {
-                        showToast('Conta criada com sucesso!', 'success');
-                        setTimeout(() => {
-                    window.location.href = 'index.html';
-                        }, 1500);
-                    } else {
-                        showToast('Conta criada, mas erro ao salvar perfil. Tente fazer login.', 'warning');
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 1500);
-                    }
-                } catch (error) {
+
+                    try {
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        const user = userCredential.user;
+
+                        // Criar perfil do usuário no banco de dados
+                        const userData = {
+                            email: email,
+                            firstName: firstName,
+                            lastName: lastName,
+                            phone: phone,
+                            isAdmin: email === 'admin@futwear.com'
+                        };
+
+                        const profileResult = await createUserProfile(user.uid, userData);
+
+                        if (profileResult.success) {
+                            showToast('Conta criada com sucesso!', 'success');
+                            setTimeout(() => {
+                                window.location.href = 'index.html';
+                            }, 1500);
+                        } else {
+                            showToast('Conta criada, mas erro ao salvar perfil. Tente fazer login.', 'warning');
+                            setTimeout(() => {
+                                window.location.href = 'index.html';
+                            }, 1500);
+                        }
+                    } catch (error) {
                         let errorMessage = 'Erro ao criar conta';
                         switch (error.code) {
                             case 'auth/email-already-in-use':
@@ -1691,39 +1896,39 @@
                     } finally {
                         submitBtn.classList.remove('loading');
                         submitBtn.disabled = false;
-                }
-            });
-        }
+                    }
+                });
+            }
 
             // Forgot password form submission
             const forgotPasswordForm = document.getElementById('forgotPasswordForm');
             if (forgotPasswordForm) {
                 forgotPasswordForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+                    e.preventDefault();
                     const email = document.getElementById('forgotEmail').value;
                     const submitBtn = e.target.querySelector('button[type="submit"]');
-                    
+
                     if (!email || !validateEmail(email)) {
                         showToast('Por favor, digite um e-mail válido', 'error');
                         return;
                     }
-                    
+
                     submitBtn.classList.add('loading');
                     submitBtn.disabled = true;
-                    
+
                     try {
                         await sendPasswordResetEmail(auth, email);
                         showToast('Link de recuperação enviado para seu e-mail!', 'success');
                         forgotPasswordModal.classList.add('hidden');
                         document.getElementById('forgotEmail').value = '';
-                } catch (error) {
+                    } catch (error) {
                         showToast('Erro ao enviar e-mail de recuperação', 'error');
                     } finally {
                         submitBtn.classList.remove('loading');
                         submitBtn.disabled = false;
-                }
-            });
-        }
+                    }
+                });
+            }
 
             // Real-time field validation
             const loginEmail = document.getElementById('loginEmail');
@@ -1732,7 +1937,7 @@
             const registerConfirmPassword = document.getElementById('registerConfirmPassword');
 
             if (loginEmail) {
-                loginEmail.addEventListener('blur', function() {
+                loginEmail.addEventListener('blur', function () {
                     if (this.value && !validateEmail(this.value)) {
                         showFieldError('loginEmail', 'E-mail inválido');
                     } else {
@@ -1742,7 +1947,7 @@
             }
 
             if (registerEmail) {
-                registerEmail.addEventListener('blur', function() {
+                registerEmail.addEventListener('blur', function () {
                     if (this.value && !validateEmail(this.value)) {
                         showFieldError('registerEmail', 'E-mail inválido');
                     } else {
@@ -1752,7 +1957,7 @@
             }
 
             if (registerPassword) {
-                registerPassword.addEventListener('input', function() {
+                registerPassword.addEventListener('input', function () {
                     if (this.value.length > 0 && this.value.length < 6) {
                         showFieldError('registerPassword', 'Senha deve ter pelo menos 6 caracteres');
                     } else {
@@ -1762,28 +1967,29 @@
             }
 
             if (registerConfirmPassword) {
-                registerConfirmPassword.addEventListener('blur', function() {
+                registerConfirmPassword.addEventListener('blur', function () {
                     const password = document.getElementById('registerPassword').value;
                     if (this.value && password !== this.value) {
                         showFieldError('registerConfirmPassword', 'Senhas não coincidem');
                     } else {
                         clearFieldError('registerConfirmPassword');
-                }
-            });
-        }
+                    }
+                });
+            }
 
-        // Make functions global
-        window.switchToLogin = switchToLogin;
-        window.switchToRegister = switchToRegister;
-        window.togglePassword = togglePassword;
-        window.openWishlist = openWishlist;
-        window.closeWishlist = closeWishlist;
-        window.removeFromWishlist = removeFromWishlist;
-        window.showToast = showToast;
+            // Make functions global
+            window.switchToLogin = switchToLogin;
+            window.switchToRegister = switchToRegister;
+            window.togglePassword = togglePassword;
+            window.openWishlist = openWishlist;
+            window.closeWishlist = closeWishlist;
+            window.removeFromWishlist = removeFromWishlist;
+            window.showToast = showToast;
         };
     </script>
-    
+
     <!-- Adidas Style Header Script -->
-    <script src="js/adidas-style-header.js"></script>
+
 </body>
-</html> 
+
+</html>
