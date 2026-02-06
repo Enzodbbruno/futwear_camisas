@@ -22,6 +22,17 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'ID do produto é obrigatório' });
         }
 
+        console.log('📦 Atualizando produto:', id, req.body);
+
+        // Sanitize numbers
+        const safePrice = price !== undefined ? parseFloat(price.toString().replace(',', '.')) : undefined;
+        const safeDiscount = discount !== undefined ? parseFloat(discount.toString().replace(',', '.')) : undefined;
+        const safeStock = stock !== undefined ? parseInt(stock) : undefined;
+
+        // Sanitize dates
+        const safePromoStart = promoStart && promoStart.trim() !== '' ? promoStart : (promoStart === '' ? null : undefined);
+        const safePromoEnd = promoEnd && promoEnd.trim() !== '' ? promoEnd : (promoEnd === '' ? null : undefined);
+
         // Build dynamic update query
         const fields = [];
         const values = [];
@@ -35,19 +46,25 @@ module.exports = async (req, res) => {
         };
 
         addField('name', name);
-        addField('price', price);
+        addField('price', safePrice);
         addField('description', description);
         addField('image', image);
         addField('category', category);
         addField('team', team);
-        addField('stock', stock);
+        addField('stock', safeStock);
         addField('league', league);
         addField('type', type);
-        addField('discount', discount);
-        if (promoStart !== undefined) fields.push(`"promoStart" = $${paramCount++}`);
-        if (promoStart !== undefined) values.push(promoStart);
-        if (promoEnd !== undefined) fields.push(`"promoEnd" = $${paramCount++}`);
-        if (promoEnd !== undefined) values.push(promoEnd);
+        addField('discount', safeDiscount);
+
+        // Handle mixed-case columns specifically
+        if (safePromoStart !== undefined) {
+            fields.push(`"promoStart" = $${paramCount++}`);
+            values.push(safePromoStart);
+        }
+        if (safePromoEnd !== undefined) {
+            fields.push(`"promoEnd" = $${paramCount++}`);
+            values.push(safePromoEnd);
+        }
 
         if (fields.length === 0) {
             return res.status(400).json({ error: 'Nenhum campo para atualizar' });
@@ -56,15 +73,18 @@ module.exports = async (req, res) => {
         values.push(id);
         const query = `UPDATE products SET ${fields.join(', ')} WHERE id = $${paramCount} RETURNING *`;
 
+        console.log('📝 Query Update:', query, values);
+
         const result = await db.query(query, values);
 
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Produto não encontrado' });
         }
 
+        console.log('✅ Produto atualizado');
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.error('Erro ao atualizar produto:', error);
-        res.status(500).json({ error: 'Erro ao atualizar produto' });
+        console.error('❌ Erro ao atualizar produto:', error);
+        res.status(500).json({ error: 'Erro ao atualizar produto: ' + error.message });
     }
 };

@@ -20,12 +20,18 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const { category, team, limit = 50, page = 1 } = req.query;
+        const { category, team } = req.query;
+        // Parse Int safely
+        const limit = parseInt(req.query.limit) || 50;
+        const page = parseInt(req.query.page) || 1;
+
+        console.log('📦 Buscando produtos:', { category, team, limit, page });
+
         let query = 'SELECT * FROM products WHERE 1=1';
         let params = [];
         let paramIndex = 1;
 
-        if (category) {
+        if (category && category !== 'all') {
             query += ` AND category = $${paramIndex}`;
             params.push(category);
             paramIndex++;
@@ -42,12 +48,16 @@ module.exports = async (req, res) => {
         query += ` ORDER BY id DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
         params.push(limit, offset);
 
+        console.log('📝 Executando Query:', query, params);
+
         const result = await db.query(query, params);
+
+        console.log(`✅ ${result.rows.length} produtos encontrados.`);
 
         res.status(200).json(result.rows);
 
     } catch (error) {
-        console.error('Products Error:', error);
-        res.status(500).json({ error: 'Erro ao buscar produtos.' });
+        console.error('❌ Erro Fatal na API de Produtos:', error);
+        res.status(500).json({ error: 'Erro ao buscar produtos. Consulte os logs do servidor.' });
     }
 };
