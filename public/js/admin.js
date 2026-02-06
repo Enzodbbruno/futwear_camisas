@@ -61,7 +61,7 @@ async function fetchProducts() {
 }
 
 async function createProductAPI(productData) {
-  const res = await fetch('/api/products/create', {
+  const res = await fetch('/api/products', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(productData)
@@ -74,7 +74,7 @@ async function createProductAPI(productData) {
 }
 
 async function updateProductAPI(productData) {
-  const res = await fetch('/api/products/update', {
+  const res = await fetch('/api/products', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(productData)
@@ -87,7 +87,7 @@ async function updateProductAPI(productData) {
 }
 
 async function deleteProductAPI(id) {
-  const res = await fetch(`/api/products/delete?id=${id}`, {
+  const res = await fetch(`/api/products?id=${id}`, {
     method: 'DELETE'
   });
   if (!res.ok) {
