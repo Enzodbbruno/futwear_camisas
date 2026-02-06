@@ -1371,12 +1371,17 @@
             renderSkeletons('mais-vendidos', 4);
 
             try {
-                // Load products from database
-                const produtos = await buscarCamisas();
-                console.log('📦 Produtos carregados:', produtos);
+                // Load products from Serverless API
+                const response = await fetch('/api/products?limit=100&t=' + Date.now());
+                if (!response.ok) throw new Error('Falha ao carregar produtos');
+
+                const produtosData = await response.json();
+                const produtos = Array.isArray(produtosData) ? produtosData : (produtosData.data || []);
+
+                console.log('📦 Produtos carregados da API:', produtos);
 
                 if (!produtos || produtos.length === 0) {
-                    console.log('⚠️ Nenhum produto encontrado');
+                    console.log('⚠️ Nenhum produto encontrado na API');
                     showEmptyStates();
                     return;
                 }

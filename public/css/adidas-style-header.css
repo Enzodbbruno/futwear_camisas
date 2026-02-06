@@ -109,16 +109,16 @@
     width: 0;
     height: 2px;
     background: var(--primary-color);
+    transition: all 0.3s ease;
     transform: translateX(-50%);
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
     color: var(--primary-color);
+    opacity: 1;
 }
 
-.nav-link:hover::after,
-.nav-link.active::after {
+.nav-link:hover::after {
     width: 100%;
 }
 

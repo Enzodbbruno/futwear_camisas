@@ -611,20 +611,27 @@
                 productsGrid.classList.add('hidden');
                 emptyState.classList.add('hidden');
 
-                // Load products
-                const produtos = await buscarCamisas();
-                console.log('✅ Produtos carregados:', produtos);
-                console.log('📊 Total de produtos no array:', produtos ? produtos.length : 0);
-                console.log('🔍 Primeiro produto:', produtos && produtos.length > 0 ? produtos[0] : 'Nenhum produto');
+                // Load products from Serverless API
+                // Adding timestamp to prevent caching issues
+                const response = await fetch('/api/products?limit=1000&t=' + Date.now());
+                if (!response.ok) throw new Error('Falha ao carregar produtos');
 
-                if (!produtos || produtos.length === 0) {
-                    console.log('❌ Nenhum produto encontrado');
+                const produtos = await response.json();
+
+                // Validate if it's an array (API might return { products: [], ... } or just [])
+                const productsArray = Array.isArray(produtos) ? produtos : (produtos.data || []);
+
+                console.log('✅ Produtos carregados da API:', productsArray);
+                console.log('📊 Total de produtos:', productsArray.length);
+
+                if (productsArray.length === 0) {
+                    console.log('❌ Nenhum produto encontrado na API');
                     showEmptyState();
                     return;
                 }
 
-                products = produtos;
-                filteredProducts = produtos;
+                products = productsArray;
+                filteredProducts = productsArray;
                 console.log('📊 Total de produtos:', products.length);
 
                 // Hide loading and show products

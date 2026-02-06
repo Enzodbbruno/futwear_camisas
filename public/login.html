@@ -1731,9 +1731,6 @@
                     if (!password) {
                         showFieldError('loginPassword', 'Senha é obrigatória');
                         hasErrors = true;
-                    } else if (!validatePassword(password)) {
-                        showFieldError('loginPassword', 'Senha deve ter pelo menos 6 caracteres');
-                        hasErrors = true;
                     }
 
                     if (hasErrors) return;
@@ -1743,10 +1740,29 @@
                     submitBtn.disabled = true;
 
                     try {
-                        await signInWithEmailAndPassword(auth, email, password);
-                        saveUserCredentials(email, rememberMe);
+                        const response = await fetch('/api/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password })
+                        });
 
-                        // Check if user is admin
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            throw new Error(data.error || 'Erro ao fazer login');
+                        }
+
+                        // Success
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('user', JSON.stringify(data.user)); // Basic info for header
+
+                        if (rememberMe) {
+                            localStorage.setItem('savedEmail', email);
+                        } else {
+                            localStorage.removeItem('savedEmail');
+                        }
+
+                        // Check if user is admin (simple check derived from email, similar to before but ideally should be in token)
                         if (email === 'admin@futwear.com') {
                             localStorage.setItem('isAdmin', 'true');
                             showToast('Login de administrador realizado com sucesso!', 'success');
@@ -1755,32 +1771,18 @@
                             }, 1500);
                         } else {
                             showToast('Login realizado com sucesso!', 'success');
+
+                            // Trigger header update event
+                            const event = new Event('userLogin');
+                            window.dispatchEvent(event);
+
                             setTimeout(() => {
                                 window.location.href = 'index.html';
                             }, 1500);
                         }
+
                     } catch (error) {
-                        let errorMessage = 'Erro ao fazer login';
-                        switch (error.code) {
-                            case 'auth/user-not-found':
-                                errorMessage = 'E-mail não cadastrado. Verifique ou cadastre-se.';
-                                break;
-                            case 'auth/wrong-password':
-                                errorMessage = 'Senha incorreta. Tente novamente.';
-                                break;
-                            case 'auth/invalid-email':
-                                errorMessage = 'E-mail inválido. Verifique o formato.';
-                                break;
-                            case 'auth/too-many-requests':
-                                errorMessage = 'Muitas tentativas. Aguarde alguns minutos.';
-                                break;
-                            case 'auth/network-request-failed':
-                                errorMessage = 'Erro de conexão. Verifique sua internet.';
-                                break;
-                            default:
-                                errorMessage = 'Erro inesperado. Tente novamente.';
-                        }
-                        showToast(errorMessage, 'error');
+                        showToast(error.message, 'error');
                     } finally {
                         submitBtn.classList.remove('loading');
                         submitBtn.disabled = false;
@@ -1798,7 +1800,6 @@
                     const firstName = document.getElementById('registerFirstName').value;
                     const lastName = document.getElementById('registerLastName').value;
                     const email = document.getElementById('registerEmail').value;
-                    const phone = document.getElementById('registerPhone').value;
                     const password = document.getElementById('registerPassword').value;
                     const confirmPassword = document.getElementById('registerConfirmPassword').value;
                     const termsAccepted = document.getElementById('termsCheckbox').checked;
@@ -1812,21 +1813,8 @@
                         hasErrors = true;
                     }
 
-                    if (!lastName) {
-                        showFieldError('registerLastName', 'Sobrenome é obrigatório');
-                        hasErrors = true;
-                    }
-
                     if (!email) {
                         showFieldError('registerEmail', 'E-mail é obrigatório');
-                        hasErrors = true;
-                    } else if (!validateEmail(email)) {
-                        showFieldError('registerEmail', 'E-mail inválido');
-                        hasErrors = true;
-                    }
-
-                    if (!phone) {
-                        showFieldError('registerPhone', 'Telefone é obrigatório');
                         hasErrors = true;
                     }
 
@@ -1838,10 +1826,7 @@
                         hasErrors = true;
                     }
 
-                    if (!confirmPassword) {
-                        showFieldError('registerConfirmPassword', 'Confirmação de senha é obrigatória');
-                        hasErrors = true;
-                    } else if (password !== confirmPassword) {
+                    if (password !== confirmPassword) {
                         showFieldError('registerConfirmPassword', 'Senhas não coincidem');
                         hasErrors = true;
                     }
@@ -1858,50 +1843,33 @@
                     submitBtn.disabled = true;
 
                     try {
-                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                        const user = userCredential.user;
+                        const fullName = `${firstName} ${lastName}`.trim();
 
-                        // Criar perfil do usuário no banco de dados
-                        const userData = {
-                            email: email,
-                            firstName: firstName,
-                            lastName: lastName,
-                            phone: phone,
-                            isAdmin: email === 'admin@futwear.com'
-                        };
+                        const response = await fetch('/api/auth/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: fullName,
+                                email,
+                                password
+                            })
+                        });
 
-                        const profileResult = await createUserProfile(user.uid, userData);
+                        const data = await response.json();
 
-                        if (profileResult.success) {
-                            showToast('Conta criada com sucesso!', 'success');
-                            setTimeout(() => {
-                                window.location.href = 'index.html';
-                            }, 1500);
-                        } else {
-                            showToast('Conta criada, mas erro ao salvar perfil. Tente fazer login.', 'warning');
-                            setTimeout(() => {
-                                window.location.href = 'index.html';
-                            }, 1500);
+                        if (!response.ok) {
+                            throw new Error(data.error || 'Erro ao criar conta');
                         }
+
+                        // Success
+                        showToast('Conta criada com sucesso! Faça login.', 'success');
+                        setTimeout(() => {
+                            switchToLogin();
+                        }, 2000);
+
                     } catch (error) {
-                        let errorMessage = 'Erro ao criar conta';
-                        switch (error.code) {
-                            case 'auth/email-already-in-use':
-                                errorMessage = 'Este e-mail já está cadastrado. Faça login.';
-                                break;
-                            case 'auth/invalid-email':
-                                errorMessage = 'E-mail inválido. Verifique o formato.';
-                                break;
-                            case 'auth/weak-password':
-                                errorMessage = 'Senha muito fraca. Use pelo menos 6 caracteres.';
-                                break;
-                            case 'auth/network-request-failed':
-                                errorMessage = 'Erro de conexão. Verifique sua internet.';
-                                break;
-                            default:
-                                errorMessage = 'Erro inesperado. Tente novamente.';
-                        }
-                        showToast(errorMessage, 'error');
+                        console.error('Registration Error:', error);
+                        showToast(error.message, 'error');
                     } finally {
                         submitBtn.classList.remove('loading');
                         submitBtn.disabled = false;

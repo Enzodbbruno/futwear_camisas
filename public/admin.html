@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="font-sans bg-gray-50 text-gray-900 min-h-screen">
   <div id="app" class="min-h-screen grid grid-cols-1 lg:grid-cols-[260px_1fr]">
     <aside class="bg-white border-r border-gray-200 p-4 lg:min-h-screen">
@@ -15,18 +17,24 @@
         <h1 class="font-bold">Painel Admin</h1>
       </div>
       <nav class="space-y-2">
-        <button data-tab="dashboard" class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium active">Dashboard</button>
-        <button data-tab="products" class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Produtos</button>
-        <button data-tab="promotions" class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Promoções</button>
-        <button data-tab="reviews" class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Avaliações</button>
-        <button data-tab="orders" class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Pedidos</button>
+        <button data-tab="dashboard"
+          class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium active">Dashboard</button>
+        <button data-tab="products"
+          class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Produtos</button>
+        <button data-tab="promotions"
+          class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Promoções</button>
+        <button data-tab="reviews"
+          class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Avaliações</button>
+        <button data-tab="orders"
+          class="w-full text-left px-3 py-2 rounded-lg hover:bg-green-50 text-gray-700 font-medium">Pedidos</button>
       </nav>
       <div class="mt-6 text-sm text-gray-500" id="adminUserInfo"></div>
     </aside>
 
     <main class="p-6">
       <!-- Guards / Messages -->
-      <div id="guardMessage" class="hidden p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 mb-4"></div>
+      <div id="guardMessage" class="hidden p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 mb-4">
+      </div>
 
       <!-- Dashboard -->
       <section id="tab-dashboard" class="space-y-6">
@@ -61,7 +69,8 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label class="text-sm text-gray-600">Buscar</label>
-              <input id="reviewsSearch" class="w-full border rounded-lg p-2 mt-1" placeholder="Nome/email/ID do produto" />
+              <input id="reviewsSearch" class="w-full border rounded-lg p-2 mt-1"
+                placeholder="Nome/email/ID do produto" />
             </div>
             <div>
               <label class="text-sm text-gray-600">Status</label>
@@ -121,14 +130,18 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label class="text-sm text-gray-600">Desconto (%)</label>
-              <input id="promoPercent" type="number" min="0" max="90" step="1" class="w-full border rounded-lg p-2 mt-1" placeholder="Ex.: 20" />
+              <input id="promoPercent" type="number" min="0" max="90" step="1" class="w-full border rounded-lg p-2 mt-1"
+                placeholder="Ex.: 20" />
             </div>
             <div>
               <label class="text-sm text-gray-600">Preço alvo (R$)</label>
-              <input id="promoTargetPrice" type="number" min="0" step="0.01" class="w-full border rounded-lg p-2 mt-1" placeholder="Ex.: 199,90" />
+              <input id="promoTargetPrice" type="number" min="0" step="0.01" class="w-full border rounded-lg p-2 mt-1"
+                placeholder="Ex.: 199,90" />
             </div>
             <div class="flex items-end gap-2">
-              <button id="promoApplyFiltered" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Aplicar na categoria/filtrados</button>
+              <button id="promoApplyFiltered"
+                class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Aplicar na
+                categoria/filtrados</button>
             </div>
           </div>
         </div>
@@ -150,8 +163,10 @@
             <tbody id="promotionsTable"></tbody>
           </table>
           <div class="mt-3 flex flex-wrap gap-2">
-            <button id="promoApplySelected" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Aplicar nos selecionados</button>
-            <button id="promoClearSelected" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Remover dos selecionados</button>
+            <button id="promoApplySelected"
+              class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Aplicar nos selecionados</button>
+            <button id="promoClearSelected" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Remover dos
+              selecionados</button>
           </div>
         </div>
       </section>
@@ -210,29 +225,44 @@
       <h3 class="text-xl font-bold mb-4">Novo Produto</h3>
       <form id="newProductForm" class="space-y-3">
         <input class="w-full border rounded-lg p-2" placeholder="Nome" name="name" required />
-        <input class="w-full border rounded-lg p-2" placeholder="Preço" name="price" type="number" min="0" step="0.01" required />
+        <input class="w-full border rounded-lg p-2" placeholder="Preço" name="price" type="number" min="0" step="0.01"
+          required />
+
+        <textarea class="w-full border rounded-lg p-2 h-20" placeholder="Descrição" name="description"></textarea>
+
         <label class="block">
           <span class="text-sm text-gray-600">Categoria</span>
           <select id="categorySelect" name="category" class="w-full border rounded-lg p-2 mt-1"></select>
         </label>
-        <label id="categoryCustomWrap" class="block hidden">
-          <span class="text-sm text-gray-600">Categoria personalizada</span>
-          <input id="categoryCustom" class="w-full border rounded-lg p-2 mt-1" placeholder="Digite a categoria" />
-        </label>
+
         <label class="block">
           <span class="text-sm text-gray-600">Liga</span>
           <select id="leagueSelect" name="league" class="w-full border rounded-lg p-2 mt-1"></select>
         </label>
+
         <label class="block">
           <span class="text-sm text-gray-600">Time</span>
-          <input id="teamInput" class="w-full border rounded-lg p-2 mt-1" placeholder="Pesquisar time" name="team" list="teamsList" />
-          <datalist id="teamsList"></datalist>
+          <input class="w-full border rounded-lg p-2 mt-1" placeholder="Pesquisar time" name="team" />
         </label>
-        <input class="w-full border rounded-lg p-2" placeholder="URL da Imagem" name="image" />
+
+        <div class="border rounded-lg p-3 bg-gray-50">
+          <span class="text-sm text-gray-600 block mb-2">Imagem do Produto</span>
+          <input type="file" name="image_file" accept="image/*" class="block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-green-50 file:text-green-700
+              hover:file:bg-green-100
+            " />
+          <input class="w-full border rounded-lg p-2 mt-2 text-sm" placeholder="Ou URL da Imagem"
+            name="image_url_manual" />
+        </div>
+
         <input class="w-full border rounded-lg p-2" placeholder="Estoque" name="stock" type="number" min="0" />
+
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" data-close class="px-4 py-2 border rounded-lg">Cancelar</button>
-          <button class="px-4 py-2 bg-green-600 text-white rounded-lg">Salvar</button>
+          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Salvar</button>
         </div>
       </form>
     </div>
@@ -240,4 +270,5 @@
 
   <script type="module" src="./js/admin.js"></script>
 </body>
+
 </html>
