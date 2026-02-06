@@ -1,6 +1,4 @@
-import { onAuthStateChange, getCurrentUser, isAdmin, getAllOrders, updateOrderStatus, getOrderStats, listAllReviews, approveReview, deleteReview } from '../firebase-hybrid.js';
-import { storage } from '../firebase-hybrid.js';
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
+import { supabase } from './supabase-client.js';
 
 // Categorias do site
 const CATEGORIES = [
@@ -24,6 +22,29 @@ const LEAGUES = [
   { value: 'Bundesliga', label: 'Alemanha - Bundesliga' },
   { value: 'Ligue 1', label: 'França - Ligue 1' },
 ];
+
+// ------ Auth Helper ------
+function checkAuth() {
+  // For development/admin access, we can relax this or rely on a "token" stored on login
+  // If you have a specific token key:
+  const token = localStorage.getItem('token');
+
+  // If no token, maybe redirect or just show as guest for now?
+  // Since login.html sets 'token', we should check it.
+  if (!token) {
+    // Optional: Redirect to login
+    // window.location.href = 'login.html'; 
+    return null;
+  }
+
+  try {
+    // Decode simple JWT payload if possible
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload;
+  } catch (e) {
+    return { email: 'Admin User' };
+  }
+}
 
 // ------ API Functions ------
 
@@ -76,33 +97,37 @@ async function deleteProductAPI(id) {
   return await res.json();
 }
 
-// ------ Image Upload Function ------
+// ------ Supabase Image Upload ------
 
-// Cache de upload para evitar reenvio da mesma imagem
-const uploadCache = new Map();
-
-async function uploadImageToFirebase(file) {
-  if (uploadCache.has(file.name + file.size)) {
-    console.log('📦 Imagem encontrada no cache de upload');
-    return uploadCache.get(file.name + file.size);
-  }
-
+async function uploadImageToSupabase(file) {
   try {
-    const fileName = `products/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-    const storageRef = ref(storage, fileName);
+    // Create unique file name
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+    const filePath = `${fileName}`;
 
-    console.log('📤 Iniciando upload...', fileName);
-    const snapshot = await uploadBytes(storageRef, file);
-    console.log('✅ Upload concluído!');
+    console.log('📤 Enviando para Supabase Storage (Bucket: products):', filePath);
 
-    const url = await getDownloadURL(snapshot.ref);
-    console.log('🔗 URL obtida:', url);
+    const { data, error } = await supabase.storage
+      .from('products')
+      .upload(filePath, file);
 
-    uploadCache.set(file.name + file.size, url);
-    return url;
+    if (error) {
+      console.error('Supabase Upload Error:', error);
+      throw error;
+    }
+
+    // Get Public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('products')
+      .getPublicUrl(filePath);
+
+    console.log('🔗 URL pública gerada:', publicUrl);
+    return publicUrl;
+
   } catch (error) {
-    console.error('❌ Erro no upload para Firebase:', error);
-    throw new Error('Falha no upload da imagem: ' + error.message);
+    console.error('❌ Erro no upload para Supabase:', error);
+    throw new Error('Falha no upload da imagem (Verifique se o Bucket "products" é público). Detalhes: ' + error.message);
   }
 }
 
@@ -112,19 +137,9 @@ let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Auth Check
-  onAuthStateChange(async (user) => {
-    currentUser = user;
-    if (user) {
-      const admin = await isAdmin(user);
-      // Simplificado: qualquer user por enquanto para testar, ou descomentar a validação real
-      initAdmin();
-      // if (admin) initAdmin(); else guardBlock();
-    } else {
-      // window.location.href = 'login.html'; 
-      // Para desenvolvimento, permitir carregar se não houver usuario logado, mas funcoes de escrita falhariam
-      initAdmin();
-    }
-  });
+  currentUser = checkAuth();
+  if (currentUser) initAdmin();
+  // Else... maybe show login button or redirect?
 
   // Tab Navigation
   document.querySelectorAll('[data-tab]').forEach(btn => {
@@ -141,6 +156,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.querySelectorAll('[data-close]').forEach(btn => {
     btn.addEventListener('click', closeProductModal);
+  });
+
+  // Close modal on cancel (specific button)
+  document.querySelector('#newProductModal button[data-close]')?.addEventListener('click', () => {
+    closeProductModal();
   });
 
   // Form Submit
@@ -161,15 +181,9 @@ function showTab(tabName) {
 }
 
 function initAdmin() {
-  if (currentUser) {
-    const info = document.getElementById('adminUserInfo');
-    if (info) info.textContent = `Logado como: ${currentUser.email}`;
-  }
-  loadProductsTable(); // Load initially
-}
-
-function guardBlock() {
-  document.body.innerHTML = '<div class="p-8 text-center text-red-600 font-bold">Acesso Negado</div>';
+  const info = document.getElementById('adminUserInfo');
+  if (info && currentUser) info.textContent = `Logado como: ${currentUser.email || 'Admin'}`;
+  loadProductsTable();
 }
 
 // ------ Products Table ------
@@ -237,8 +251,7 @@ function openProductModal(product = null) {
     form.category.value = product.category || '';
     if (form.league) form.league.value = product.league || '';
     form.team.value = product.team || '';
-    // Image logic: we don't put URL in file input. We can store it in a hidden field or just rely on global state?
-    // Let's use a dataset on the form to store current image
+    // Store current image URL in dataset
     form.dataset.currentImage = product.image || '';
   } else {
     delete form.dataset.currentImage;
@@ -265,9 +278,12 @@ async function handleProductSubmit(e) {
 
     let imageUrl = form.dataset.currentImage || '';
 
-    // Handle Image Upload
+    // Handle Image Upload with Supabase
     if (fileInput && fileInput.files.length > 0) {
-      imageUrl = await uploadImageToFirebase(fileInput.files[0]);
+      console.log('📸 Iniciando upload para Supabase...');
+      imageUrl = await uploadImageToSupabase(fileInput.files[0]);
+    } else if (formData.get('image_url_manual')) {
+      imageUrl = formData.get('image_url_manual');
     }
 
     const productData = {
@@ -279,7 +295,7 @@ async function handleProductSubmit(e) {
       league: formData.get('league'),
       team: formData.get('team'),
       stock: parseInt(formData.get('stock')) || 0,
-      image: imageUrl || formData.get('image_url_manual') // Fallback manual input if needed
+      image: imageUrl
     };
 
     if (editingId) {
@@ -304,6 +320,7 @@ async function handleProductSubmit(e) {
 
 // Global scope for onclick handlers
 window.editProduct = (id) => {
+  // strict check might fail if id is int vs string, so loose check is safer for basic CRUD
   const product = currentProducts.find(p => p.id == id);
   if (product) openProductModal(product);
 };
@@ -318,5 +335,3 @@ window.deleteProduct = async (id) => {
     alert(error.message);
   }
 };
-
-window.guardBlock = guardBlock;
