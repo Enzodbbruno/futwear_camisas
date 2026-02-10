@@ -50,7 +50,7 @@ export async function getCart() {
           // Mantém quantidade e tamanho, mas atualiza preço e imagem
           return {
             ...item,
-            price: freshProduct.price, // Preço atualizado do banco
+            price: parseFloat(freshProduct.price), // Preço atualizado do banco (Force Number)
             image: freshProduct.image,
             name: freshProduct.name,
             // Mantém personalização se houver

@@ -398,7 +398,7 @@
                                             <i class="fas fa-plus text-xs"></i>
                                         </button>
                                     </div>
-                                    <span class="font-bold text-green-600">R$ ${(((item.price || 0) + (item.personalization && item.personalization.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)).toFixed(2).replace('.', ',')}</span>
+                                    <span class="font-bold text-green-600">R$ ${(((Number(item.price) || 0) + (item.personalization && item.personalization.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)).toFixed(2).replace('.', ',')}</span>
                                 </div>
                             </div>
                             <button onclick="window.handleRemoveItem(${index})" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors">
@@ -474,7 +474,7 @@
 
         // Update Order Summary
         function updateOrderSummary(cart) {
-            const subtotal = cart.reduce((acc, item) => acc + (((item.price || 0) + (item.personalization?.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)), 0);
+            const subtotal = cart.reduce((acc, item) => acc + (((Number(item.price) || 0) + (item.personalization?.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)), 0);
             const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
             document.getElementById('summary-items-count').textContent = count;

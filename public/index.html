@@ -1304,7 +1304,7 @@
                         <a href="produto.html?id=${produto.id}">
                             <img src="${produto.image || 'https://via.placeholder.com/300x400?text=Sem+Imagem'}" 
                                  alt="${produto.name}" 
-                                 class="w-full h-64 object-cover transition-all duration-500 group-hover:scale-110"
+                                 class="w-full h-64 object-cover transition-all duration-700 ease-out group-hover:scale-105"
                                  onerror="this.src='https://via.placeholder.com/300x400?text=Erro+na+Imagem'">
                         </a>
                         <button class="${favClasses}">
@@ -1390,8 +1390,11 @@
 
                 produtosCache = produtos;
 
+                // Deduplicate items by ID
+                const uniqueProducts = Array.from(new Map(produtos.map(p => [p.id, p])).values());
+
                 // Featured Products (Produtos em Destaque)
-                const destaque = [...produtos].sort((a, b) => {
+                const destaque = [...uniqueProducts].sort((a, b) => { // Use uniqueProducts
                     // Prioritize products with discount, then by name
                     if (a.discount && !b.discount) return -1;
                     if (!a.discount && b.discount) return 1;
