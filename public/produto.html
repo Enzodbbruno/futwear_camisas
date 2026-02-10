@@ -1205,201 +1205,199 @@
                     return true;
                 } catch { return !!p.discount; }
             }
-        } catch { return !!p.discount; }
-            }
-        const promoActive = isPromoActive(produto);
-        const priceVal = parseFloat(produto.price) || 0;
-        const discountVal = parseFloat(produto.discount) || 0;
-        const discounted = promoActive ? (priceVal * (1 - discountVal / 100)) : priceVal;
-        const price = discounted.toFixed(2).replace('.', ',');
-        const installment = (discounted / 3).toFixed(2).replace('.', ',');
-        const priceEl = document.getElementById('productPrice');
-        if (promoActive) {
-            priceEl.innerHTML = `R$ ${price} <span class="text-lg text-gray-500 line-through ml-2">R$ ${priceVal.toFixed(2).replace('.', ',')}</span>`;
-        } else {
-            priceEl.textContent = `R$ ${price}`;
-        }
-        document.querySelector('.text-lg.text-gray-500').textContent = `ou 3x de R$ ${installment}`;
-
-        // Avaliações
-        await loadAndRenderReviews(produto.id);
-
-        // Submissão de avaliação
-        const form = document.getElementById('review-form');
-        if (form && !form.__bound) {
-            form.__bound = true;
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const rating = Number(document.getElementById('user-rating')?.value || 0);
-                const name = (document.getElementById('review-name')?.value || '').trim();
-                const text = (document.getElementById('review-comment')?.value || '').trim();
-                if (!rating || !text) { showToast('Informe uma nota e um comentário', 'error'); return; }
-                try {
-                    await addReview(produto.id, { rating, text: name ? `${name}: ${text}` : text, approved: true });
-                    try {
-                        const key = `reviews_${produto.id}`;
-                        const arr = JSON.parse(localStorage.getItem(key) || '[]');
-                        arr.push({ id: Date.now(), rating, name: name || 'Cliente', comment: text, approved: true, date: new Date().toISOString() });
-                        localStorage.setItem(key, JSON.stringify(arr));
-                    } catch { }
-                    showToast('Avaliação enviada!', 'success');
-                    form.reset();
-                    const hidden = document.getElementById('user-rating'); if (hidden) hidden.value = '0';
-                    document.querySelectorAll('.star-rating').forEach(b => { b.classList.remove('text-yellow-400'); b.classList.add('text-gray-300'); });
-                    await loadAndRenderReviews(produto.id);
-                } catch (err) {
-                    showToast('Erro ao enviar avaliação', 'error');
-                }
-            });
-        }
-
-        // Tamanhos
-        const sizeSelect = document.getElementById('size');
-        sizeSelect.innerHTML = '<option value="" disabled selected>Selecione um tamanho</option>' +
-            (produto.sizes || ['P', 'M', 'G', 'GG']).map(size => `<option value="${size}">${size}</option>`).join('');
-
-        // Descrição
-        const descriptionElement = document.getElementById('product-description');
-        if (descriptionElement) {
-            descriptionElement.textContent = produto.description || 'Descrição do produto não disponível.';
-        }
-
-        // Estoque
-        const stockElement = document.getElementById('stock-container');
-        if (produto.available) {
-            stockElement.innerHTML = '<span class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>Em estoque</span>';
-        } else {
-            stockElement.innerHTML = '<span class="text-red-600 font-semibold"><i class="fas fa-times-circle mr-1"></i>Indisponível</span>';
-        }
-
-        // Botão adicionar ao carrinho
-        document.getElementById('add-to-cart-btn').onclick = () => {
-            console.log('🛒 Botão adicionar ao carrinho clicado');
-            const selectedSize = sizeSelect.value;
-            if (!selectedSize) {
-                showToast('Selecione um tamanho antes de adicionar ao carrinho', 'error');
-                try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
-                sizeSelect.focus();
-                return;
-            }
-            console.log('📦 Produto:', produto);
-            console.log('📏 Tamanho selecionado:', selectedSize);
-            addToCart({ ...produto, size: selectedSize });
-            showToast('Adicionado ao carrinho', 'success');
-            atualizarIconeCarrinho();
-            openPostAddOverlay();
-        };
-        document.getElementById('buy-now-btn').onclick = () => {
-            const selectedSize = sizeSelect.value;
-            if (!selectedSize) {
-                showToast('Selecione um tamanho para continuar', 'error');
-                try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
-                sizeSelect.focus();
-                return;
-            }
-            // Dados de personalização
-            const personalizationData = (() => {
-                const cb = document.getElementById('personalization');
-                const nameEl = document.getElementById('inputName');
-                const numEl = document.getElementById('inputNumber');
-                if (cb && cb.checked) {
-                    return {
-                        enabled: true,
-                        name: (nameEl?.value || '').toUpperCase(),
-                        number: (numEl?.value || '').toUpperCase(),
-                        fee: 30
-                    };
-                }
-                return { enabled: false };
-            })();
-            addToCart({ ...produto, size: selectedSize, personalization: personalizationData });
-            showToast('Produto adicionado. Indo para o carrinho...', 'success');
-            atualizarIconeCarrinho();
-            setTimeout(() => { window.location.href = 'carrinho.html'; }, 500);
-        };
-
-        // ---------------- Personalização: toggle + preview + preço ----------------
-        (function initPersonalization() {
-            const cb = document.getElementById('personalization');
-            const fields = document.getElementById('personalization-fields');
-            const inputName = document.getElementById('inputName');
-            const inputNumber = document.getElementById('inputNumber');
-            const previewName = document.getElementById('previewName');
-            const previewNumber = document.getElementById('previewNumber');
+            const promoActive = isPromoActive(produto);
+            const priceVal = parseFloat(produto.price) || 0;
+            const discountVal = parseFloat(produto.discount) || 0;
+            const discounted = promoActive ? (priceVal * (1 - discountVal / 100)) : priceVal;
+            const price = discounted.toFixed(2).replace('.', ',');
+            const installment = (discounted / 3).toFixed(2).replace('.', ',');
             const priceEl = document.getElementById('productPrice');
-            const basePrice = Number(discounted || 0);
+            if (promoActive) {
+                priceEl.innerHTML = `R$ ${price} <span class="text-lg text-gray-500 line-through ml-2">R$ ${priceVal.toFixed(2).replace('.', ',')}</span>`;
+            } else {
+                priceEl.textContent = `R$ ${price}`;
+            }
+            document.querySelector('.text-lg.text-gray-500').textContent = `ou 3x de R$ ${installment}`;
 
-            function updatePrice() {
-                const extra = cb?.checked ? 30 : 0;
-                if (priceEl) {
-                    const total = basePrice + extra;
-                    if (promoActive) {
-                        priceEl.innerHTML = `R$ ${total.toFixed(2).replace('.', ',')} <span class="text-lg text-gray-500 line-through ml-2">R$ ${produto.price.toFixed(2).replace('.', ',')}</span>`;
-                    } else {
-                        priceEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            // Avaliações
+            await loadAndRenderReviews(produto.id);
+
+            // Submissão de avaliação
+            const form = document.getElementById('review-form');
+            if (form && !form.__bound) {
+                form.__bound = true;
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const rating = Number(document.getElementById('user-rating')?.value || 0);
+                    const name = (document.getElementById('review-name')?.value || '').trim();
+                    const text = (document.getElementById('review-comment')?.value || '').trim();
+                    if (!rating || !text) { showToast('Informe uma nota e um comentário', 'error'); return; }
+                    try {
+                        await addReview(produto.id, { rating, text: name ? `${name}: ${text}` : text, approved: true });
+                        try {
+                            const key = `reviews_${produto.id}`;
+                            const arr = JSON.parse(localStorage.getItem(key) || '[]');
+                            arr.push({ id: Date.now(), rating, name: name || 'Cliente', comment: text, approved: true, date: new Date().toISOString() });
+                            localStorage.setItem(key, JSON.stringify(arr));
+                        } catch { }
+                        showToast('Avaliação enviada!', 'success');
+                        form.reset();
+                        const hidden = document.getElementById('user-rating'); if (hidden) hidden.value = '0';
+                        document.querySelectorAll('.star-rating').forEach(b => { b.classList.remove('text-yellow-400'); b.classList.add('text-gray-300'); });
+                        await loadAndRenderReviews(produto.id);
+                    } catch (err) {
+                        showToast('Erro ao enviar avaliação', 'error');
                     }
-                }
-            }
-
-            function updatePreview() {
-                if (!cb?.checked) {
-                    if (previewName) previewName.textContent = '';
-                    if (previewNumber) previewNumber.textContent = '';
-                    return;
-                }
-                if (previewName) previewName.textContent = (inputName?.value || '').toUpperCase();
-                if (previewNumber) previewNumber.textContent = (inputNumber?.value || '').toUpperCase();
-            }
-
-            if (cb && fields) {
-                // Inicializa estado
-                fields.classList.toggle('hidden', !cb.checked);
-                updatePrice();
-                updatePreview();
-
-                cb.addEventListener('change', () => {
-                    fields.classList.toggle('hidden', !cb.checked);
-                    updatePrice();
-                    updatePreview();
                 });
             }
 
-            if (inputName) {
-                inputName.addEventListener('input', updatePreview);
-            }
-            if (inputNumber) {
-                inputNumber.addEventListener('input', updatePreview);
+            // Tamanhos
+            const sizeSelect = document.getElementById('size');
+            sizeSelect.innerHTML = '<option value="" disabled selected>Selecione um tamanho</option>' +
+                (produto.sizes || ['P', 'M', 'G', 'GG']).map(size => `<option value="${size}">${size}</option>`).join('');
+
+            // Descrição
+            const descriptionElement = document.getElementById('product-description');
+            if (descriptionElement) {
+                descriptionElement.textContent = produto.description || 'Descrição do produto não disponível.';
             }
 
-            // Também interceptar botão Adicionar ao Carrinho para incluir personalização
-            const addBtn = document.getElementById('add-to-cart-btn');
-            if (addBtn) {
-                addBtn.onclick = () => {
-                    const selectedSize = sizeSelect.value;
-                    if (!selectedSize) {
-                        showToast('Selecione um tamanho antes de adicionar ao carrinho', 'error');
-                        try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
-                        sizeSelect.focus();
+            // Estoque
+            const stockElement = document.getElementById('stock-container');
+            if (produto.available) {
+                stockElement.innerHTML = '<span class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>Em estoque</span>';
+            } else {
+                stockElement.innerHTML = '<span class="text-red-600 font-semibold"><i class="fas fa-times-circle mr-1"></i>Indisponível</span>';
+            }
+
+            // Botão adicionar ao carrinho
+            document.getElementById('add-to-cart-btn').onclick = () => {
+                console.log('🛒 Botão adicionar ao carrinho clicado');
+                const selectedSize = sizeSelect.value;
+                if (!selectedSize) {
+                    showToast('Selecione um tamanho antes de adicionar ao carrinho', 'error');
+                    try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
+                    sizeSelect.focus();
+                    return;
+                }
+                console.log('📦 Produto:', produto);
+                console.log('📏 Tamanho selecionado:', selectedSize);
+                addToCart({ ...produto, size: selectedSize });
+                showToast('Adicionado ao carrinho', 'success');
+                atualizarIconeCarrinho();
+                openPostAddOverlay();
+            };
+            document.getElementById('buy-now-btn').onclick = () => {
+                const selectedSize = sizeSelect.value;
+                if (!selectedSize) {
+                    showToast('Selecione um tamanho para continuar', 'error');
+                    try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
+                    sizeSelect.focus();
+                    return;
+                }
+                // Dados de personalização
+                const personalizationData = (() => {
+                    const cb = document.getElementById('personalization');
+                    const nameEl = document.getElementById('inputName');
+                    const numEl = document.getElementById('inputNumber');
+                    if (cb && cb.checked) {
+                        return {
+                            enabled: true,
+                            name: (nameEl?.value || '').toUpperCase(),
+                            number: (numEl?.value || '').toUpperCase(),
+                            fee: 30
+                        };
+                    }
+                    return { enabled: false };
+                })();
+                addToCart({ ...produto, size: selectedSize, personalization: personalizationData });
+                showToast('Produto adicionado. Indo para o carrinho...', 'success');
+                atualizarIconeCarrinho();
+                setTimeout(() => { window.location.href = 'carrinho.html'; }, 500);
+            };
+
+            // ---------------- Personalização: toggle + preview + preço ----------------
+            (function initPersonalization() {
+                const cb = document.getElementById('personalization');
+                const fields = document.getElementById('personalization-fields');
+                const inputName = document.getElementById('inputName');
+                const inputNumber = document.getElementById('inputNumber');
+                const previewName = document.getElementById('previewName');
+                const previewNumber = document.getElementById('previewNumber');
+                const priceEl = document.getElementById('productPrice');
+                const basePrice = Number(discounted || 0);
+
+                function updatePrice() {
+                    const extra = cb?.checked ? 30 : 0;
+                    if (priceEl) {
+                        const total = basePrice + extra;
+                        if (promoActive) {
+                            priceEl.innerHTML = `R$ ${total.toFixed(2).replace('.', ',')} <span class="text-lg text-gray-500 line-through ml-2">R$ ${produto.price.toFixed(2).replace('.', ',')}</span>`;
+                        } else {
+                            priceEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                        }
+                    }
+                }
+
+                function updatePreview() {
+                    if (!cb?.checked) {
+                        if (previewName) previewName.textContent = '';
+                        if (previewNumber) previewNumber.textContent = '';
                         return;
                     }
-                    const personalizationData = (() => {
-                        if (cb && cb.checked) {
-                            return {
-                                enabled: true,
-                                name: (inputName?.value || '').toUpperCase(),
-                                number: (inputNumber?.value || '').toUpperCase(),
-                                fee: 30
-                            };
+                    if (previewName) previewName.textContent = (inputName?.value || '').toUpperCase();
+                    if (previewNumber) previewNumber.textContent = (inputNumber?.value || '').toUpperCase();
+                }
+
+                if (cb && fields) {
+                    // Inicializa estado
+                    fields.classList.toggle('hidden', !cb.checked);
+                    updatePrice();
+                    updatePreview();
+
+                    cb.addEventListener('change', () => {
+                        fields.classList.toggle('hidden', !cb.checked);
+                        updatePrice();
+                        updatePreview();
+                    });
+                }
+
+                if (inputName) {
+                    inputName.addEventListener('input', updatePreview);
+                }
+                if (inputNumber) {
+                    inputNumber.addEventListener('input', updatePreview);
+                }
+
+                // Também interceptar botão Adicionar ao Carrinho para incluir personalização
+                const addBtn = document.getElementById('add-to-cart-btn');
+                if (addBtn) {
+                    addBtn.onclick = () => {
+                        const selectedSize = sizeSelect.value;
+                        if (!selectedSize) {
+                            showToast('Selecione um tamanho antes de adicionar ao carrinho', 'error');
+                            try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
+                            sizeSelect.focus();
+                            return;
                         }
-                        return { enabled: false };
-                    })();
-                    addToCart({ ...produto, size: selectedSize, personalization: personalizationData });
-                    showToast('Adicionado ao carrinho', 'success');
-                    atualizarIconeCarrinho();
-                    openPostAddOverlay();
-                };
-            }
-        })();
+                        const personalizationData = (() => {
+                            if (cb && cb.checked) {
+                                return {
+                                    enabled: true,
+                                    name: (inputName?.value || '').toUpperCase(),
+                                    number: (inputNumber?.value || '').toUpperCase(),
+                                    fee: 30
+                                };
+                            }
+                            return { enabled: false };
+                        })();
+                        addToCart({ ...produto, size: selectedSize, personalization: personalizationData });
+                        showToast('Adicionado ao carrinho', 'success');
+                        atualizarIconeCarrinho();
+                        openPostAddOverlay();
+                    };
+                }
+            })();
         }
 
         // compat: manter alias caso algum código chame renderProduto()
