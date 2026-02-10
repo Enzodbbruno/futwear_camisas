@@ -1299,7 +1299,7 @@
                 console.log(`📦 Renderizando produto: ${produto.name} - R$ ${discountedPrice.toFixed(2)}`);
 
                 return `
-                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-gray-100" data-product-id="${produto.id}">
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-gray-200 hover:border-gray-400" data-product-id="${produto.id}">
                     <div class="relative overflow-hidden">
                         <a href="produto.html?id=${produto.id}">
                             <img src="${produto.image || 'https://via.placeholder.com/300x400?text=Sem+Imagem'}" 
@@ -1370,10 +1370,10 @@
                     return;
                 }
 
-                produtosCache = produtos;
-
                 // Deduplicate items by ID
                 const uniqueProducts = Array.from(new Map(produtos.map(p => [p.id, p])).values());
+
+                produtosCache = uniqueProducts;
 
                 // Featured Products (Produtos em Destaque)
                 const destaque = [...uniqueProducts].sort((a, b) => { // Use uniqueProducts
@@ -1776,60 +1776,51 @@
                 const isFav = wishlist.some(i => i.id === produto.id);
                 const favClasses = isFav ? 'wishlist-btn absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center bg-red-500 text-white transition duration-300 active cursor-pointer hover:bg-red-600 shadow-md hover:shadow-lg' : 'wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer shadow-md hover:shadow-lg';
 
+                // Calculate prices
+                const priceVal = parseFloat(produto.price) || 0;
+                const discountVal = parseFloat(produto.discount) || 0;
+                const promoActive = discountVal > 0; // Simple check for search results
+                const discountedPrice = promoActive ? priceVal * (1 - discountVal / 100) : priceVal;
+
                 return `
-                <div class="product-card-enhanced rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 text-gray-900 animate-fade-in" data-product-id="${produto.id}" style="animation-delay: ${index * 0.1}s;">
-                    <div class="relative group">
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-gray-200 hover:border-gray-400" data-product-id="${produto.id}">
+                    <div class="relative overflow-hidden">
                         <a href="produto.html?id=${produto.id}">
-                        <img src="${produto.image}" alt="${produto.name}" class="w-full h-64 object-cover transition-all duration-500 group-hover:scale-110">
+                            <img src="${produto.image || 'https://via.placeholder.com/300x400?text=Sem+Imagem'}" 
+                                 alt="${produto.name}" 
+                                 class="w-full h-72 object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                                 onerror="this.src='https://via.placeholder.com/300x400?text=Erro+na+Imagem'">
                         </a>
-                        <button class="${favClasses}">
+                        <button class="${favClasses} top-3 right-3 shadow-sm hover:scale-110">
                             <i class="fas fa-heart"></i>
                         </button>
-                        ${produto.discount ? `<span class='absolute top-3 left-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-bold animate-bounce'>-${produto.discount}%</span>` : ''}
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-2">
-                                <p class="text-xs text-gray-600 text-center">Clique para ver detalhes</p>
+                        ${promoActive ? `<span class='absolute top-3 left-3 bg-black text-white text-xs px-3 py-1 font-bold uppercase tracking-wide'>-${produto.discount}%</span>` : ''}
                     </div>
+                    
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-2 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            <span>${produto.team || 'Time'}</span>
+                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                            <span>${produto.league || 'Liga'}</span>
                         </div>
-                    </div>
-                    <div class="p-6 bg-gradient-to-b from-white to-gray-50">
-                        <div class="flex items-center mb-3">
-                            <span class="text-sm bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-medium">${produto.team}</span>
-                            <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full font-medium ml-2">${produto.league || 'N/A'}</span>
-                        </div>
-                        <a href="produto.html?id=${produto.id}" class="font-bold text-gray-800 mb-3 block hover:text-green-600 line-clamp-2">${produto.name}</a>
-                        <div class="flex items-center justify-between mb-4">
+                        
+                        <a href="produto.html?id=${produto.id}" class="block font-semibold text-gray-900 mb-2 truncate group-hover:text-green-700 transition-colors">${produto.name}</a>
+                        
+                        <div class="flex items-end justify-between">
                             <div>
-                                <span class="text-xl font-bold text-gray-900">R$ ${produto.price.toFixed(2).replace('.', ',')}</span>
-                                ${produto.oldPrice ? `<span class='text-sm text-gray-500 line-through ml-2'>R$ ${produto.oldPrice.toFixed(2).replace('.', ',')}</span>` : ''}
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-lg font-bold text-gray-900">R$ ${discountedPrice.toFixed(2).replace('.', ',')}</span>
+                                    ${promoActive ? `<span class='text-sm text-gray-400 line-through'>R$ ${priceVal.toFixed(2).replace('.', ',')}</span>` : ''}
+                                </div>
+                                <p class="text-xs text-green-600 font-medium mt-1">10x de R$ ${(discountedPrice / 10).toFixed(2).replace('.', ',')} s/ juros</p>
                             </div>
-                            ${(() => {
-                        try {
-                            const saved = localStorage.getItem(`reviews_${produto.id}`);
-                            const reviews = saved ? JSON.parse(saved) : [];
-                            const count = Array.isArray(reviews) ? reviews.length : 0;
-                            const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
-                            const stars = (() => {
-                                let html = '';
-                                for (let i = 1; i <= 5; i++) {
-                                    let cls = 'fas fa-star ';
-                                    if (i <= Math.floor(avg) || (i === Math.ceil(avg) && avg % 1 !== 0)) cls += 'text-yellow-400';
-                                    else cls += 'text-gray-300';
-                                    html += `<i class=\"${cls} text-xs\"></i>`;
-                                }
-                                return html;
-                            })();
-                            return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${stars}</div><span class=\"text-xs text-gray-500\">(${avg.toFixed(1)})</span></div>`;
-                        } catch {
-                            return `<div class=\"flex items-center\"><div class=\"flex mr-2\">${'<i class=\\"fas fa-star text-gray-300 text-xs\\"></i>'.repeat(5)}</div><span class=\"text-xs text-gray-500\">(0.0)</span></div>`;
-                        }
-                    })()}
                         </div>
-                        <div class="flex space-x-2">
-                            <a href="produto.html?id=${produto.id}" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-center hover:scale-105 shadow-lg">COMPRAR</a>
+                        
+                        <a href="produto.html?id=${produto.id}" 
+                           class="mt-4 w-full block bg-gray-900 text-white text-center py-3 rounded-lg font-medium text-sm hover:bg-green-700 transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
+                           VER DETALHES
+                        </a>
                     </div>
-                </div>
                 </div>
             `;
             }).join('');
