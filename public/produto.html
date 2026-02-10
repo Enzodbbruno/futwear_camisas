@@ -1163,15 +1163,19 @@
             try { sessionStorage.setItem('lastProductId', id); } catch { }
 
             console.log('🔍 Buscando produto com ID:', id);
-            const produtos = await buscarCamisas();
-            console.log('📦 Produtos carregados:', produtos);
+            console.log('🔍 Buscando produto com ID:', id);
 
-            const produto = produtos.find(p => p.id === id);
-            if (!produto) {
+            // Use API optimized fetch
+            const response = await getProductById(id);
+            console.log('📦 Resposta da busca:', response);
+
+            if (!response.success || !response.data) {
                 console.log('❌ Produto não encontrado:', id);
                 showErrorState();
                 return;
             }
+
+            const produto = response.data;
 
             console.log('✅ Produto encontrado:', produto);
 
