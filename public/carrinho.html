@@ -477,10 +477,34 @@
             const subtotal = cart.reduce((acc, item) => acc + (((Number(item.price) || 0) + (item.personalization?.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)), 0);
             const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
+            // Shipping Logic
+            let shippingCost = 0;
+            if (count >= 3) {
+                shippingCost = 0;
+            } else if (count === 2) {
+                shippingCost = 20.00;
+            } else if (count === 1) {
+                shippingCost = 30.00;
+            } else {
+                shippingCost = 0; // Empty cart
+            }
+
+            const total = subtotal + shippingCost;
+
             document.getElementById('summary-items-count').textContent = count;
             document.getElementById('cart-items-count').textContent = count + (count === 1 ? ' item' : ' itens');
             document.getElementById('summary-subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-            document.getElementById('summary-total').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+
+            const shippingEl = document.getElementById('summary-shipping');
+            if (shippingCost === 0) {
+                shippingEl.textContent = count > 0 ? 'Grátis' : 'R$ 0,00';
+                shippingEl.className = 'text-green-600 font-medium';
+            } else {
+                shippingEl.textContent = `R$ ${shippingCost.toFixed(2).replace('.', ',')}`;
+                shippingEl.className = 'font-medium'; // Remove green color if paid
+            }
+
+            document.getElementById('summary-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
         }
     </script>
     <!-- Footer Pro 2026 -->
