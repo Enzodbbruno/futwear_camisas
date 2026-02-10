@@ -1289,10 +1289,12 @@
                 const favClasses = isFav ? 'wishlist-btn absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center bg-red-500 text-white transition duration-300 active cursor-pointer hover:bg-red-600 shadow-md hover:shadow-lg' : 'wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer shadow-md hover:shadow-lg';
 
                 // Calculate discounted price if promo active
-                const promoActive = produto.discount && produto.discount > 0 && isPromoActive(produto);
+                const priceVal = parseFloat(produto.price) || 0;
+                const discountVal = parseFloat(produto.discount) || 0;
+                const promoActive = discountVal > 0 && isPromoActive(produto);
                 const discountedPrice = promoActive ?
-                    produto.price * (1 - produto.discount / 100) :
-                    produto.price;
+                    priceVal * (1 - discountVal / 100) :
+                    priceVal;
 
                 console.log(`📦 Renderizando produto: ${produto.name} - R$ ${discountedPrice.toFixed(2)}`);
 
@@ -1325,7 +1327,7 @@
                         <div class="flex items-center justify-between mb-4">
                             <div>
                                 <span class="text-xl font-bold text-gray-900">R$ ${discountedPrice.toFixed(2).replace('.', ',')}</span>
-                                ${promoActive ? `<span class='text-sm text-gray-500 line-through ml-2'>R$ ${produto.price.toFixed(2).replace('.', ',')}</span>` : ''}
+                                ${promoActive ? `<span class='text-sm text-gray-500 line-through ml-2'>R$ ${priceVal.toFixed(2).replace('.', ',')}</span>` : ''}
                             </div>
                             ${(() => {
                         try {
@@ -1556,7 +1558,7 @@
                     console.log('📄 Descrição atualizada:', descriptionEl.textContent.substring(0, 50) + '...');
                 }
 
-                const price = produto.price || 0;
+                const price = parseFloat(produto.price) || 0;
                 const installmentValue = (price / 10).toFixed(2);
 
                 if (priceEl) {
