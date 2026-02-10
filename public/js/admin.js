@@ -178,12 +178,19 @@ function showTab(tabName) {
   document.getElementById(`tab-${tabName}`)?.classList.remove('hidden');
 
   if (tabName === 'products') loadProductsTable();
+  if (tabName === 'reviews') loadReviewsTable();
+  if (tabName === 'orders') loadOrdersTable();
+  if (tabName === 'dashboard') loadDashboardStats();
 }
 
 function initAdmin() {
   const info = document.getElementById('adminUserInfo');
   if (info && currentUser) info.textContent = `Logado como: ${currentUser.email || 'Admin'}`;
+
+  // Load initial data
+  loadDashboardStats();
   loadProductsTable();
+  initPromotionFilters();
 }
 
 // ------ Products Table ------
@@ -335,3 +342,228 @@ window.deleteProduct = async (id) => {
     alert(error.message);
   }
 };
+// ------ Dashboard Logic ------
+
+async function loadDashboardStats() {
+  try {
+    const res = await fetch('/api/orders');
+    if (!res.ok) throw new Error('Falha ao carregar pedidos');
+    const orders = await res.json();
+
+    const totalOrders = orders.length;
+    const paidOrders = orders.filter(o => o.status === 'paid' || o.status === 'delivered').length;
+    const pendingOrders = orders.filter(o => o.status === 'pending').length;
+    const revenue = orders.reduce((acc, o) => acc + (parseFloat(o.total) || 0), 0);
+
+    document.getElementById('kpiOrders').textContent = totalOrders;
+    document.getElementById('kpiPaid').textContent = paidOrders;
+    document.getElementById('kpiPending').textContent = pendingOrders;
+    document.getElementById('kpiRevenue').textContent = `R$ ${revenue.toFixed(2).replace('.', ',')}`;
+
+  } catch (error) {
+    console.error('Erro ao carregar dashboard:', error);
+  }
+}
+
+// ------ Reviews Logic ------
+
+async function loadReviewsTable() {
+  const tbody = document.getElementById('reviewsTable');
+  if (!tbody) return;
+
+  tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Carregando...</td></tr>';
+
+  try {
+    const res = await fetch('/api/reviews'); // Fetches all reviews
+    if (!res.ok) throw new Error('Falha ao buscar avaliações');
+    const reviews = await res.json();
+
+    if (reviews.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Nenhuma avaliação encontrada.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = reviews.map(r => `
+      <tr class="border-b hover:bg-gray-50">
+        <td class="p-3 text-xs">${r.product_id}</td>
+        <td class="p-3">${r.user_name || 'Anônimo'}</td>
+        <td class="p-3">
+          <div class="flex text-yellow-400 text-xs">
+            ${'<i class="fas fa-star"></i>'.repeat(r.rating)}
+          </div>
+        </td>
+        <td class="p-3 text-sm italic text-gray-600">"${r.comment || ''}"</td>
+        <td class="p-3">
+          <span class="px-2 py-1 rounded text-xs font-semibold ${r.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">
+            ${r.status === 'approved' ? 'Aprovado' : 'Pendente'}
+          </span>
+        </td>
+        <td class="p-3">
+          ${r.status !== 'approved' ?
+        `<button onclick="window.updateReviewStatus('${r.id}', 'approved')" class="text-green-600 hover:text-green-800 mr-2" title="Aprovar"><i class="fas fa-check"></i></button>` : ''
+      }
+          <button onclick="window.deleteReview('${r.id}')" class="text-red-500 hover:text-red-700" title="Excluir"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+
+  } catch (error) {
+    console.error('Erro ao carregar avaliações:', error);
+    tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-500">Erro ao carregar dados.</td></tr>';
+  }
+}
+
+window.updateReviewStatus = async (id, status) => {
+  try {
+    const res = await fetch('/api/reviews', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status })
+    });
+    if (!res.ok) throw new Error('Erro ao atualizar status');
+    loadReviewsTable();
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+window.deleteReview = async (id) => {
+  if (!confirm('Excluir esta avaliação?')) return;
+  try {
+    const res = await fetch(`/api/reviews?id=${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Erro ao excluir');
+    loadReviewsTable();
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// ------ Orders Logic ------
+
+async function loadOrdersTable() {
+  const tbody = document.getElementById('ordersTable');
+  if (!tbody) return;
+
+  tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>';
+
+  try {
+    const res = await fetch('/api/orders');
+    if (!res.ok) throw new Error('Falha ao buscar pedidos');
+    const orders = await res.json();
+
+    if (orders.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Nenhum pedido encontrado.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = orders.map(o => {
+      const user = o.user_data || {}; // Handle JSONB
+      const products = o.products || []; // Handle JSONB
+      const itemsSummary = products.map(p => `${p.quantity}x ${p.name}`).join(', ');
+
+      return `
+      <tr class="border-b hover:bg-gray-50">
+        <td class="p-3 text-xs font-mono">#${o.id}</td>
+        <td class="p-3">
+          <div class="font-medium">${user.name || 'Cliente'}</div>
+          <div class="text-xs text-gray-500">${user.email || ''}</div>
+        </td>
+        <td class="p-3 text-xs text-gray-600 max-w-xs truncate" title="${itemsSummary}">${itemsSummary}</td>
+        <td class="p-3 font-semibold">R$ ${parseFloat(o.total).toFixed(2).replace('.', ',')}</td>
+        <td class="p-3 text-xs uppercase">${o.payment_method || '-'}</td>
+        <td class="p-3">
+          <select onchange="window.updateOrderStatus('${o.id}', this.value)" class="border rounded p-1 text-xs">
+            <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>Pendente</option>
+            <option value="paid" ${o.status === 'paid' ? 'selected' : ''}>Pago</option>
+            <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>Enviado</option>
+            <option value="delivered" ${o.status === 'delivered' ? 'selected' : ''}>Entregue</option>
+            <option value="canceled" ${o.status === 'canceled' ? 'selected' : ''}>Cancelado</option>
+          </select>
+        </td>
+        <td class="p-3">
+          <button class="text-blue-600 hover:text-blue-800" title="Ver Detalhes"><i class="fas fa-eye"></i></button>
+        </td>
+      </tr>
+    `}).join('');
+
+  } catch (error) {
+    console.error('Erro ao carregar pedidos:', error);
+    tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-500">Erro ao carregar pedidos.</td></tr>';
+  }
+}
+
+window.updateOrderStatus = async (id, status) => {
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status })
+    });
+    if (!res.ok) throw new Error('Erro ao atualizar status');
+    // Optional: show toast
+    loadDashboardStats(); // Refresh stats
+  } catch (error) {
+    alert('Erro ao atualizar status do pedido');
+  }
+};
+
+// ------ Promotions Logic ------
+
+function initPromotionFilters() {
+  const catSelect = document.getElementById('promoCategoryFilter');
+  if (catSelect) {
+    catSelect.innerHTML = '<option value="">Todas as Categorias</option>' +
+      CATEGORIES.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
+  }
+}
+
+document.getElementById('promoApplyFiltered')?.addEventListener('click', async () => {
+  const category = document.getElementById('promoCategoryFilter').value;
+  const search = document.getElementById('promoSearch').value;
+  const start = document.getElementById('promoStart').value;
+  const end = document.getElementById('promoEnd').value;
+  const percent = document.getElementById('promoPercent').value;
+  const price = document.getElementById('promoTargetPrice').value;
+
+  if (!percent && !price) {
+    alert('Defina uma porcentagem de desconto ou um preço alvo.');
+    return;
+  }
+
+  if (!category && !search) {
+    if (!confirm('Nenhum filtro selecionado. Isso aplicará a promoção em TODOS os produtos. Tem certeza?')) return;
+  }
+
+  const payload = {
+    category,
+    team: search,
+    percent: percent || null,
+    priceTarget: price || null,
+    startDate: start || null,
+    endDate: end || null
+  };
+
+  const btn = document.getElementById('promoApplyFiltered');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Aplicando...';
+
+  try {
+    const res = await fetch('/api/promotions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro ao aplicar promoção');
+
+    alert(data.message);
+    loadProductsTable();
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+});

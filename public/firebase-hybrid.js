@@ -122,25 +122,50 @@ export function invalidateCamisasCache() {
 }
 
 // Shim for Reviews (LocalStorage based for now)
+// Shim for Reviews (now using API/Database)
 export async function addReview(productId, review) {
-  console.log('📝 Salvando avaliação:', review);
-  let reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`) || '[]');
-  reviews.push({ ...review, createdAt: new Date().toISOString() });
-  localStorage.setItem(`reviews_${productId}`, JSON.stringify(reviews));
-  return { success: true };
+  console.log('📝 Salvando avaliação via API:', review);
+  try {
+    const res = await fetch('/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        product_id: productId,
+        user_name: review.user || review.name || 'Anônimo',
+        rating: review.rating,
+        comment: review.comment || review.text
+      })
+    });
+    if (!res.ok) throw new Error('Falha ao salvar avaliação');
+    return { success: true };
+  } catch (error) {
+    console.error('Erro ao adicionar review:', error);
+    return { success: false, error: error.message };
+  }
 }
 
 export async function listReviews(productId) {
-  const reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`) || '[]');
-  return reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  try {
+    const res = await fetch(`/api/reviews?product_id=${productId}`);
+    if (!res.ok) throw new Error('Falha ao buscar avaliações');
+    const reviews = await res.json();
+    return reviews; // API already sorts/filters
+  } catch (error) {
+    console.error('Erro ao listar reviews:', error);
+    return [];
+  }
 }
 
 export async function deleteReview(productId, reviewId) {
-  console.log('🗑️ Deletando avaliação:', reviewId);
-  let reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`) || '[]');
-  reviews = reviews.filter(r => r.id !== reviewId);
-  localStorage.setItem(`reviews_${productId}`, JSON.stringify(reviews));
-  return { success: true };
+  try {
+    // Note: productId param kept for compatibility but not strictly needed if ID is unique
+    const res = await fetch(`/api/reviews?id=${reviewId}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Falha ao deletar avaliação');
+    return { success: true };
+  } catch (error) {
+    console.error('Erro ao deletar review:', error);
+    return { success: false };
+  }
 }
 
 export async function isAdmin() {

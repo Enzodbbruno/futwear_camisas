@@ -72,7 +72,7 @@ module.exports = async (req, res) => {
       auto_return: 'approved',
       binary_mode: false,
       statement_descriptor: 'FUTWEAR',
-      external_reference: `fw_${Date.now()}`,
+      external_reference: body.external_reference || `fw_${Date.now()}`,
       metadata,
     };
 
@@ -98,7 +98,7 @@ module.exports = async (req, res) => {
         shipping,
         discount
       }, { merge: true });
-    } catch {}
+    } catch { }
 
     return res.status(200).json({ init_point: pref.init_point || pref.sandbox_init_point, preference_id: pref.id });
   } catch (err) {

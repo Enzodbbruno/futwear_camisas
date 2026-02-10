@@ -925,7 +925,12 @@
             btnLoading.style.display = 'block';
 
             try {
-                // Preparar dados para a Function (Mercado Pago Checkout Pro contém Pix e Cartão no mesmo fluxo)
+                // 1. Gather Order Data
+                const formData = new FormData(form);
+                const userData = {};
+                formData.forEach((value, key) => userData[key] = value);
+
+                // 2. Prepare Items and Totals
                 const items = cart.map(i => ({
                     id: i.id,
                     name: i.name,
@@ -933,35 +938,64 @@
                     quantity: Number(i.quantity || 1),
                     personalization: i.personalization || null
                 }));
-                // Recalcular subtotal/frete/discount como no resumo
+
                 const subtotal = cart.reduce((sum, item) => {
                     const fee = (item.personalization && item.personalization.enabled) ? Number(item.personalization.fee || 0) : 0;
                     const unit = Number(item.price || 0) + fee;
                     return sum + unit * (item.quantity || 1);
                 }, 0);
+
                 const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
                 let shipping = 0;
                 if (totalItems > 0) {
                     if (totalItems >= 3) shipping = 0; else if (totalItems === 2) shipping = 20; else shipping = 30;
                 }
                 const discount = 0;
+                const total = subtotal + shipping - discount;
 
-                const res = await fetch('/api/create-mp-preference', {
+                // 3. Create Order in DB
+                const orderPayload = {
+                    user_data: userData,
+                    products: items,
+                    total: total,
+                    payment_method: selectedPaymentMethod
+                };
+
+                const orderRes = await fetch('/api/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ items, shipping, discount })
+                    body: JSON.stringify(orderPayload)
                 });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data && data.error ? data.error : 'Falha ao criar sessão');
 
-                // Redirecionar para o Checkout Pro do Mercado Pago
-                window.location.href = data.init_point;
-                return;
+                if (!orderRes.ok) throw new Error('Falha ao registrar pedido.');
+                const orderData = await orderRes.json();
+                console.log('✅ Pedido criado:', orderData.id);
+
+                // 4. Create Payment Preference (Mercado Pago)
+                const mpRes = await fetch('/api/create-mp-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        items,
+                        shipping,
+                        discount,
+                        external_reference: orderData.id
+                    })
+                });
+
+                const mpData = await mpRes.json();
+                if (!mpRes.ok) throw new Error(mpData && mpData.error ? mpData.error : 'Falha ao criar pagamento');
+
+                setCart([]);
+                localStorage.setItem('cart', '[]');
+
+                window.location.href = mpData.init_point;
+
             } catch (error) {
                 console.error('Error processing order:', error);
                 showToast('Erro ao processar pedido. Tente novamente.', 'error');
-            } finally {
-                // Hide loading
+
+                // Reset Loading State
                 btn.disabled = false;
                 btnText.style.display = 'block';
                 btnLoading.style.display = 'none';

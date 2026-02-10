@@ -1233,7 +1233,7 @@
                     const text = (document.getElementById('review-comment')?.value || '').trim();
                     if (!rating || !text) { showToast('Informe uma nota e um comentário', 'error'); return; }
                     try {
-                        await addReview(produto.id, { rating, text: name ? `${name}: ${text}` : text, approved: true });
+                        await addReview(produto.id, { rating, name: name || 'Cliente', text: text, approved: true });
                         try {
                             const key = `reviews_${produto.id}`;
                             const arr = JSON.parse(localStorage.getItem(key) || '[]');
@@ -1424,7 +1424,7 @@
             try {
                 // buscar de Firestore (aprovadas e pendentes)
                 const res = await listReviews(productId, false);
-                let reviews = res && res.success ? res.data : [];
+                let reviews = Array.isArray(res) ? res : (res && res.success ? res.data : []);
 
                 // mesclar com localStorage legado
                 try {
