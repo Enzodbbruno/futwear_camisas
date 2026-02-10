@@ -166,10 +166,12 @@
         };
 
         // Função para carregar favoritos
-        function loadFavorites() {
+        async function loadFavorites() {
             console.log('❤️ Carregando favoritos...');
 
             try {
+                // Force reload from system
+                await favoritesSystem.init();
                 const favorites = window.getFavorites();
                 console.log('📦 Favoritos carregados:', favorites);
 

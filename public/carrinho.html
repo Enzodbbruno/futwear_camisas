@@ -337,13 +337,20 @@
 
         async function loadCart() {
             try {
-                const directCart = JSON.parse(localStorage.getItem('cart') || '[]');
-                const cart = await getCart();
-                const finalCart = cart && cart.length > 0 ? cart : directCart;
-                renderCartItems(finalCart);
-                updateOrderSummary(finalCart);
+                // Show loading state if needed, or just let it update
+                const cart = await getCart(); // This now fetches fresh prices
+
+                if (!cart || cart.length === 0) {
+                    renderCartItems([]);
+                    updateOrderSummary([]);
+                    return;
+                }
+
+                renderCartItems(cart);
+                updateOrderSummary(cart);
             } catch (error) {
-                console.error(error);
+                console.error('Erro ao carregar carrinho:', error);
+                // Fallback to local storage if API fails
                 const fallbackCart = JSON.parse(localStorage.getItem('cart') || '[]');
                 renderCartItems(fallbackCart);
                 updateOrderSummary(fallbackCart);
@@ -440,15 +447,19 @@
         };
 
         // Handle Quantity
-        window.handleQuantityChange = function (index, change) {
+        window.handleQuantityChange = async function (index, change) {
+            // We read from LS for speed on interaction, then validate later regarding price if needed.
+            // But since getCart updates LS, we can read LS here safely for the *quantity* update.
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
             if (cart[index]) {
                 cart[index].quantity = (cart[index].quantity || 1) + change;
                 if (cart[index].quantity < 1) cart[index].quantity = 1;
+
+                // Save immediately
                 setCart(cart);
-                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Re-render immediately for UI responsiveness
                 loadCart();
-                atualizarIconeCarrinho();
             }
         };
 
@@ -457,9 +468,8 @@
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
             cart.splice(index, 1);
             setCart(cart);
-            localStorage.setItem('cart', JSON.stringify(cart));
+            // No need to manual setItem or loadCart if setCart triggers events, but loadCart re-renders.
             loadCart();
-            atualizarIconeCarrinho();
         };
 
         // Update Order Summary

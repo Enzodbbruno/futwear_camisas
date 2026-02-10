@@ -35,6 +35,46 @@ export async function getProductById(id) {
   }
 }
 
+export async function getCart() {
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    if (cart.length === 0) return [];
+
+    console.log('🛒 Validando carrinho com API...');
+    const validatedCart = await Promise.all(cart.map(async (item) => {
+      // Se tiver ID, busca dados atualizados
+      if (item.id) {
+        const result = await getProductById(item.id);
+        if (result.success && result.data) {
+          const freshProduct = result.data;
+          // Mantém quantidade e tamanho, mas atualiza preço e imagem
+          return {
+            ...item,
+            price: freshProduct.price, // Preço atualizado do banco
+            image: freshProduct.image,
+            name: freshProduct.name,
+            // Mantém personalização se houver
+          };
+        }
+      }
+      return item; // Retorna item original se falhar (fallback)
+    }));
+
+    // Salva carrinho validado para persistir correções
+    localStorage.setItem('cart', JSON.stringify(validatedCart));
+    return validatedCart;
+  } catch (error) {
+    console.error('Erro ao validar carrinho:', error);
+    return JSON.parse(localStorage.getItem('cart') || '[]');
+  }
+}
+
+export function setCart(cart) {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  atualizarIconeCarrinho();
+  window.dispatchEvent(new Event('cartUpdated'));
+}
+
 export function addToCart(product) {
   try {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -46,12 +86,7 @@ export function addToCart(product) {
       cart.push({ ...product, quantity: 1 });
     }
 
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Notify other components
-    atualizarIconeCarrinho();
-    window.dispatchEvent(new Event('cartUpdated'));
-    window.dispatchEvent(new Event('storage')); // Trigger storage event for other listeners
+    setCart(cart); // Use helper
 
     if (window.showNotification) {
       window.showNotification('Produto adicionado ao carrinho!', 'success');
@@ -123,5 +158,7 @@ export default {
   listReviews,
   deleteReview,
   isAdmin,
-  getProductById
+  getProductById,
+  getCart,
+  setCart
 };
