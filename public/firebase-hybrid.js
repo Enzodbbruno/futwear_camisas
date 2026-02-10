@@ -68,10 +68,41 @@ export function invalidateCamisasCache() {
   console.log('Cache invalidado (noop)');
 }
 
+// Shim for Reviews (LocalStorage based for now)
+export async function addReview(productId, review) {
+  console.log('📝 Salvando avaliação:', review);
+  let reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`) || '[]');
+  reviews.push({ ...review, createdAt: new Date().toISOString() });
+  localStorage.setItem(`reviews_${productId}`, JSON.stringify(reviews));
+  return { success: true };
+}
+
+export async function listReviews(productId) {
+  const reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`) || '[]');
+  return reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
+
+export async function deleteReview(productId, reviewId) {
+  console.log('🗑️ Deletando avaliação:', reviewId);
+  let reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`) || '[]');
+  reviews = reviews.filter(r => r.id !== reviewId);
+  localStorage.setItem(`reviews_${productId}`, JSON.stringify(reviews));
+  return { success: true };
+}
+
+export async function isAdmin() {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  return user.email === 'admin@futwear.com'; // Simple check
+}
+
 // Export default object just in case
 export default {
   buscarCamisas,
   addToCart,
   atualizarIconeCarrinho,
-  invalidateCamisasCache
+  invalidateCamisasCache,
+  addReview,
+  listReviews,
+  deleteReview,
+  isAdmin
 };
