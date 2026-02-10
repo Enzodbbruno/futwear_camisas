@@ -673,6 +673,9 @@
             const total = productsToRender.length;
             const start = Math.min((currentPage - 1) * pageSize, Math.max(total - 1, 0));
             const end = Math.min(start + pageSize, total);
+
+            console.log(`📄 Paginação: Página ${currentPage}/${Math.ceil(total / pageSize)}, Item ${start} até ${end} de ${total}`);
+
             const pageItems = productsToRender.slice(start, end);
 
             // Update header count
@@ -785,15 +788,26 @@
 
         // Expose page navigation
         window.goToPage = function (page) {
+            console.log('🖱️ Clicou para ir para página:', page);
             const productsToRender = filteredProducts.length > 0 ? filteredProducts : products;
             const totalPages = Math.ceil(productsToRender.length / pageSize) || 1;
             currentPage = Math.min(Math.max(1, page), totalPages);
+            console.log('📄 Nova página atual:', currentPage);
+
             // Update URL without reload
             try {
                 const url = new URL(window.location.href);
                 url.searchParams.set('p', String(currentPage));
                 window.history.replaceState({}, '', url.toString());
             } catch { }
+
+            // Scroll to top of products grid
+            const gridContainer = document.getElementById('productsGrid');
+            if (gridContainer) {
+                const y = gridContainer.getBoundingClientRect().top + window.scrollY - 100; // Offset for header
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+
             renderProducts();
         };
 
