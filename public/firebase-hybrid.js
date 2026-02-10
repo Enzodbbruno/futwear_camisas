@@ -17,6 +17,24 @@ export async function buscarCamisas() {
   }
 }
 
+
+export async function getProductById(id) {
+  try {
+    console.log('🔄 Buscando produto por ID:', id);
+    const response = await fetch(`/api/products?id=${id}&t=${Date.now()}`);
+    if (!response.ok) throw new Error('Falha na API');
+    const data = await response.json();
+    const products = Array.isArray(data) ? data : (data.data || []);
+    if (products.length > 0) {
+      return { success: true, data: products[0] };
+    }
+    return { success: false, error: 'Produto não encontrado' };
+  } catch (error) {
+    console.error('❌ Erro ao buscar produto:', error);
+    return { success: false, error: error.message };
+  }
+}
+
 export function addToCart(product) {
   try {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -104,5 +122,6 @@ export default {
   addReview,
   listReviews,
   deleteReview,
-  isAdmin
+  isAdmin,
+  getProductById
 };

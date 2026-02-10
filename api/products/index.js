@@ -38,6 +38,12 @@ module.exports = async (req, res) => {
                 paramIndex++;
             }
 
+            if (req.query.id) {
+                query += ` AND id = $${paramIndex}`;
+                params.push(req.query.id);
+                paramIndex++;
+            }
+
             const offset = (page - 1) * limit;
             query += ` ORDER BY id DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
             params.push(limit, offset);
