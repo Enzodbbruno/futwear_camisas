@@ -1824,6 +1824,9 @@
                 </div>
             `;
             }).join('');
+
+            // Re-attach event listeners
+            addWishlistEventListeners();
         }
 
         // Apply filter
@@ -1919,6 +1922,37 @@
         document.addEventListener('DOMContentLoaded', () => {
             initializeSearch();
         });
+
+        // Add Wishlist Event Listeners
+        function addWishlistEventListeners() {
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                // Remove existing listeners to avoid duplicates (clone node trick)
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const card = newBtn.closest('[data-product-id]');
+                    if (!card) return;
+
+                    const productId = card.dataset.productId;
+                    const product = produtosCache.find(p => String(p.id) === String(productId));
+
+                    if (product) {
+                        const isFav = favoritesSystem.toggleFavorite(product);
+
+                        // UI Update Animation
+                        const icon = newBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.add('scale-125');
+                            setTimeout(() => icon.classList.remove('scale-125'), 200);
+                        }
+                    }
+                });
+            });
+        }
     </script>
 
     <!-- Benefits Section -->
