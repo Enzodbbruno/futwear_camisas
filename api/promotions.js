@@ -5,16 +5,16 @@ module.exports = async (req, res) => {
 
     try {
         if (method === 'POST') {
-            // Apply promotion to filtered products
-            // Body: { category, team, league, percent, priceTarget, startDate, endDate }
-            const { category, team, league, percent, priceTarget, startDate, endDate } = req.body;
+            // Apply promotion to filtered products OR specific product IDs
+            // Body: { category, team, league, percent, priceTarget, startDate, endDate, productIds }
+            const { category, team, league, percent, priceTarget, startDate, endDate, productIds } = req.body;
 
             let query = 'UPDATE products SET ';
             const params = [];
             let paramCount = 1;
             const updates = [];
 
-            if (percent) {
+            if (percent !== undefined && percent !== null) {
                 updates.push(`discount = $${paramCount}`);
                 params.push(percent);
                 paramCount++;
@@ -33,12 +33,18 @@ module.exports = async (req, res) => {
                 updates.push(`"promoStart" = $${paramCount}`); // User camelCase column name with quotes if needed
                 params.push(startDate);
                 paramCount++;
+            } else if (percent !== undefined) {
+                // Clear start date if setting new promo without date
+                updates.push(`"promoStart" = NULL`);
             }
 
             if (endDate) {
                 updates.push(`"promoEnd" = $${paramCount}`);
                 params.push(endDate);
                 paramCount++;
+            } else if (percent !== undefined) {
+                // Clear end date if setting new promo without date
+                updates.push(`"promoEnd" = NULL`);
             }
 
             if (updates.length === 0) {
@@ -50,21 +56,30 @@ module.exports = async (req, res) => {
             // WHERE Filters
             const filters = [];
 
-            if (category) {
-                filters.push(`category = $${paramCount}`);
-                params.push(category);
-                paramCount++;
-            }
-            if (league) {
-                filters.push(`league = $${paramCount}`);
-                params.push(league);
-                paramCount++;
-            }
-            if (team) {
-                // Team is a LIKE search usually
-                filters.push(`team ILIKE $${paramCount}`);
-                params.push(`%${team}%`);
-                paramCount++;
+            // Priority: productIds array (specific products)
+            if (productIds && Array.isArray(productIds) && productIds.length > 0) {
+                const placeholders = productIds.map((_, i) => `$${paramCount + i}`).join(', ');
+                filters.push(`id IN (${placeholders})`);
+                params.push(...productIds);
+                paramCount += productIds.length;
+            } else {
+                // Fallback to category/team/league filters
+                if (category) {
+                    filters.push(`category = $${paramCount}`);
+                    params.push(category);
+                    paramCount++;
+                }
+                if (league) {
+                    filters.push(`league = $${paramCount}`);
+                    params.push(league);
+                    paramCount++;
+                }
+                if (team) {
+                    // Team is a LIKE search usually
+                    filters.push(`team ILIKE $${paramCount}`);
+                    params.push(`%${team}%`);
+                    paramCount++;
+                }
             }
 
             if (filters.length > 0) {
@@ -81,7 +96,7 @@ module.exports = async (req, res) => {
 
             res.status(200).json({
                 success: true,
-                message: `Promotion applied to ${result.rowCount} products`,
+                message: `Promoção aplicada a ${result.rowCount} produto(s)`,
                 affectedRows: result.rowCount
             });
 

@@ -190,6 +190,7 @@ function initAdmin() {
   // Load initial data
   loadDashboardStats();
   loadProductsTable();
+  loadPromotionsTable();
   initPromotionFilters();
 }
 
@@ -509,13 +510,246 @@ window.updateOrderStatus = async (id, status) => {
 
 // ------ Promotions Logic ------
 
+let allPromotionProducts = [];
+let filteredPromotionProducts = [];
+
 function initPromotionFilters() {
   const catSelect = document.getElementById('promoCategoryFilter');
   if (catSelect) {
     catSelect.innerHTML = '<option value="">Todas as Categorias</option>' +
       CATEGORIES.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
   }
+
+  // Add event listeners for live filtering
+  document.getElementById('promoCategoryFilter')?.addEventListener('change', filterPromotionProducts);
+  document.getElementById('promoSearch')?.addEventListener('input', filterPromotionProducts);
 }
+
+async function loadPromotionsTable() {
+  const tbody = document.getElementById('promotionsTable');
+  if (!tbody) return;
+
+  tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Carregando produtos...</td></tr>';
+
+  try {
+    const res = await fetch('/api/products?limit=1000');
+    if (!res.ok) throw new Error('Falha ao carregar produtos');
+    const data = await res.json();
+    allPromotionProducts = Array.isArray(data) ? data : (data.data || []);
+    filteredPromotionProducts = [...allPromotionProducts];
+
+    renderPromotionsTable();
+  } catch (error) {
+    console.error('Erro ao carregar produtos para promoções:', error);
+    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-500">Erro ao carregar produtos.</td></tr>';
+  }
+}
+
+function filterPromotionProducts() {
+  const category = document.getElementById('promoCategoryFilter')?.value || '';
+  const search = document.getElementById('promoSearch')?.value.toLowerCase() || '';
+
+  filteredPromotionProducts = allPromotionProducts.filter(p => {
+    const matchCategory = !category || p.category === category;
+    const matchSearch = !search ||
+      p.name.toLowerCase().includes(search) ||
+      (p.team && p.team.toLowerCase().includes(search)) ||
+      (p.league && p.league.toLowerCase().includes(search)) ||
+      String(p.id).includes(search);
+
+    return matchCategory && matchSearch;
+  });
+
+  renderPromotionsTable();
+}
+
+function renderPromotionsTable() {
+  const tbody = document.getElementById('promotionsTable');
+  if (!tbody) return;
+
+  if (filteredPromotionProducts.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-gray-500">Nenhum produto encontrado.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filteredPromotionProducts.map(p => {
+    const price = parseFloat(p.price) || 0;
+    const discount = parseFloat(p.discount) || 0;
+    const discountedPrice = discount > 0 ? (price * (1 - discount / 100)) : price;
+    const hasPromo = discount > 0;
+    const promoStart = p.promoStart ? new Date(p.promoStart).toLocaleDateString('pt-BR') : '-';
+    const promoEnd = p.promoEnd ? new Date(p.promoEnd).toLocaleDateString('pt-BR') : '-';
+
+    return `
+      <tr class="border-b hover:bg-gray-50">
+        <td class="p-3"><input type="checkbox" class="promo-checkbox" data-product-id="${p.id}" /></td>
+        <td class="p-3">
+          <div class="flex items-center gap-2">
+            <img src="${p.image}" alt="${p.name}" class="w-10 h-10 object-cover rounded">
+            <div>
+              <div class="text-sm font-medium">${p.name}</div>
+              <div class="text-xs text-gray-500">${p.team || 'N/A'} • ${p.league || 'N/A'}</div>
+            </div>
+          </div>
+        </td>
+        <td class="p-3 text-sm">R$ ${price.toFixed(2).replace('.', ',')}</td>
+        <td class="p-3 text-sm">${hasPromo ? `R$ ${discountedPrice.toFixed(2).replace('.', ',')}` : '-'}</td>
+        <td class="p-3 text-sm">${hasPromo ? `${discount}%` : '-'}</td>
+        <td class="p-3 text-xs">${promoStart} até ${promoEnd}</td>
+        <td class="p-3 text-sm">${hasPromo ? `R$ ${discountedPrice.toFixed(2).replace('.', ',')}` : '-'}</td>
+        <td class="p-3">
+          <button onclick="editProductPromo(${p.id})" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar promoção">
+            <i class="fas fa-edit"></i>
+          </button>
+          ${hasPromo ? `<button onclick="removePromo(${p.id})" class="text-red-600 hover:text-red-800" title="Remover promoção">
+            <i class="fas fa-times"></i>
+          </button>` : ''}
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  // Update select all checkbox
+  updateSelectAllCheckbox();
+}
+
+function updateSelectAllCheckbox() {
+  const selectAll = document.getElementById('promoSelectAll');
+  const checkboxes = document.querySelectorAll('.promo-checkbox');
+  if (selectAll && checkboxes.length > 0) {
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    selectAll.checked = allChecked;
+  }
+}
+
+// Select all handler
+document.getElementById('promoSelectAll')?.addEventListener('change', (e) => {
+  const checkboxes = document.querySelectorAll('.promo-checkbox');
+  checkboxes.forEach(cb => cb.checked = e.target.checked);
+});
+
+// Apply to selected products
+document.getElementById('promoApplySelected')?.addEventListener('click', async () => {
+  const checkboxes = document.querySelectorAll('.promo-checkbox:checked');
+  const selectedIds = Array.from(checkboxes).map(cb => cb.dataset.productId);
+
+  if (selectedIds.length === 0) {
+    alert('Selecione pelo menos um produto.');
+    return;
+  }
+
+  const percent = document.getElementById('promoPercent').value;
+  const price = document.getElementById('promoTargetPrice').value;
+  const start = document.getElementById('promoStart').value;
+  const end = document.getElementById('promoEnd').value;
+
+  if (!percent && !price) {
+    alert('Defina uma porcentagem de desconto ou um preço alvo.');
+    return;
+  }
+
+  const payload = {
+    productIds: selectedIds,
+    percent: percent || null,
+    priceTarget: price || null,
+    startDate: start || null,
+    endDate: end || null
+  };
+
+  try {
+    const res = await fetch('/api/promotions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro ao aplicar promoção');
+
+    alert(data.message);
+    loadPromotionsTable();
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+// Clear selected promotions
+document.getElementById('promoClearSelected')?.addEventListener('click', async () => {
+  const checkboxes = document.querySelectorAll('.promo-checkbox:checked');
+  const selectedIds = Array.from(checkboxes).map(cb => cb.dataset.productId);
+
+  if (selectedIds.length === 0) {
+    alert('Selecione pelo menos um produto.');
+    return;
+  }
+
+  if (!confirm(`Remover promoções de ${selectedIds.length} produto(s)?`)) return;
+
+  try {
+    const res = await fetch('/api/promotions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productIds: selectedIds,
+        percent: 0,
+        priceTarget: null,
+        startDate: null,
+        endDate: null
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro ao remover promoções');
+
+    alert(data.message);
+    loadPromotionsTable();
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+window.editProductPromo = function (id) {
+  const product = allPromotionProducts.find(p => p.id === id);
+  if (!product) return;
+
+  // Pre-fill form with current values
+  document.getElementById('promoPercent').value = product.discount || '';
+  document.getElementById('promoStart').value = product.promoStart ? new Date(product.promoStart).toISOString().slice(0, 16) : '';
+  document.getElementById('promoEnd').value = product.promoEnd ? new Date(product.promoEnd).toISOString().slice(0, 16) : '';
+
+  // Select the product
+  const checkbox = document.querySelector(`.promo-checkbox[data-product-id="${id}"]`);
+  if (checkbox) {
+    checkbox.checked = true;
+    checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+};
+
+window.removePromo = async function (id) {
+  if (!confirm('Remover promoção deste produto?')) return;
+
+  try {
+    const res = await fetch('/api/promotions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productIds: [String(id)],
+        percent: 0,
+        priceTarget: null,
+        startDate: null,
+        endDate: null
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro ao remover promoção');
+
+    alert(data.message);
+    loadPromotionsTable();
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
 document.getElementById('promoApplyFiltered')?.addEventListener('click', async () => {
   const category = document.getElementById('promoCategoryFilter').value;
