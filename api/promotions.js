@@ -90,9 +90,13 @@ module.exports = async (req, res) => {
                 // return res.status(400).json({ error: 'At least one filter (category, league, team) is required' });
             }
 
-            console.log('Running promotion query:', query, params);
+            console.log('🔍 [PROMOTIONS API] Running promotion query:', query);
+            console.log('📦 [PROMOTIONS API] Params:', params);
+            console.log('🎯 [PROMOTIONS API] ProductIds received:', productIds);
 
             const result = await db.query(query, params);
+
+            console.log('✅ [PROMOTIONS API] Query executed successfully. Rows affected:', result.rowCount);
 
             res.status(200).json({
                 success: true,

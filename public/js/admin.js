@@ -656,6 +656,13 @@ document.getElementById('promoApplySelected')?.addEventListener('click', async (
     endDate: end || null
   };
 
+  console.log('🎯 Aplicando promoção em produtos selecionados:', selectedIds);
+  console.log('📦 Payload:', payload);
+
+  if (!confirm(`Aplicar promoção em ${selectedIds.length} produto(s) selecionado(s)?`)) {
+    return;
+  }
+
   try {
     const res = await fetch('/api/promotions', {
       method: 'POST',
