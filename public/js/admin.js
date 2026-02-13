@@ -598,10 +598,10 @@ function renderPromotionsTable() {
         <td class="p-3 text-xs">${promoStart} até ${promoEnd}</td>
         <td class="p-3 text-sm">${hasPromo ? `R$ ${discountedPrice.toFixed(2).replace('.', ',')}` : '-'}</td>
         <td class="p-3">
-          <button onclick="editProductPromo(${p.id})" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar promoção">
+          <button onclick="window.adminEditProductPromo(${p.id})" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar promoção">
             <i class="fas fa-edit"></i>
           </button>
-          ${hasPromo ? `<button onclick="removePromo(${p.id})" class="text-red-600 hover:text-red-800" title="Remover promoção">
+          ${hasPromo ? `<button onclick="window.adminRemovePromo(${p.id})" class="text-red-600 hover:text-red-800" title="Remover promoção">
             <i class="fas fa-times"></i>
           </button>` : ''}
         </td>
@@ -708,7 +708,7 @@ document.getElementById('promoClearSelected')?.addEventListener('click', async (
   }
 });
 
-window.editProductPromo = function (id) {
+window.adminEditProductPromo = function (id) {
   const product = allPromotionProducts.find(p => p.id === id);
   if (!product) return;
 
@@ -725,7 +725,7 @@ window.editProductPromo = function (id) {
   }
 };
 
-window.removePromo = async function (id) {
+window.adminRemovePromo = async function (id) {
   if (!confirm('Remover promoção deste produto?')) return;
 
   try {
