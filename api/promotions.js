@@ -58,10 +58,19 @@ module.exports = async (req, res) => {
 
             // Priority: productIds array (specific products)
             if (productIds && Array.isArray(productIds) && productIds.length > 0) {
-                const placeholders = productIds.map((_, i) => `$${paramCount + i}`).join(', ');
+                // Convert to integers to ensure type safety
+                const numericIds = productIds.map(id => parseInt(id, 10)).filter(id => !isNaN(id));
+
+                if (numericIds.length === 0) {
+                    return res.status(400).json({ error: 'Invalid product IDs provided' });
+                }
+
+                const placeholders = numericIds.map((_, i) => `$${paramCount + i}`).join(', ');
                 filters.push(`id IN (${placeholders})`);
-                params.push(...productIds);
-                paramCount += productIds.length;
+                params.push(...numericIds);
+                paramCount += numericIds.length;
+
+                console.log('🎯 [PROMOTIONS API] Using productIds filter. IDs:', numericIds);
             } else {
                 // Fallback to category/team/league filters
                 if (category) {
