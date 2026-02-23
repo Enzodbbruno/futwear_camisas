@@ -280,11 +280,18 @@
 
     <!-- Search Overlay -->
     <div class="search-box" id="searchBox">
-        <div class="container" style="display:flex;align-items:center;gap:1rem;width:100%;">
-            <i class="fas fa-search search-icon-label"></i>
-            <input type="text" placeholder="Buscar camisas, times, seleções..." class="search-input" id="searchInput"
+        <div class="search-box-inner">
+            <button class="search-close" id="searchClose" aria-label="Fechar busca"><i
+                    class="fas fa-times"></i></button>
+            <input type="text" placeholder="Pesquisar times, seleções, camisas..." class="search-input" id="searchInput"
                 autocomplete="off">
-            <button class="search-close" id="searchClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
+            <div class="search-hint">
+                <span>Sugestões:</span>
+                <a href="camisas.html?category=clubs">Times</a>
+                <a href="camisas.html?category=national">Seleções</a>
+                <a href="camisas.html?category=retro">Retrô</a>
+                <a href="camisas.html?discount=true">Ofertas</a>
+            </div>
         </div>
     </div>
 

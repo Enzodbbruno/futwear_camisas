@@ -45,7 +45,6 @@ function getUser() {
 
 function renderAuthState() {
     const user = getUser();
-    // Look for the profile link wrapper
     const profileLink = document.getElementById('profileLink');
     const authAvatar = document.getElementById('authAvatar');
 
@@ -56,13 +55,12 @@ function renderAuthState() {
             .split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
 
         if (authAvatar) {
-            authAvatar.innerHTML = `
-        <span style="
-          display:inline-flex; align-items:center; justify-content:center;
-          width:32px; height:32px; border-radius:50%;
-          background:var(--color-primary); color:#fff;
-          font-size:12px; font-weight:700; letter-spacing:.5px;
-        " title="${user.name || user.email}">${initials}</span>`;
+            authAvatar.innerHTML = `<span style="
+              display:inline-flex; align-items:center; justify-content:center;
+              width:32px; height:32px; border-radius:50%;
+              background:var(--color-primary); color:#fff;
+              font-size:12px; font-weight:700; letter-spacing:.5px;
+            " title="${user.name || user.email}">${initials}</span>`;
         }
 
         if (profileLink) {
@@ -75,7 +73,7 @@ function renderAuthState() {
     }
 }
 
-// ─── Search Bar ─────────────────────────────────────────────────────────────
+// ─── Search Bar (Full-screen overlay) ───────────────────────────────────────
 function initSearch() {
     const toggle = document.getElementById('searchToggle');
     const box = document.getElementById('searchBox');
@@ -84,22 +82,33 @@ function initSearch() {
 
     if (!toggle || !box) return;
 
+    function openSearch() {
+        box.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => input?.focus(), 80);
+    }
+
+    function closeSearch() {
+        box.classList.remove('active');
+        document.body.style.overflow = '';
+        if (input) input.value = '';
+    }
+
     toggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isOpen = box.classList.toggle('active');
-        if (isOpen) { setTimeout(() => input?.focus(), 50); }
+        box.classList.contains('active') ? closeSearch() : openSearch();
     });
 
-    closeBtn?.addEventListener('click', () => {
-        box.classList.remove('active');
-        if (input) input.value = '';
+    closeBtn?.addEventListener('click', closeSearch);
+
+    // Click on dark backdrop (outside the inner box) = close
+    box.addEventListener('click', (e) => {
+        if (e.target === box) closeSearch();
     });
 
-    // Close on click outside
-    document.addEventListener('click', (e) => {
-        if (!box.contains(e.target) && e.target !== toggle) {
-            box.classList.remove('active');
-        }
+    // Escape key closes
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && box.classList.contains('active')) closeSearch();
     });
 
     // Search on Enter
