@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - FutWear</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: var(--spacing-3xl);
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .profile-sidebar {
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-xl));
+            height: fit-content;
+        }
+
+        .profile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .profile-nav-link {
+            padding: var(--spacing-md);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            color: var(--color-gray-400);
+            border-left: 3px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .profile-nav-link:hover,
+        .profile-nav-link.active {
+            color: var(--color-black);
+            border-left-color: var(--color-black);
+        }
+
+        .profile-content {}
+
+        .profile-header {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .profile-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .profile-subtitle {
+            color: var(--color-gray-400);
+        }
+
+        .profile-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-100);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .card-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-edit {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .btn-edit:hover {
+            color: var(--color-black);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+
+        .info-item label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item p {
+            font-size: var(--font-size-base);
+            font-weight: 500;
+        }
+
+        .address-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .address-item {
+            padding: var(--spacing-md);
+            border: 1px solid var(--color-gray-100);
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .address-badge {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-table th {
+            text-align: left;
+            padding: var(--spacing-md);
+            border-bottom: 2px solid var(--color-gray-100);
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--color-gray-400);
+        }
+
+        .order-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status-entregue {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-enviado {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-pendente {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        @media (max-width: 960px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar {
+                position: static;
+            }
+
+            .profile-nav {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo"><a href="index.html"><span class="logo-text">FUT<span
+                                    class="logo-accent">WEAR</span></span></a></div>
+                    <nav class="header-nav"><a href="index.html" class="nav-link">Início</a><a href="produtos.html"
+                            class="nav-link">Novidades</a><a href="produtos.html?category=times"
+                            class="nav-link">Times</a><a href="produtos.html?category=selecoes"
+                            class="nav-link">Seleções</a></nav>
+                    <div class="header-actions"><a href="favoritos.html" class="icon-btn"><i
+                                class="far fa-heart"></i></a><a href="carrinho.html" class="icon-btn"><i
+                                class="fas fa-shopping-bag"></i><span class="badge">0</span></a><a href="perfil.html"
+                            class="icon-btn"><i class="far fa-user"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-layout">
+            <aside class="profile-sidebar">
+                <nav class="profile-nav">
+                    <a href="#dados" class="profile-nav-link active">Meus Dados</a>
+                    <a href="#enderecos" class="profile-nav-link">Endereços</a>
+                    <a href="#pedidos" class="profile-nav-link">Meus Pedidos</a>
+                    <a href="#seguranca" class="profile-nav-link">Segurança</a>
+                    <a href="index.html" class="profile-nav-link" style="color: var(--color-accent);">Sair</a>
+                </nav>
+            </aside>
+
+            <main class="profile-content">
+                <div class="profile-header">
+                    <h1 class="profile-title">Meu Perfil</h1>
+                    <p class="profile-subtitle">Gerencie suas informações pessoais e preferências</p>
+                </div>
+
+                <div class="profile-card" id="dados">
+                    <div class="card-title"><span>Informações Pessoais</span><button class="btn-edit">Editar</button>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item"><label>Nome Completo</label>
+                            <p>João Silva Santos</p>
+                        </div>
+                        <div class="info-item"><label>CPF</label>
+                            <p>123.456.789-00</p>
+                        </div>
+                        <div class="info-item"><label>E-mail</label>
+                            <p>joao.silva@email.com</p>
+                        </div>
+                        <div class="info-item"><label>Telefone</label>
+                            <p>(11) 98765-4321</p>
+                        </div>
+                        <div class="info-item"><label>Data de Nascimento</label>
+                            <p>15/03/1990</p>
+                        </div>
+                        <div class="info-item"><label>Gênero</label>
+                            <p>Masculino</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card" id="enderecos">
+                    <div class="card-title"><span>Meus Endereços</span><button class="btn-edit">+ Adicionar
+                            Novo</button></div>
+                    <div class="address-list">
+                        <div class="address-item">
+                            <div>
+                                <div class="address-badge">Principal</div>
+                                <p><strong>Rua das Flores, 123</strong></p>
+                                <p>Apto 45 - Jardim Paulista</p>
+                                <p>São Paulo, SP - 01234-567</p>
+                            </div>
+                            <button class="btn-edit">Editar</button>
+                        </div>
+                        <div class="address-item">
+                            <div>
+                                <p><strong>Av. Paulista, 1000</strong></p>
+                                <p>Sala 200 - Bela Vista</p>
+                                <p>São Paulo, SP - 01310-100</p>
+                            </div>
+                            <button class="btn-edit">Editar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card" id="pedidos">
+                    <div class="card-title"><span>Pedidos Recentes</span><a href="#" class="btn-edit">Ver Todos</a>
+                    </div>
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Data</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>#PED-1234</strong></td>
+                                <td>10/02/2024</td>
+                                <td>R$ 499,80</td>
+                                <td><span class="status-badge status-entregue">Entregue</span></td>
+                                <td><a href="#" class="btn-edit">Detalhes</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>#PED-1233</strong></td>
+                                <td>05/02/2024</td>
+                                <td>R$ 249,90</td>
+                                <td><span class="status-badge status-enviado">Enviado</span></td>
+                                <td><a href="#" class="btn-edit">Rastrear</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>#PED-1232</strong></td>
+                                <td>28/01/2024</td>
+                                <td>R$ 789,70</td>
+                                <td><span class="status-badge status-entregue">Entregue</span></td>
+                                <td><a href="#" class="btn-edit">Detalhes</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="profile-card" id="seguranca">
+                    <div class="card-title"><span>Segurança</span></div>
+                    <div class="info-grid">
+                        <div class="info-item"><label>Senha</label>
+                            <p>••••••••</p>
+                        </div>
+                        <div class="info-item"><label>Autenticação em Duas Etapas</label>
+                            <p>Desativada</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--spacing-lg);"><button class="btn btn-primary"
+                            style="margin-right: var(--spacing-sm);">Alterar Senha</button><button
+                            class="btn btn-secondary">Ativar 2FA</button></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p>© 2024 FutWear, Inc.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

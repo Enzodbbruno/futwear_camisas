@@ -1,413 +1,476 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutWear - Meus Favoritos</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/premium-header.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <title>Meus Favoritos - FutWear</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* ... existing styles ... */
+        .favorites-page {
+            padding: var(--spacing-3xl) 0;
+            min-height: 60vh;
+        }
+
+        .favorites-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-2xl);
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .favorites-header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+        }
+
+        .favorites-header h1 i {
+            color: #dc2626;
+            margin-right: var(--spacing-sm);
+        }
+
+        .favorites-count {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-400);
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .fav-card {
+            border: 1px solid var(--color-gray-100);
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--color-white);
+            transition: transform var(--transition-base), box-shadow var(--transition-base);
+        }
+
+        .fav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .1);
+        }
+
+        .fav-card-img {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+
+        .fav-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+
+        .fav-card:hover .fav-card-img img {
+            transform: scale(1.06);
+        }
+
+        .fav-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #dc2626;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .fav-remove {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #dc2626;
+            font-size: var(--font-size-base);
+            transition: all var(--transition-fast);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+        }
+
+        .fav-remove:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        .fav-card-body {
+            padding: var(--spacing-lg);
+        }
+
+        .fav-category {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: 4px;
+        }
+
+        .fav-name {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .fav-price {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--color-black);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .fav-installment {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-400);
+        }
+
+        .fav-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            padding: 10px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: none;
+            border-radius: 4px;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            transition: opacity var(--transition-fast);
+        }
+
+        .btn-add-cart:hover {
+            opacity: .85;
+        }
+
+        .btn-fav-remove {
+            padding: 10px 14px;
+            background: var(--color-white);
+            border: 1px solid #fecaca;
+            border-radius: 4px;
+            color: #dc2626;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .btn-fav-remove:hover {
+            background: #fef2f2;
+        }
+
+        .favorites-empty {
+            text-align: center;
+            padding: 80px var(--spacing-xl);
+        }
+
+        .favorites-empty i {
+            font-size: 5rem;
+            color: var(--color-gray-200);
+            display: block;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .favorites-empty h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .favorites-empty p {
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .favorites-empty a {
+            display: inline-block;
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .favorites-loading {
+            text-align: center;
+            padding: 80px var(--spacing-xl);
+            color: var(--color-gray-400);
+        }
+
+        @media (max-width: 960px) {
+            .favorites-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .favorites-header h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
-<body class="font-sans bg-gray-50 text-gray-900" style="padding-top: 70px;">
-    <!-- Premium Glass Header -->
-    <header class="header-glass" id="main-header">
-        <div class="header-container">
-            <!-- Mobile Toggle -->
-            <button class="mobile-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Logo -->
-            <a href="index.html" class="logo-container">
-                <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">INÍCIO</a>
-                <a href="camisas.html" class="nav-link">COLEÇÕES</a>
-                <a href="camisas.html?category=clubs" class="nav-link">TIMES</a>
-                <a href="camisas.html?category=national" class="nav-link">SELEÇÕES</a>
-                <a href="#" class="nav-link">OFERTAS</a>
-            </nav>
-
-            <!-- Actions & Search -->
-            <div class="nav-actions">
-                <!-- Search Bar (Desktop) -->
-                <div class="search-bar-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Buscar camisas..." class="search-input" id="desktopSearchInput">
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo">
+                        <a href="index.html"><span class="logo-text">FUT<span class="logo-accent">WEAR</span></span></a>
+                    </div>
+                    <nav class="header-nav">
+                        <a href="camisas.html" class="nav-link">Novidades</a>
+                        <a href="camisas.html?category=clubs" class="nav-link">Times</a>
+                        <a href="camisas.html?category=national" class="nav-link">Seleções</a>
+                        <a href="camisas.html?category=retro" class="nav-link">Retrô</a>
+                        <a href="camisas.html?discount=true" class="nav-link">Ofertas</a>
+                    </nav>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <button class="search-btn" id="searchToggle" aria-label="Buscar"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                        <a href="favoritos.html" class="icon-btn" aria-label="Favoritos">
+                            <i class="fas fa-heart" style="color:#dc2626;"></i>
+                            <span class="badge" id="wishlistBadge">0</span>
+                        </a>
+                        <a href="carrinho.html" class="icon-btn" aria-label="Carrinho">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge" id="cartBadge">0</span>
+                        </a>
+                        <a href="perfil.html" class="icon-btn auth-avatar" id="profileLink" aria-label="Perfil">
+                            <span id="authAvatar"><i class="far fa-user"></i></span>
+                        </a>
+                        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                    </div>
                 </div>
-
-                <!-- Mobile Search Button -->
-                <button class="icon-btn mobile-search-btn" onclick="toggleSearch()">
-                    <i class="fas fa-search"></i>
-                </button>
-
-                <a href="favoritos.html" class="icon-btn relative">
-                    <i class="fas fa-heart"></i>
-                    <span id="wishlist-count" class="cart-badge hidden">0</span>
-                </a>
-                <a href="carrinho.html" class="icon-btn relative">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
-                </a>
-                <a href="perfil.html" class="icon-btn" id="profile-btn">
-                    <i class="fas fa-user"></i>
-                </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="pt-20">
-        <!-- Page Header -->
-        <div class="bg-gradient-to-r from-red-500 to-pink-500 text-white py-16">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-5xl font-bold mb-4 animate-slide-up">
-                    <i class="fas fa-heart mr-4 animate-bounce"></i>
-                    Meus Favoritos
-                </h1>
-                <p class="text-xl text-red-100 animate-fade-in" style="animation-delay: 0.3s;">
-                    Suas camisas favoritas em um só lugar
-                </p>
-            </div>
+    <!-- Search Overlay -->
+    <div class="search-box" id="searchBox">
+        <div class="container" style="display:flex;align-items:center;gap:1rem;width:100%;">
+            <i class="fas fa-search search-icon-label"></i>
+            <input type="text" placeholder="Buscar camisas, times, seleções..." class="search-input" id="searchInput"
+                autocomplete="off">
+            <button class="search-close" id="searchClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
         </div>
+    </div>
 
-        <!-- Favorites Section -->
-        <div class="py-12 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
-                    <div class="flex justify-between items-center mb-8">
-                        <h2 class="text-3xl font-bold text-gradient">
-                            <i class="fas fa-heart text-red-500 mr-3"></i>
-                            Produtos Favoritos
-                        </h2>
-                        <div id="favoritesCount" class="text-gray-600 text-lg font-semibold animate-fade-in">
-                            Carregando...
-                        </div>
-                    </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></button>
+            <nav class="mobile-nav">
+                <a href="camisas.html" class="mobile-nav-link">Novidades</a>
+                <a href="camisas.html?category=clubs" class="mobile-nav-link">Times</a>
+                <a href="camisas.html?category=national" class="mobile-nav-link">Seleções</a>
+                <a href="camisas.html?category=retro" class="mobile-nav-link">Retrô</a>
+                <a href="camisas.html?discount=true" class="mobile-nav-link">Ofertas</a>
+            </nav>
+        </div>
+    </div>
 
-                    <!-- Loading State -->
-                    <div id="loadingState" class="text-center py-16">
-                        <i class="fas fa-spinner fa-spin text-4xl text-gray-400 mb-4"></i>
-                        <p class="text-gray-600">Carregando seus favoritos...</p>
-                    </div>
+    <!-- Favorites Page -->
+    <main class="favorites-page">
+        <div class="container">
+            <div class="favorites-header">
+                <h1><i class="fas fa-heart"></i>Meus Favoritos</h1>
+                <span class="favorites-count" id="favoritesCount">Carregando...</span>
+            </div>
 
-                    <!-- Favorites Grid -->
-                    <div id="favoritesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 hidden">
-                        <!-- Favorites will be inserted here -->
-                    </div>
+            <!-- Loading State -->
+            <div id="loadingState" class="favorites-loading">
+                <i class="fas fa-spinner fa-spin"
+                    style="font-size:2.5rem; display:block; margin-bottom:1rem; color:#ccc;"></i>
+                <p>Carregando seus favoritos...</p>
+            </div>
 
-                    <!-- Empty State -->
-                    <div id="emptyState" class="text-center py-16 hidden">
-                        <i class="fas fa-heart-broken text-8xl text-gray-300 mb-6 animate-bounce"></i>
-                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Nenhum favorito ainda</h3>
-                        <p class="text-gray-500 text-lg mb-6">Adicione camisas aos seus favoritos para vê-las aqui!</p>
-                        <a href="camisas.html"
-                            class="btn-primary text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 inline-block">
-                            <i class="fas fa-shopping-bag mr-2"></i>
-                            Explorar Camisas
-                        </a>
-                    </div>
-                </div>
+            <!-- Favorites Grid -->
+            <div class="favorites-grid" id="favoritesGrid" style="display:none;"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="favorites-empty" style="display:none;">
+                <i class="fas fa-heart-broken"></i>
+                <h2>Nenhum favorito ainda</h2>
+                <p>Adicione camisas aos seus favoritos para vê-las aqui!</p>
+                <a href="camisas.html"><i class="fas fa-shopping-bag" style="margin-right:.5rem;"></i>Explorar
+                    Camisas</a>
             </div>
         </div>
     </main>
 
-    <script type="module">
-        import { addToCart } from './firebase-hybrid.js';
-        import './favorites-system.js';
-
-        // Make addToCart globally available
-        window.addToCart = addToCart;
-
-        // DOM Elements
-        const loadingState = document.getElementById('loadingState');
-        const favoritesGrid = document.getElementById('favoritesGrid');
-        const emptyState = document.getElementById('emptyState');
-        const favoritesCount = document.getElementById('favoritesCount');
-        const wishlistCount = document.getElementById('wishlistCount');
-
-        // Função para adicionar produto por índice
-        window.addFavoriteToCart = function (index) {
-            console.log('🛒 Adicionando favorito ao carrinho:', index);
-            const favorites = window.getFavorites();
-            const product = favorites[index];
-            if (product) {
-                console.log('✅ Produto encontrado:', product);
-                addToCart(product);
-            } else {
-                console.error('❌ Produto não encontrado no índice:', index);
-            }
-        };
-
-        // Função para remover dos favoritos
-        window.removeFromFavorites = function (productId) {
-            console.log('❌ Removendo dos favoritos:', productId);
-            const favorites = window.getFavorites();
-            const product = favorites.find(fav => fav.id === productId);
-            if (product) {
-                window.toggleFavorite(product);
-                loadFavorites(); // Recarrega a lista
-            }
-        };
-
-        // Função para carregar favoritos
-        async function loadFavorites() {
-            console.log('❤️ Carregando favoritos...');
-
-            try {
-                // Force reload from system
-                await favoritesSystem.init();
-                const favorites = window.getFavorites();
-                console.log('📦 Favoritos carregados:', favorites);
-
-                // Atualiza contador
-                const count = typeof window.getFavoritesCount === 'function' ? window.getFavoritesCount() : favorites.length;
-                favoritesCount.textContent = `${count} favoritos`;
-                if (wishlistCount) {
-                    wishlistCount.textContent = String(count);
-                    wishlistCount.classList.remove('hidden');
-                    wishlistCount.setAttribute('aria-label', `Favoritos: ${count}`);
-                    wishlistCount.setAttribute('title', `Favoritos: ${count}`);
-                }
-
-                if (favorites.length === 0) {
-                    showEmptyState();
-                    return;
-                }
-
-                // Esconde loading e mostra favoritos
-                loadingState.classList.add('hidden');
-                favoritesGrid.classList.remove('hidden');
-                emptyState.classList.add('hidden');
-
-                renderFavorites(favorites);
-
-            } catch (error) {
-                console.error('❌ Erro ao carregar favoritos:', error);
-                showEmptyState();
-            }
-        }
-
-        // Função para renderizar favoritos
-        function renderFavorites(favorites) {
-            console.log('🎨 Renderizando favoritos...');
-
-            favoritesGrid.innerHTML = favorites.map((product, index) => `
-                <div class="product-card rounded-2xl overflow-hidden animate-fade-in group" style="animation-delay: ${index * 0.1}s;">
-                    <div class="relative overflow-hidden">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-56 object-cover transition-all duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <button onclick="removeFromFavorites('${product.id}')" class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                        <span class="absolute top-4 left-4 text-xs bg-red-100 text-red-600 px-3 py-1 rounded-full font-semibold shadow-sm">
-                            <i class="fas fa-heart mr-1"></i>Favorito
-                        </span>
-                        <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-2">
-                                <p class="text-xs text-gray-600 text-center">Clique para ver detalhes</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-gradient-to-b from-white to-gray-50">
-                        <div class="mb-4">
-                            <h3 class="font-bold text-gray-800 text-lg mb-2 line-clamp-2">${product.name}</h3>
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-medium">${product.type || 'Produto'}</span>
-                                <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full font-medium">${product.league || 'N/A'}</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-3">
-                                <i class="fas fa-users mr-1"></i>
-                                <span class="font-semibold text-gray-800">${product.team || 'N/A'}</span>
-                            </p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex flex-col">
-                                <span class="text-2xl font-bold text-gray-900">R$ ${product.price.toFixed(2).replace('.', ',')}</span>
-                                <span class="text-xs text-gray-500">ou 3x de R$ ${(product.price / 3).toFixed(2).replace('.', ',')}</span>
-                            </div>
-                            <div class="text-right">
-                                <div class="flex items-center text-yellow-500">
-                                    <i class="fas fa-star text-sm"></i>
-                                    <i class="fas fa-star text-sm"></i>
-                                    <i class="fas fa-star text-sm"></i>
-                                    <i class="fas fa-star text-sm"></i>
-                                    <i class="fas fa-star text-sm"></i>
-                                    <span class="text-xs text-gray-500 ml-1">(4.8)</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex gap-2">
-                            <button onclick="addFavoriteToCart(${index})" class="flex-1 btn-primary text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center shadow-lg">
-                                <i class="fas fa-shopping-cart mr-2"></i>Comprar
-                            </button>
-                            <button onclick="removeFromFavorites('${product.id}')" class="px-4 py-3 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl transition-all duration-300 hover:scale-105 flex items-center justify-center">
-                                <i class="fas fa-heart-broken"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            console.log('✅ Favoritos renderizados com sucesso!');
-        }
-
-        // Função para mostrar estado vazio
-        function showEmptyState() {
-            console.log('📭 Mostrando estado vazio');
-            loadingState.classList.add('hidden');
-            favoritesGrid.classList.add('hidden');
-            emptyState.classList.remove('hidden');
-            favoritesCount.textContent = '0 favoritos';
-            if (wishlistCount) {
-                wishlistCount.textContent = '0';
-                wishlistCount.classList.remove('hidden');
-                wishlistCount.setAttribute('aria-label', 'Favoritos: 0');
-                wishlistCount.setAttribute('title', 'Favoritos: 0');
-            }
-        }
-
-        // Função para atualizar ícone do carrinho
-        function updateCartIcon() {
-            try {
-                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                const cartCount = document.getElementById('cartCount');
-                if (cartCount) {
-                    cartCount.textContent = totalItems;
-                    cartCount.classList.toggle('hidden', totalItems === 0);
-                }
-            } catch (error) {
-                console.warn('Erro ao atualizar ícone do carrinho:', error);
-            }
-        }
-
-        // Função de busca (placeholder)
-        window.toggleSearch = function () {
-            console.log('🔍 Toggle search');
-            alert('Funcionalidade de busca será implementada!');
-        };
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 Iniciando página de favoritos...');
-            loadFavorites();
-            updateCartIcon();
-        });
-
-        // Escuta mudanças nos favoritos
-        window.addEventListener('favoritesUpdated', () => {
-            console.log('🔄 Favoritos atualizados, recarregando...');
-            loadFavorites();
-        });
-    </script>
-
-    <!-- Adidas Style Header Script Removed -->
-    <!-- Footer Pro 2026 -->
-    <footer class="bg-[#0f1012] text-gray-400 border-t border-gray-800">
-        <div class="container mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
-                <!-- Brand Section (4 cols) -->
-                <div class="lg:col-span-4 space-y-6">
-                    <a href="index.html" class="inline-block text-2xl font-bold text-white tracking-tight">
-                        FUT<span class="text-green-500">WEAR</span>
-                    </a>
-                    <p class="text-base leading-relaxed text-gray-500">
-                        A plataforma definitiva para apaixonados por futebol.
-                        Qualidade premium, autenticidade garantida e a melhor experiência de compra do mercado.
-                    </p>
-                    <div class="flex items-center gap-4 pt-2">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <!-- Navigation (2 cols) -->
-                <div class="lg:col-span-2 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Navegação</h4>
-                    <ul class="space-y-4">
-                        <li><a href="index.html" class="hover:text-green-500 transition-colors">Início</a></li>
-                        <li><a href="camisas.html" class="hover:text-green-500 transition-colors">Coleções</a></li>
-                        <li><a href="camisas.html?category=clubs"
-                                class="hover:text-green-500 transition-colors">Times</a></li>
-                        <li><a href="camisas.html?category=national"
-                                class="hover:text-green-500 transition-colors">Seleções</a></li>
-                        <li><a href="#promocoes" class="hover:text-green-500 transition-colors">OFERTAS</a></li>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Encontre uma Loja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Seja um Membro</a></li>
+                        <li><a href="#">Cadastre seu E-mail</a></li>
                     </ul>
                 </div>
-                <!-- Support (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Suporte</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Central de Ajuda</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Trocas e Devoluções</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Política de Privacidade</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Termos de Uso</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Rastrear Pedido</a></li>
+                <div class="footer-col">
+                    <h4 class="footer-title">Obter Ajuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Status do Pedido</a></li>
+                        <li><a href="#">Devoluções</a></li>
+                        <li><a href="#">Contato</a></li>
                     </ul>
                 </div>
-                <!-- Newsletter (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Fique por dentro</h4>
-                    <p class="text-sm text-gray-500">Receba ofertas exclusivas e novidades.</p>
-                    <form class="space-y-3">
-                        <div class="relative">
-                            <input type="email" placeholder="Seu melhor e-mail"
-                                class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-                        </div>
-                        <button type="button"
-                            class="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors">
-                            Inscrever-se
-                        </button>
-                    </form>
+                <div class="footer-col">
+                    <h4 class="footer-title">Sobre a FutWear</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
-            <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-sm text-gray-600">
-                    &copy; 2026 FutWear Sports. Todos os direitos reservados.
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
                 </div>
-                <div class="flex items-center gap-4 text-gray-500">
-                    <i class="fab fa-cc-visa text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-mastercard text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-amex text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-pix text-2xl hover:text-white transition-colors"></i>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <i class="fas fa-lock text-green-500"></i>
-                    Compra 100% Segura
+                <div class="footer-bottom-right">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="js/header.js"></script>
+    <script src="script.js"></script>
+    <script type="module" src="header.js"></script>
+    <script type="module">
+        import { addToCart } from './firebase-hybrid.js';
+        import './favorites-system.js';
+
+        window.addToCart = addToCart;
+
+        const loadingState = document.getElementById('loadingState');
+        const favoritesGrid = document.getElementById('favoritesGrid');
+        const emptyState = document.getElementById('emptyState');
+        const favoritesCount = document.getElementById('favoritesCount');
+
+        window.addFavoriteToCart = function (index) {
+            const favorites = window.getFavorites();
+            const product = favorites[index];
+            if (product) { addToCart(product); }
+        };
+
+        window.removeFromFavorites = function (productId) {
+            const favorites = window.getFavorites();
+            const product = favorites.find(fav => fav.id === productId);
+            if (product) { window.toggleFavorite(product); loadFavorites(); }
+        };
+
+        async function loadFavorites() {
+            try {
+                if (window.favoritesSystem) await window.favoritesSystem.init();
+                const favorites = window.getFavorites ? window.getFavorites() : [];
+                const count = favorites.length;
+                favoritesCount.textContent = `${count} ${count === 1 ? 'favorito' : 'favoritos'}`;
+
+                const wishlistBadge = document.getElementById('wishlistBadge');
+                if (wishlistBadge) { wishlistBadge.textContent = count; }
+
+                if (favorites.length === 0) { showEmptyState(); return; }
+
+                loadingState.style.display = 'none';
+                favoritesGrid.style.display = 'grid';
+                emptyState.style.display = 'none';
+                renderFavorites(favorites);
+            } catch (error) {
+                console.error('Erro ao carregar favoritos:', error);
+                showEmptyState();
+            }
+        }
+
+        function renderFavorites(favorites) {
+            favoritesGrid.innerHTML = favorites.map((product, index) => `
+                <div class="fav-card">
+                    <div class="fav-card-img">
+                        <img src="${product.image || 'https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=400'}" alt="${product.name}">
+                        <span class="fav-badge"><i class="fas fa-heart"></i> Favorito</span>
+                        <button class="fav-remove" onclick="removeFromFavorites('${product.id}')" title="Remover dos favoritos"><i class="fas fa-heart"></i></button>
+                    </div>
+                    <div class="fav-card-body">
+                        <p class="fav-category">${product.team || product.category || ''}</p>
+                        <h3 class="fav-name">${product.name}</h3>
+                        <p class="fav-price">R$ ${Number(product.price).toFixed(2).replace('.', ',')}<br>
+                            <span class="fav-installment">ou 3x de R$ ${(Number(product.price) / 3).toFixed(2).replace('.', ',')}</span>
+                        </p>
+                        <div class="fav-actions">
+                            <button class="btn-add-cart" onclick="addFavoriteToCart(${index})">
+                                <i class="fas fa-shopping-cart" style="margin-right:.4rem;"></i>Comprar
+                            </button>
+                            <button class="btn-fav-remove" onclick="removeFromFavorites('${product.id}')">
+                                <i class="fas fa-heart-broken"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function showEmptyState() {
+            loadingState.style.display = 'none';
+            favoritesGrid.style.display = 'none';
+            emptyState.style.display = 'block';
+            favoritesCount.textContent = '0 favoritos';
+        }
+
+        function updateCartBadge() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+                const badge = document.getElementById('cartBadge');
+                if (badge) badge.textContent = count;
+            } catch (e) { }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { loadFavorites(); updateCartBadge(); });
+        window.addEventListener('favoritesUpdated', () => { loadFavorites(); });
+    </script>
 </body>
 
 </html>

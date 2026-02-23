@@ -1,1917 +1,738 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutWear - Detalhes do Produto</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Produto - FutWear</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Enhanced Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .breadcrumb {
+            padding: var(--spacing-lg) 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
         }
 
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .breadcrumb a {
+            color: var(--color-gray-400);
+            transition: color var(--transition-fast);
         }
 
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .breadcrumb a:hover {
+            color: var(--color-black);
         }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .breadcrumb span {
+            margin: 0 var(--spacing-sm);
         }
 
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .product-detail {
+            padding: var(--spacing-2xl) 0 var(--spacing-4xl);
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+        .product-layout {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: var(--spacing-3xl);
         }
 
-        @keyframes glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(22, 163, 74, 0.6);
-            }
+        .product-gallery {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: var(--spacing-sm);
         }
 
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
+        .gallery-thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
         }
 
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateY(0);
-            }
-
-            40% {
-                transform: translateY(-10px);
-            }
-
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @keyframes pulseGlow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(22, 163, 74, 0.6);
-            }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Animation Classes */
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-in-out;
-        }
-
-        .animate-slide-up {
-            animation: slideInUp 0.8s ease-out;
-        }
-
-        .animate-slide-left {
-            animation: slideInLeft 0.8s ease-out;
-        }
-
-        .animate-slide-right {
-            animation: slideInRight 0.8s ease-out;
-        }
-
-        .animate-scale-in {
-            animation: scaleIn 0.6s ease-out;
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-glow {
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        .animate-bounce {
-            animation: bounce 1s ease-in-out;
-        }
-
-        .animate-pulse-glow {
-            animation: pulseGlow 2s ease-in-out infinite;
-        }
-
-        .animate-fade-scale {
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        .product-gallery-thumb {
+        .gallery-thumb {
+            aspect-ratio: 1;
+            background: var(--color-gray-50);
+            overflow: hidden;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: border-color 0.3s ease;
+            transition: border-color var(--transition-fast);
         }
 
-        .product-gallery-thumb:hover,
-        .product-gallery-thumb.active {
-            border-color: #16a34a;
+        .gallery-thumb.active,
+        .gallery-thumb:hover {
+            border-color: var(--color-black);
         }
 
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        /* Enhanced Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .gallery-thumb img {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
+            object-fit: cover;
         }
 
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.6);
-        }
-
-        /* Glassmorphism */
-        .header-glass {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .glass-card-strong {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Gradient Text */
-        .text-gradient {
-            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Shadow Enhanced */
-        .shadow-enhanced {
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .shadow-enhanced-lg {
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Product Gallery */
-        .product-gallery-thumb {
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-        }
-
-        .product-gallery-thumb:hover,
-        .product-gallery-thumb.active {
-            border-color: #16a34a;
-            transform: scale(1.05);
-        }
-
-        /* Accordion */
-        .accordion-content {
-            max-height: 0;
+        .gallery-main {
+            aspect-ratio: 1;
+            background: var(--color-gray-50);
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
         }
 
-        .accordion-content.open {
-            max-height: 70vh;
-            /* permite área grande o suficiente */
-            overflow-y: auto;
-            /* habilita rolagem vertical */
-            -webkit-overflow-scrolling: touch;
-            /* rolagem suave em iOS */
-        }
-
-        /* Pré-visualização da Personalização */
-        .personalization-preview {
-            position: relative;
-        }
-
-        .jersey-name,
-        .jersey-number {
-            font-family: 'Teko', sans-serif;
-            position: absolute;
+        .gallery-main img {
             width: 100%;
-            text-align: center;
-            color: #00529F;
-            text-transform: uppercase;
-            -webkit-text-stroke: 1px #003768;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-detail-info {
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-xl));
+            height: fit-content;
+        }
+
+        .product-detail-category {
+            font-size: var(--font-size-base);
+            color: var(--color-accent);
+            font-weight: 500;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .product-detail-title {
+            font-size: var(--font-size-2xl);
             font-weight: 700;
-            letter-spacing: 1px;
-            transform: perspective(300px) rotateX(20deg) scaleY(1.1);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
         }
 
-        .jersey-name {
-            top: 28%;
-            font-size: 5vw;
+        .product-detail-subtitle {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-xl);
         }
 
-        .jersey-number {
-            top: 38%;
-            font-size: 15vw;
+        .product-prices {
+            margin-bottom: var(--spacing-2xl);
         }
 
-        /* Barra de Compra Fixa */
-        #sticky-buy-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .product-original-price {
+            text-decoration: line-through;
+            color: var(--color-gray-300);
+            font-size: var(--font-size-base);
+            margin-bottom: 4px;
+        }
+
+        .product-price-main {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+        }
+
+        .product-installment {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-top: 4px;
+        }
+
+        .size-selector {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .size-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            font-weight: 500;
+        }
+
+        .size-guide {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-primary);
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-sm);
+        }
+
+        .size-option {
+            aspect-ratio: 1;
+            border: 1px solid var(--color-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: var(--color-white);
+            font-family: var(--font-primary);
+            font-size: var(--font-size-sm);
+        }
+
+        .size-option:hover {
+            border-color: var(--color-black);
+        }
+
+        .size-option.selected {
+            border-color: var(--color-black);
+            border-width: 2px;
+        }
+
+        .size-option.unavailable {
+            opacity: 0.3;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .btn-add-cart {
+            padding: 18px 24px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border-radius: 30px;
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-primary);
+        }
+
+        .btn-add-cart:hover {
+            background: var(--color-gray-500);
+        }
+
+        .btn-add-cart:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-favorite {
+            padding: 18px 24px;
+            background: var(--color-white);
+            color: var(--color-black);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 30px;
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            font-family: var(--font-primary);
+        }
+
+        .btn-favorite:hover,
+        .btn-favorite.active {
+            border-color: var(--color-black);
+        }
+
+        .btn-favorite.active i {
+            color: #dc2626;
+            font-weight: 900;
+        }
+
+        .product-features {
+            border-top: 1px solid var(--color-gray-100);
+            padding-top: var(--spacing-xl);
+        }
+
+        .feature-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--color-gray-100);
+            cursor: pointer;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-title {
+            font-weight: 500;
+        }
+
+        .personalization-section {
+            border: 1px solid var(--color-gray-100);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .personalization-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .personalization-toggle h3 {
+            font-weight: 600;
+            font-size: var(--font-size-base);
+        }
+
+        .personalization-fields {
+            margin-top: var(--spacing-lg);
+            display: none;
+        }
+
+        .personalization-fields.open {
+            display: block;
+        }
+
+        .pers-input {
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            z-index: 40;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-100%);
-            transition: transform 0.4s ease-out;
+            padding: 10px var(--spacing-md);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 4px;
+            font-family: var(--font-primary);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-md);
+            outline: none;
+            box-sizing: border-box;
         }
 
-        /* Contador de Visitantes */
-        #visitor-count {
-            display: inline-block;
-            transition: transform 0.2s;
+        .pers-input:focus {
+            border-color: var(--color-black);
         }
 
-        /* Estoque por Tamanho */
-        .stock-level.low-stock {
-            color: #ef4444;
-            /* red-500 */
-            font-weight: bold;
-        }
-
-        .stock-level.high-stock {
-            color: #22c55e;
-            /* green-500 */
-        }
-
-        /* Product Gallery Enhancements */
-        .product-gallery-thumb {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-gallery-thumb::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(22, 163, 74, 0.1) 50%, transparent 70%);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-
-        .product-gallery-thumb:hover::before {
-            transform: translateX(100%);
-        }
-
-        /* Related Products Hover Effects */
-        .related-product-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .related-product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(22, 163, 74, 0.1) 0%, transparent 50%, rgba(22, 163, 74, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .related-product-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Enhanced Animations */
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
+        @media (max-width: 960px) {
+            .product-layout {
+                grid-template-columns: 1fr;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .product-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-thumbnails {
+                flex-direction: row;
+            }
+
+            .product-detail-info {
+                position: static;
             }
         }
 
-        .animate-slide-down {
-            animation: slideInDown 0.6s ease-out;
-        }
-
-        /* Mobile Optimizations */
-        @media (max-width: 768px) {
-            .jersey-name {
-                font-size: 8vw;
+        @media (max-width: 640px) {
+            .product-detail-title {
+                font-size: var(--font-size-xl);
             }
 
-            .jersey-number {
-                font-size: 20vw;
-            }
-
-            .glass-card-strong {
-                padding: 1rem;
-            }
-
-            .btn-primary {
-                padding: 0.75rem 1.5rem;
-                font-size: 1rem;
-            }
-        }
-
-        /* Loading States */
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
+            .size-grid {
+                grid-template-columns: repeat(5, 1fr);
             }
         }
     </style>
 </head>
 
-<body class="font-sans bg-gray-50 text-gray-900">
+<body>
     <!-- Header -->
-    <link rel="stylesheet" href="css/premium-header.css">
-    <!-- Header -->
-    <header class="header-glass" id="main-header">
-        <div class="header-container">
-            <!-- Mobile Toggle -->
-            <button class="mobile-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Logo -->
-            <a href="index.html" class="logo-container">
-                <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">INÍCIO</a>
-                <a href="camisas.html" class="nav-link">COLEÇÕES</a>
-                <a href="camisas.html?category=clubs" class="nav-link">TIMES</a>
-                <a href="camisas.html?category=national" class="nav-link">SELEÇÕES</a>
-                <a href="#" class="nav-link">OFERTAS</a>
-            </nav>
-
-            <!-- Actions & Search -->
-            <div class="nav-actions">
-                <!-- Search Bar (Desktop) -->
-                <div class="search-bar-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Buscar camisas..." class="search-input" id="desktopSearchInput">
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo">
+                        <a href="index.html"><span class="logo-text">FUT<span class="logo-accent">WEAR</span></span></a>
+                    </div>
+                    <nav class="header-nav">
+                        <a href="camisas.html" class="nav-link">Novidades</a>
+                        <a href="camisas.html?category=clubs" class="nav-link">Times</a>
+                        <a href="camisas.html?category=national" class="nav-link">Seleções</a>
+                        <a href="camisas.html?category=retro" class="nav-link">Retrô</a>
+                        <a href="camisas.html?discount=true" class="nav-link">Ofertas</a>
+                    </nav>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <button class="search-btn" id="searchToggle" aria-label="Buscar"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                        <a href="favoritos.html" class="icon-btn" aria-label="Favoritos">
+                            <i class="far fa-heart"></i>
+                            <span class="badge" id="wishlistBadge">0</span>
+                        </a>
+                        <a href="carrinho.html" class="icon-btn" aria-label="Carrinho">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge" id="cartBadge">0</span>
+                        </a>
+                        <a href="perfil.html" class="icon-btn auth-avatar" id="profileLink" aria-label="Perfil">
+                            <span id="authAvatar"><i class="far fa-user"></i></span>
+                        </a>
+                        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                    </div>
                 </div>
-
-                <!-- Mobile Search Button -->
-                <button class="icon-btn mobile-search-btn" onclick="toggleSearch()">
-                    <i class="fas fa-search"></i>
-                </button>
-
-                <a href="favoritos.html" class="icon-btn relative">
-                    <i class="fas fa-heart"></i>
-                    <span id="wishlist-count" class="cart-badge hidden">0</span>
-                </a>
-                <a href="carrinho.html" class="icon-btn relative">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
-                </a>
-                <a href="perfil.html" class="icon-btn" id="profile-btn">
-                    <i class="fas fa-user"></i>
-                </a>
             </div>
         </div>
     </header>
 
-
-    <div id="sticky-buy-bar">
-        <div class="container mx-auto px-6 py-3 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/9d7366a7a58a43658f84af3c00325b03_9366/Camisa_1_Real_Madrid_23-24_Branco_IB0087_01_laydown.jpg"
-                    class="w-12 h-12 mr-4 rounded-md">
-                <div>
-                    <h3 class="font-bold">Camisa Real Madrid 23/24</h3>
-                    <p id="sticky-price" class="text-green-600 font-semibold">R$ 399,99</p>
-                </div>
-            </div>
-            <button
-                class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-bold transition duration-300 transform hover:scale-105">COMPRAR</button>
+    <!-- Search Overlay -->
+    <div class="search-box" id="searchBox">
+        <div class="container" style="display:flex;align-items:center;gap:1rem;width:100%;">
+            <i class="fas fa-search search-icon-label"></i>
+            <input type="text" placeholder="Buscar camisas, times, seleções..." class="search-input" id="searchInput"
+                autocomplete="off">
+            <button class="search-close" id="searchClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
         </div>
     </div>
 
-    <main class="pt-20">
-        <!-- Breadcrumb -->
-        <div class="bg-gray-100 py-4">
-            <div class="container mx-auto px-6">
-                <div class="text-sm text-gray-600 animate-slide-left">
-                    <a href="index.html" class="hover:text-green-600 transition-colors">Início</a>
-                    <span class="mx-2">›</span>
-                    <a href="camisas.html" class="hover:text-green-600 transition-colors">Camisas</a>
-                    <span class="mx-2">›</span>
-                    <span id="breadcrumb-product" class="text-gray-800">Produto</span>
-                </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></button>
+            <nav class="mobile-nav">
+                <a href="camisas.html" class="mobile-nav-link">Novidades</a>
+                <a href="camisas.html?category=clubs" class="mobile-nav-link">Times</a>
+                <a href="camisas.html?category=national" class="mobile-nav-link">Seleções</a>
+                <a href="camisas.html?category=retro" class="mobile-nav-link">Retrô</a>
+                <a href="camisas.html?discount=true" class="mobile-nav-link">Ofertas</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Início</a>
+                <span>/</span>
+                <a href="camisas.html">Camisas</a>
+                <span>/</span>
+                <span id="breadcrumb-product">Produto</span>
             </div>
         </div>
+    </div>
 
-        <!-- Product Section -->
-        <section class="py-12 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Product Image Gallery -->
-                    <div class="animate-slide-left">
-                        <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-6">
-                            <!-- Main Image with Zoom -->
-                            <div
-                                class="personalization-preview mb-4 rounded-lg shadow-xl overflow-hidden relative group">
-                                <img id="mainImage" src="https://i.imgur.com/rXAN8zF.png" alt="Produto"
-                                    class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
-                                <span id="previewName" class="jersey-name"></span>
-                                <span id="previewNumber" class="jersey-number"></span>
-                                <!-- Zoom overlay -->
-                                <div
-                                    class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
-                                    <i
-                                        class="fas fa-search-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                </div>
-                            </div>
+    <!-- Product Detail -->
+    <section class="product-detail">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="product-loading" style="text-align:center; padding: 80px 0; color: var(--color-gray-400);">
+                <i class="fas fa-spinner fa-spin"
+                    style="font-size: 3rem; display:block; margin-bottom: 1.5rem; color:#ccc;"></i>
+                <p>Carregando produto...</p>
+            </div>
 
-                            <!-- Thumbnail Gallery -->
-                            <div class="grid grid-cols-4 gap-3">
-                                <div
-                                    class="product-gallery-thumb active rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-                                    <img src="https://i.imgur.com/rXAN8zF.png" alt="Vista frontal"
-                                        class="w-full h-20 object-cover">
-                                </div>
-                                <div
-                                    class="product-gallery-thumb rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-                                    <img src="https://i.imgur.com/rXAN8zF.png" alt="Vista traseira"
-                                        class="w-full h-20 object-cover">
-                                </div>
-                                <div
-                                    class="product-gallery-thumb rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-                                    <img src="https://i.imgur.com/rXAN8zF.png" alt="Detalhes"
-                                        class="w-full h-20 object-cover">
-                                </div>
-                                <div
-                                    class="product-gallery-thumb rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-                                    <img src="https://i.imgur.com/rXAN8zF.png" alt="Material"
-                                        class="w-full h-20 object-cover">
-                                </div>
-                            </div>
+            <!-- Product Content -->
+            <div class="product-layout" id="product-content" style="display:none;">
+                <!-- Gallery -->
+                <div class="product-gallery">
+                    <div class="gallery-thumbnails" id="galleryThumbs">
+                        <div class="gallery-thumb active" onclick="changeMainImage(0)">
+                            <img id="thumb-0" src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=200"
+                                alt="Imagem 1">
+                        </div>
+                        <div class="gallery-thumb" onclick="changeMainImage(1)">
+                            <img id="thumb-1" src="https://images.unsplash.com/photo-1543357480-c60d400e8073?w=200"
+                                alt="Imagem 2">
+                        </div>
+                        <div class="gallery-thumb" onclick="changeMainImage(2)">
+                            <img id="thumb-2" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=200"
+                                alt="Imagem 3">
+                        </div>
+                    </div>
+                    <div class="gallery-main">
+                        <img id="mainImage" src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=800"
+                            alt="Produto">
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="product-detail-info">
+                    <p class="product-detail-category" id="product-team">Carregando...</p>
+                    <h1 class="product-detail-title" id="product-name">Carregando...</h1>
+                    <p class="product-detail-subtitle" id="product-description">Carregando...</p>
+
+                    <div class="product-prices">
+                        <p class="product-original-price" id="product-original-price" style="display:none;"></p>
+                        <p class="product-price-main" id="product-price">R$ 0,00</p>
+                        <p class="product-installment" id="product-installment"></p>
+                    </div>
+
+                    <!-- Size Selector -->
+                    <div class="size-selector">
+                        <div class="size-label">
+                            <span>Selecione o Tamanho</span>
+                            <button class="size-guide">Guia de Tamanhos</button>
+                        </div>
+                        <div class="size-grid" id="size-grid">
+                            <button class="size-option" onclick="selectSize(this, 'PP')">PP</button>
+                            <button class="size-option" onclick="selectSize(this, 'P')">P</button>
+                            <button class="size-option" onclick="selectSize(this, 'M')">M</button>
+                            <button class="size-option" onclick="selectSize(this, 'G')">G</button>
+                            <button class="size-option" onclick="selectSize(this, 'GG')">GG</button>
+                            <button class="size-option" onclick="selectSize(this, 'XGG')">XGG</button>
                         </div>
                     </div>
 
-                    <!-- Product Info -->
-                    <div class="animate-slide-right" id="buy-box">
-                        <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8">
-                            <h2 id="product-title" class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
-                                Carregando...</h2>
-                            <div id="stock-container" class="font-semibold mb-6 block h-6"></div>
-
-                            <div class="mb-6">
-                                <span id="productPrice" class="text-4xl font-bold text-gray-900">R$ 0,00</span>
-                                <span class="text-lg text-gray-500 ml-2">ou 3x de R$ 0,00</span>
-                            </div>
-
-                            <!-- Size Selection -->
-                            <div class="mb-6">
-                                <div class="flex items-center justify-between mb-3">
-                                    <label for="size" class="block font-bold text-gray-800">TAMANHO:</label>
-                                    <a href="#" id="openSizeGuide"
-                                        class="text-sm text-green-600 hover:underline font-semibold">Guia de
-                                        Tamanhos</a>
-                                </div>
-                                <select id="size"
-                                    class="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                    <option value="" disabled selected>Selecione um tamanho</option>
-                                </select>
-                            </div>
-
-                            <!-- Personalization -->
-                            <div class="glass-card p-6 rounded-xl mb-6">
-                                <label for="personalization" class="flex items-center cursor-pointer">
-                                    <input type="checkbox" id="personalization" class="mr-3 h-5 w-5 text-green-600">
-                                    <span class="font-bold text-lg">Personalize sua Camisa (+ R$ 30,00)</span>
-                                </label>
-                                <div id="personalization-fields" class="hidden mt-4 space-y-3">
-                                    <input type="text" id="inputName" placeholder="Seu Nome (até 12 letras)"
-                                        maxlength="12"
-                                        class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                    <input type="text" id="inputNumber" placeholder="Número (até 2 dígitos)"
-                                        maxlength="2"
-                                        class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                </div>
-                            </div>
-
-                            <!-- Product Features -->
-                            <div class="glass-card p-6 rounded-xl mb-6">
-                                <h3 class="text-lg font-bold mb-4 text-gradient">Características do Produto</h3>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="flex items-center space-x-3">
-                                        <i class="fas fa-shield-alt text-green-600"></i>
-                                        <span class="text-sm font-medium">Material Premium</span>
-                                    </div>
-                                    <div class="flex items-center space-x-3">
-                                        <i class="fas fa-truck text-green-600"></i>
-                                        <span class="text-sm font-medium">Frete Rápido</span>
-                                    </div>
-                                    <div class="flex items-center space-x-3">
-                                        <i class="fas fa-undo text-green-600"></i>
-                                        <span class="text-sm font-medium">Troca Fácil</span>
-                                    </div>
-                                    <div class="flex items-center space-x-3">
-                                        <i class="fas fa-award text-green-600"></i>
-                                        <span class="text-sm font-medium">Garantia</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Action Buttons -->
-                            <div class="space-y-4">
-                                <button id="buy-now-btn"
-                                    class="w-full btn-primary text-white py-4 px-8 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 flex items-center justify-center">
-                                    <i class="fas fa-bolt mr-2"></i>COMPRAR AGORA
-                                </button>
-                                <button id="add-to-cart-btn"
-                                    class="w-full border-2 border-green-600 text-green-600 hover:bg-green-50 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 flex items-center justify-center">
-                                    <i class="fas fa-shopping-cart mr-2"></i>ADICIONAR AO CARRINHO
-                                </button>
-                            </div>
+                    <!-- Personalization -->
+                    <div class="personalization-section" id="personalization-section" style="display:none;">
+                        <div class="personalization-toggle" onclick="togglePersonalization()">
+                            <h3><i class="fas fa-paint-brush"
+                                    style="margin-right:.5rem; color: #16a34a;"></i>Personalizar Camisa <small
+                                    style="font-size:12px; color:#888;">(+R$ 30,00)</small></h3>
+                            <i class="fas fa-chevron-down" id="pers-arrow"></i>
+                        </div>
+                        <div class="personalization-fields" id="pers-fields">
+                            <input type="text" class="pers-input" id="pers-name" placeholder="Nome (máx. 12 caracteres)"
+                                maxlength="12">
+                            <input type="number" class="pers-input" id="pers-number" placeholder="Número (0-99)" min="0"
+                                max="99">
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- Security Info -->
-        <div class="mt-6 p-4 glass-card rounded-xl">
-            <div class="flex items-center justify-center text-sm text-gray-600">
-                <i class="fas fa-shield-alt text-green-600 mr-2"></i>
-                <span class="font-semibold">Devolução Grátis</span>
-                <span class="mx-2">•</span>
-                <span>Compra Segura</span>
-            </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        </section>
-        </div>
-        </div>
-        </div>
-        </section>
 
-        <!-- Product Description Section -->
-        <section class="py-12 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-gradient mb-4">Descrição do Produto</h2>
-                    </div>
-
-                    <div class="prose max-w-none">
-                        <p id="product-description" class="text-gray-700 leading-relaxed text-lg text-center">Simples,
-                            clássica e criada para marcar época...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Product Benefits Section -->
-        <section class="py-16 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-gradient mb-4">Por que escolher a FutWear?</h2>
-                        <p class="text-gray-600 text-lg">A melhor qualidade em camisas de futebol</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <!-- Qualidade -->
-                        <div class="text-center">
-                            <div
-                                class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-star text-green-600 text-2xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">Qualidade Premium</h3>
-                            <p class="text-gray-600">Tecidos de alta qualidade e acabamento profissional</p>
-                        </div>
-
-                        <!-- Entrega -->
-                        <div class="text-center">
-                            <div
-                                class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-shipping-fast text-green-600 text-2xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">Entrega Rápida</h3>
-                            <p class="text-gray-600">Receba em até 3 dias úteis em todo o Brasil</p>
-                        </div>
-
-                        <!-- Garantia -->
-                        <div class="text-center">
-                            <div
-                                class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">Garantia Total</h3>
-                            <p class="text-gray-600">30 dias para troca ou devolução do seu dinheiro</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Related Products Section -->
-        <section class="py-16 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gradient mb-4">Outras Camisas que Você Vai Amar</h2>
-                    <p class="text-gray-600">Explore nossa coleção completa de camisas de futebol</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="related-products">
-                    <!-- Related products will be loaded here -->
-                </div>
-
-                <div class="text-center mt-12">
-                    <a href="camisas.html"
-                        class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 inline-flex items-center">
-                        <i class="fas fa-eye mr-2"></i>Ver Todas as Camisas
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Product Reviews Section -->
-        <section class="py-12 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
-                    <!-- Avaliações -->
-                    <div class="mb-8">
-                        <button
-                            class="accordion-button w-full text-left py-4 px-4 flex justify-between items-center glass-card rounded-xl hover:bg-gray-50 transition-all duration-300">
-                            <div class="flex items-center">
-                                <h3 class="text-xl font-bold text-gradient mr-4">Avaliações de Clientes</h3>
-                                <div class="flex items-center">
-                                    <div id="average-rating" class="flex text-yellow-400 mr-2">
-                                        <!-- Estrelas dinâmicas serão inseridas aqui -->
-                                    </div>
-                                    <span id="rating-number" class="text-lg font-bold text-gray-800 mr-2">0.0</span>
-                                    <span id="review-count" class="text-gray-600">(0 avaliações)</span>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down transform transition-transform"></i>
+                    <!-- Actions -->
+                    <div class="product-actions">
+                        <button class="btn-add-cart" id="btn-add-cart" onclick="addProductToCart()">
+                            <i class="fas fa-shopping-bag" style="margin-right:.5rem;"></i>Adicionar ao Carrinho
                         </button>
-                        <div class="accordion-content">
-                            <div class="p-6">
-                                <!-- Rating Summary -->
-                                <div class="flex items-center mb-6 p-4 glass-card rounded-xl">
-                                    <div class="text-center mr-6">
-                                        <div id="average-rating-display" class="text-4xl font-bold text-green-600">0.0
-                                        </div>
-                                        <div id="average-stars" class="flex text-yellow-400 justify-center">
-                                            <!-- Estrelas dinâmicas -->
-                                        </div>
-                                        <div id="total-reviews" class="text-sm text-gray-600">0 avaliações</div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="space-y-2">
-                                            <div class="flex items-center">
-                                                <span class="text-sm w-8">5★</span>
-                                                <div class="flex-1 mx-2 bg-gray-200 rounded-full h-2">
-                                                    <div id="rating-5" class="bg-yellow-400 h-2 rounded-full"
-                                                        style="width: 0%"></div>
-                                                </div>
-                                                <span id="rating-5-count" class="text-sm text-gray-600">0%</span>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <span class="text-sm w-8">4★</span>
-                                                <div class="flex-1 mx-2 bg-gray-200 rounded-full h-2">
-                                                    <div id="rating-4" class="bg-yellow-400 h-2 rounded-full"
-                                                        style="width: 0%"></div>
-                                                </div>
-                                                <span id="rating-4-count" class="text-sm text-gray-600">0%</span>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <span class="text-sm w-8">3★</span>
-                                                <div class="flex-1 mx-2 bg-gray-200 rounded-full h-2">
-                                                    <div id="rating-3" class="bg-yellow-400 h-2 rounded-full"
-                                                        style="width: 0%"></div>
-                                                </div>
-                                                <span id="rating-3-count" class="text-sm text-gray-600">0%</span>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <span class="text-sm w-8">2★</span>
-                                                <div class="flex-1 mx-2 bg-gray-200 rounded-full h-2">
-                                                    <div id="rating-2" class="bg-yellow-400 h-2 rounded-full"
-                                                        style="width: 0%"></div>
-                                                </div>
-                                                <span id="rating-2-count" class="text-sm text-gray-600">0%</span>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <span class="text-sm w-8">1★</span>
-                                                <div class="flex-1 mx-2 bg-gray-200 rounded-full h-2">
-                                                    <div id="rating-1" class="bg-yellow-400 h-2 rounded-full"
-                                                        style="width: 0%"></div>
-                                                </div>
-                                                <span id="rating-1-count" class="text-sm text-gray-600">0%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Formulário para nova avaliação -->
-                                <div class="glass-card p-6 rounded-xl mb-6">
-                                    <h4 class="text-lg font-bold mb-4">Deixe sua avaliação</h4>
-                                    <form id="review-form">
-                                        <div class="mb-4">
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Sua
-                                                avaliação:</label>
-                                            <div class="flex space-x-1 mb-2">
-                                                <button type="button"
-                                                    class="star-rating text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
-                                                    data-rating="1">★</button>
-                                                <button type="button"
-                                                    class="star-rating text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
-                                                    data-rating="2">★</button>
-                                                <button type="button"
-                                                    class="star-rating text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
-                                                    data-rating="3">★</button>
-                                                <button type="button"
-                                                    class="star-rating text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
-                                                    data-rating="4">★</button>
-                                                <button type="button"
-                                                    class="star-rating text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
-                                                    data-rating="5">★</button>
-                                            </div>
-                                            <input type="hidden" id="user-rating" value="0">
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="review-name"
-                                                class="block text-sm font-medium text-gray-700 mb-2">Seu nome:</label>
-                                            <input type="text" id="review-name"
-                                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                                placeholder="Como você gostaria de ser chamado?" required>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="review-comment"
-                                                class="block text-sm font-medium text-gray-700 mb-2">Seu
-                                                comentário:</label>
-                                            <textarea id="review-comment"
-                                                class="w-full border border-gray-300 rounded-lg p-3 h-24 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                                placeholder="Conte sua experiência com este produto..."
-                                                required></textarea>
-                                        </div>
-                                        <button type="submit"
-                                            class="btn-primary text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300">
-                                            <i class="fas fa-paper-plane mr-2"></i>Enviar Avaliação
-                                        </button>
-                                    </form>
-                                </div>
-
-                                <!-- Lista de avaliações -->
-                                <div id="reviews-list" class="space-y-6">
-                                    <!-- Avaliações serão carregadas dinamicamente aqui -->
-                                </div>
-                            </div>
-                        </div>
+                        <button class="btn-favorite" id="btn-favorite" onclick="toggleFavoriteBtn()">
+                            <i class="far fa-heart"></i>
+                            <span>Adicionar aos Favoritos</span>
+                        </button>
                     </div>
 
-                    <!-- FAQ -->
-                    <div>
-                        <button
-                            class="accordion-button w-full text-left py-4 px-4 flex justify-between items-center glass-card rounded-xl hover:bg-gray-50 transition-all duration-300">
-                            <h3 class="text-xl font-bold text-gradient">Perguntas e Respostas</h3>
-                            <i class="fas fa-chevron-down transform transition-transform"></i>
-                        </button>
-                        <div class="accordion-content">
-                            <div class="p-6">
-                                <div class="mb-6">
-                                    <p class="font-bold text-gray-800 mb-2">P: A personalização é bordada ou impressa?
-                                    </p>
-                                    <p class="text-gray-700">R: Olá! A personalização é feita com a mesma fonte e
-                                        material oficial do clube, aplicada sob alta temperatura para máxima
-                                        durabilidade. Att, Equipe FutWear.</p>
-                                </div>
-                                <form class="glass-card p-4 rounded-xl">
-                                    <textarea placeholder="Digite sua pergunta..."
-                                        class="w-full border border-gray-300 rounded-xl p-3 h-20 mb-4 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"></textarea>
-                                    <button type="submit"
-                                        class="btn-primary text-white font-semibold py-3 px-6 rounded-xl hover:scale-105 transition-all duration-300">
-                                        <i class="fas fa-paper-plane mr-2"></i>Enviar Pergunta
-                                    </button>
-                                </form>
-                            </div>
+                    <!-- Product Features -->
+                    <div class="product-features">
+                        <div class="feature-item">
+                            <span class="feature-title"><i class="fas fa-truck"
+                                    style="margin-right:.5rem;"></i>Entrega</span>
+                            <span style="font-size:var(--font-size-sm); color:var(--color-gray-400);">Frete grátis acima
+                                de 3 itens</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-title"><i class="fas fa-undo"
+                                    style="margin-right:.5rem;"></i>Devoluções</span>
+                            <span style="font-size:var(--font-size-sm); color:var(--color-gray-400);">30 dias para
+                                devolver</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-title"><i class="fas fa-shield-alt"
+                                    style="margin-right:.5rem;"></i>Autenticidade</span>
+                            <span style="font-size:var(--font-size-sm); color:var(--color-gray-400);">100% produto
+                                original</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+
+            <!-- Error State -->
+            <div id="product-error" style="display:none; text-align:center; padding: 80px 0;">
+                <i class="fas fa-exclamation-circle"
+                    style="font-size:3rem; color:#ccc; display:block; margin-bottom:1rem;"></i>
+                <h2 style="margin-bottom:.5rem;">Produto não encontrado</h2>
+                <p style="color:var(--color-gray-400); margin-bottom:2rem;">Este produto não existe ou foi removido.</p>
+                <a href="camisas.html" class="btn btn-primary">Ver Todas as Camisas</a>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <!-- Footer Pro 2026 -->
-    <footer class="bg-[#0f1012] text-gray-400 border-t border-gray-800">
-        <div class="container mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
-                <!-- Brand Section (4 cols) -->
-                <div class="lg:col-span-4 space-y-6">
-                    <a href="index.html" class="inline-block text-2xl font-bold text-white tracking-tight">
-                        FUT<span class="text-green-500">WEAR</span>
-                    </a>
-                    <p class="text-base leading-relaxed text-gray-500">
-                        A plataforma definitiva para apaixonados por futebol.
-                        Qualidade premium, autenticidade garantida e a melhor experiência de compra do mercado.
-                    </p>
-                    <div class="flex items-center gap-4 pt-2">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Encontre uma Loja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Seja um Membro</a></li>
+                        <li><a href="#">Cadastre seu E-mail</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Obter Ajuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Status do Pedido</a></li>
+                        <li><a href="#">Entrega</a></li>
+                        <li><a href="#">Devoluções</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Sobre a FutWear</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                <!-- Navigation (2 cols) -->
-                <div class="lg:col-span-2 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Navegação</h4>
-                    <ul class="space-y-4">
-                        <li><a href="index.html" class="hover:text-green-500 transition-colors">Início</a></li>
-                        <li><a href="camisas.html" class="hover:text-green-500 transition-colors">Coleções</a></li>
-                        <li><a href="camisas.html?category=clubs"
-                                class="hover:text-green-500 transition-colors">Times</a></li>
-                        <li><a href="camisas.html?category=national"
-                                class="hover:text-green-500 transition-colors">Seleções</a></li>
-                        <li><a href="#promocoes" class="hover:text-green-500 transition-colors">OFERTAS</a></li>
-                    </ul>
-                </div>
-                <!-- Support (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Suporte</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Central de Ajuda</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Trocas e Devoluções</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Política de Privacidade</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Termos de Uso</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Rastrear Pedido</a></li>
-                    </ul>
-                </div>
-                <!-- Newsletter (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Fique por dentro</h4>
-                    <p class="text-sm text-gray-500">Receba ofertas exclusivas e novidades.</p>
-                    <form class="space-y-3">
-                        <div class="relative">
-                            <input type="email" placeholder="Seu melhor e-mail"
-                                class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-                        </div>
-                        <button type="button"
-                            class="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors">
-                            Inscrever-se
-                        </button>
-                    </form>
-                </div>
             </div>
-            <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-sm text-gray-600">
-                    &copy; 2026 FutWear Sports. Todos os direitos reservados.
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
                 </div>
-                <div class="flex items-center gap-4 text-gray-500">
-                    <i class="fab fa-cc-visa text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-mastercard text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-amex text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-pix text-2xl hover:text-white transition-colors"></i>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <i class="fas fa-lock text-green-500"></i>
-                    Compra 100% Segura
+                <div class="footer-bottom-right">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <script src="script.js"></script>
+    <script type="module" src="header.js"></script>
     <script type="module">
-        import { buscarCamisas, getProductById, addToCart, atualizarIconeCarrinho, addReview, listReviews, deleteReview, isAdmin } from './firebase-hybrid.js';
-        window.atualizarIconeCarrinho = atualizarIconeCarrinho;
-        window.addToCart = addToCart;
+        import { getProductById, addToCart } from './firebase-hybrid.js';
 
-        // Search function
-        window.toggleSearch = function () {
-            console.log('🔍 Toggle search');
-            alert('Funcionalidade de busca será implementada!');
+        let currentProduct = null;
+        let selectedSize = null;
+
+        window.selectSize = function (btn, size) {
+            document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedSize = size;
         };
 
-        // Wishlist function
-        window.toggleWishlist = function () {
-            console.log('❤️ Toggle wishlist');
-            alert('Funcionalidade de favoritos será implementada!');
+        window.changeMainImage = function (index) {
+            const thumbs = document.querySelectorAll('.gallery-thumb');
+            thumbs.forEach(t => t.classList.remove('active'));
+            thumbs[index]?.classList.add('active');
+            const thumb = document.getElementById(`thumb-${index}`);
+            if (thumb) document.getElementById('mainImage').src = thumb.src.replace('w=200', 'w=800');
         };
 
-        // Verificar sessão persistente
-        function checkPersistentAuth() {
-            const isAuth = localStorage.getItem('isAuthenticated') === 'true';
-            const userEmail = localStorage.getItem('userEmail');
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        window.togglePersonalization = function () {
+            const fields = document.getElementById('pers-fields');
+            const arrow = document.getElementById('pers-arrow');
+            fields.classList.toggle('open');
+            arrow.style.transform = fields.classList.contains('open') ? 'rotate(180deg)' : '';
+        };
 
-            return {
-                isAuthenticated: isAuth,
-                userEmail: userEmail,
-                isAdmin: isAdmin
-            };
-        }
-
-        // Verificar autenticação ao carregar a página
-        document.addEventListener('DOMContentLoaded', function () {
-            // Garantir que sempre exista um id
-            const pid = getProductIdFromUrl();
-            if (!pid) {
-                try {
-                    const last = sessionStorage.getItem('lastProductId');
-                    if (last) {
-                        window.location.replace(`produto.html?id=${encodeURIComponent(last)}`);
-                        return;
-                    }
-                } catch { }
+        window.addProductToCart = function () {
+            if (!currentProduct) return;
+            if (!selectedSize) {
+                showToast('Selecione um tamanho', 'error'); return;
             }
-            // Carregar produto normalmente
-            loadProduct();
-            // Inicializações auxiliares
-            try { loadRelatedProducts(); } catch { }
-            try { initAccordions(); } catch { }
-            try { initStickyBuyBar(); } catch { }
-            try { atualizarIconeCarrinho(); } catch { }
-            try { setupPostAddOverlayHandlers(); } catch { }
+            const persName = document.getElementById('pers-name').value.trim();
+            const persNumber = document.getElementById('pers-number').value.trim();
+            const persEnabled = persName || persNumber;
 
-            // Seleção de estrelas do formulário
-            document.querySelectorAll('.star-rating').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const val = Number(btn.getAttribute('data-rating')) || 0;
-                    const hidden = document.getElementById('user-rating');
-                    if (hidden) hidden.value = String(val);
-                    document.querySelectorAll('.star-rating').forEach(b => {
-                        const r = Number(b.getAttribute('data-rating')) || 0;
-                        b.classList.toggle('text-yellow-400', r <= val);
-                        b.classList.toggle('text-gray-300', r > val);
-                    });
-                });
+            addToCart({
+                ...currentProduct,
+                size: selectedSize,
+                personalization: persEnabled ? { enabled: true, name: persName, number: persNumber, fee: 30 } : { enabled: false }
             });
-        });
+            showToast('Produto adicionado ao carrinho!', 'success');
 
-        function getProductIdFromUrl() {
-            // 1) padrão correto: ?id=...
-            const search = window.location.search || '';
-            const params = new URLSearchParams(search);
-            const byParam = params.get('id');
-            if (byParam) return byParam;
-            // 2) formatos indevidos: produto.html?camisa-argentina-2024 ou produto.html&camisa-argentina-2024
-            const raw = search.replace(/^\?/, '');
-            if (raw && !raw.includes('=') && raw.includes('-')) return raw;
-            const afterAmp = raw.split('&').find(p => p && !p.includes('='));
-            if (afterAmp && afterAmp.includes('-')) return afterAmp;
-            // 3) fallback: último id válido da sessão
-            try {
-                const last = sessionStorage.getItem('lastProductId');
-                if (last) return last;
-            } catch { }
-            return null;
-        }
-
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `fixed top-20 right-4 z-50 px-4 py-2 rounded-lg text-white text-sm shadow-lg`;
-            toast.style.transition = 'all .3s';
-            toast.style.transform = 'translateX(120%)';
-            toast.textContent = message;
-            if (type === 'success') toast.classList.add('bg-green-600');
-            else if (type === 'error') toast.classList.add('bg-red-600');
-            else toast.classList.add('bg-gray-800');
-            document.body.appendChild(toast);
-            requestAnimationFrame(() => { toast.style.transform = 'translateX(0)'; });
-            setTimeout(() => { toast.style.transform = 'translateX(120%)'; setTimeout(() => document.body.removeChild(toast), 300); }, 2500);
-        }
-
-        function showErrorState() {
-            const mainContent = document.querySelector('main');
-            if (mainContent) {
-                mainContent.innerHTML = `
-                <div class="min-h-screen flex items-center justify-center bg-gray-50">
-                    <div class="text-center">
-                        <i class="fas fa-exclamation-triangle text-6xl text-red-400 mb-4"></i>
-                        <h1 class="text-2xl font-bold text-gray-800 mb-2">Produto não encontrado</h1>
-                        <p class="text-gray-600 mb-6">O produto que você está procurando não existe ou foi removido.</p>
-                        <a href="camisas.html" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-arrow-left mr-2"></i>Voltar para Camisas
-                        </a>
-                    </div>
-                </div>
-            `;
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                badge.textContent = cart.reduce((s, i) => s + (i.quantity || 1), 0);
             }
+        };
+
+        window.toggleFavoriteBtn = function () {
+            if (!currentProduct) return;
+            if (window.toggleFavorite) window.toggleFavorite(currentProduct);
+            const btn = document.getElementById('btn-favorite');
+            const icon = btn.querySelector('i');
+            const text = btn.querySelector('span');
+            const isNowFav = icon.classList.toggle('fas');
+            icon.classList.toggle('far');
+            btn.classList.toggle('active', isNowFav);
+            text.textContent = isNowFav ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos';
+        };
+
+        function showToast(msg, type = 'info') {
+            const t = document.createElement('div');
+            t.style.cssText = `position:fixed;top:100px;right:20px;z-index:9999;padding:12px 20px;border-radius:4px;color:white;font-size:14px;font-family:var(--font-primary);`;
+            t.style.background = type === 'success' ? '#16a34a' : type === 'error' ? '#dc2626' : '#111';
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => { if (document.body.contains(t)) document.body.removeChild(t); }, 3000);
         }
 
         async function loadProduct() {
-            const id = getProductIdFromUrl();
-            if (!id) {
-                console.log('❌ ID do produto não encontrado na URL');
-                showErrorState();
-                return;
-            }
-            try { sessionStorage.setItem('lastProductId', id); } catch { }
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('id');
 
-            console.log('🔍 Buscando produto com ID:', id);
-            console.log('🔍 Buscando produto com ID:', id);
-
-            // Use API optimized fetch
-            const response = await getProductById(id);
-            console.log('📦 Resposta da busca:', response);
-
-            if (!response.success || !response.data) {
-                console.log('❌ Produto não encontrado:', id);
-                showErrorState();
+            if (!productId) {
+                document.getElementById('product-loading').style.display = 'none';
+                document.getElementById('product-error').style.display = 'block';
                 return;
             }
 
-            const produto = response.data;
-
-            console.log('✅ Produto encontrado:', produto);
-
-            // Atualizar título da página
-            document.title = `FutWear - ${produto.name}`;
-
-            // Imagem principal
-            document.getElementById('mainImage').src = produto.image;
-            document.getElementById('mainImage').alt = produto.name;
-
-            // Nome do produto
-            document.getElementById('product-title').textContent = produto.name;
-            document.getElementById('breadcrumb-product').textContent = produto.name;
-            document.getElementById('previewName').textContent = produto.name;
-            document.getElementById('previewNumber').textContent = produto.number || '10';
-
-            // Promoção ativa por período
-            function isPromoActive(p) {
-                try {
-                    if (!(p.discount && p.discount > 0)) return false;
-                    const now = new Date();
-                    const start = p.promoStart ? new Date(p.promoStart) : null;
-                    const end = p.promoEnd ? new Date(p.promoEnd) : null;
-                    if (start && end) return now >= start && now <= end;
-                    if (start && !end) return now >= start;
-                    if (!start && end) return now <= end;
-                    return true;
-                } catch { return !!p.discount; }
-            }
-            const promoActive = isPromoActive(produto);
-            const priceVal = parseFloat(produto.price) || 0;
-            const discountVal = parseFloat(produto.discount) || 0;
-            const discounted = promoActive ? (priceVal * (1 - discountVal / 100)) : priceVal;
-            const price = discounted.toFixed(2).replace('.', ',');
-            const installment = (discounted / 3).toFixed(2).replace('.', ',');
-            const priceEl = document.getElementById('productPrice');
-            if (promoActive) {
-                priceEl.innerHTML = `R$ ${price} <span class="text-lg text-gray-500 line-through ml-2">R$ ${priceVal.toFixed(2).replace('.', ',')}</span>`;
-            } else {
-                priceEl.textContent = `R$ ${price}`;
-            }
-            document.querySelector('.text-lg.text-gray-500').textContent = `ou 3x de R$ ${installment}`;
-
-            // Avaliações
-            await loadAndRenderReviews(produto.id);
-
-            // Submissão de avaliação
-            const form = document.getElementById('review-form');
-            if (form && !form.__bound) {
-                form.__bound = true;
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const rating = Number(document.getElementById('user-rating')?.value || 0);
-                    const name = (document.getElementById('review-name')?.value || '').trim();
-                    const text = (document.getElementById('review-comment')?.value || '').trim();
-                    if (!rating || !text) { showToast('Informe uma nota e um comentário', 'error'); return; }
-                    try {
-                        await addReview(produto.id, { rating, name: name || 'Cliente', text: text, approved: true });
-                        try {
-                            const key = `reviews_${produto.id}`;
-                            const arr = JSON.parse(localStorage.getItem(key) || '[]');
-                            arr.push({ id: Date.now(), rating, name: name || 'Cliente', comment: text, approved: true, date: new Date().toISOString() });
-                            localStorage.setItem(key, JSON.stringify(arr));
-                        } catch { }
-                        showToast('Avaliação enviada!', 'success');
-                        form.reset();
-                        const hidden = document.getElementById('user-rating'); if (hidden) hidden.value = '0';
-                        document.querySelectorAll('.star-rating').forEach(b => { b.classList.remove('text-yellow-400'); b.classList.add('text-gray-300'); });
-                        await loadAndRenderReviews(produto.id);
-                    } catch (err) {
-                        showToast('Erro ao enviar avaliação', 'error');
-                    }
-                });
-            }
-
-            // Tamanhos
-            const sizeSelect = document.getElementById('size');
-            sizeSelect.innerHTML = '<option value="" disabled selected>Selecione um tamanho</option>' +
-                (produto.sizes || ['P', 'M', 'G', 'GG']).map(size => `<option value="${size}">${size}</option>`).join('');
-
-            // Descrição
-            const descriptionElement = document.getElementById('product-description');
-            if (descriptionElement) {
-                descriptionElement.textContent = produto.description || 'Descrição do produto não disponível.';
-            }
-
-            // Estoque
-            const stockElement = document.getElementById('stock-container');
-            if (produto.available) {
-                stockElement.innerHTML = '<span class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>Em estoque</span>';
-            } else {
-                stockElement.innerHTML = '<span class="text-red-600 font-semibold"><i class="fas fa-times-circle mr-1"></i>Indisponível</span>';
-            }
-
-            // Botão adicionar ao carrinho
-            document.getElementById('add-to-cart-btn').onclick = () => {
-                console.log('🛒 Botão adicionar ao carrinho clicado');
-                const selectedSize = sizeSelect.value;
-                if (!selectedSize) {
-                    showToast('Selecione um tamanho antes de adicionar ao carrinho', 'error');
-                    try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
-                    sizeSelect.focus();
+            try {
+                const product = await getProductById(productId);
+                if (!product) {
+                    document.getElementById('product-loading').style.display = 'none';
+                    document.getElementById('product-error').style.display = 'block';
                     return;
                 }
-                console.log('📦 Produto:', produto);
-                console.log('📏 Tamanho selecionado:', selectedSize);
-                addToCart({ ...produto, size: selectedSize });
-                showToast('Adicionado ao carrinho', 'success');
-                atualizarIconeCarrinho();
-                openPostAddOverlay();
-            };
-            document.getElementById('buy-now-btn').onclick = () => {
-                const selectedSize = sizeSelect.value;
-                if (!selectedSize) {
-                    showToast('Selecione um tamanho para continuar', 'error');
-                    try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
-                    sizeSelect.focus();
-                    return;
-                }
-                // Dados de personalização
-                const personalizationData = (() => {
-                    const cb = document.getElementById('personalization');
-                    const nameEl = document.getElementById('inputName');
-                    const numEl = document.getElementById('inputNumber');
-                    if (cb && cb.checked) {
-                        return {
-                            enabled: true,
-                            name: (nameEl?.value || '').toUpperCase(),
-                            number: (numEl?.value || '').toUpperCase(),
-                            fee: 30
-                        };
-                    }
-                    return { enabled: false };
-                })();
-                addToCart({ ...produto, size: selectedSize, personalization: personalizationData });
-                showToast('Produto adicionado. Indo para o carrinho...', 'success');
-                atualizarIconeCarrinho();
-                setTimeout(() => { window.location.href = 'carrinho.html'; }, 500);
-            };
-
-            // ---------------- Personalização: toggle + preview + preço ----------------
-            (function initPersonalization() {
-                const cb = document.getElementById('personalization');
-                const fields = document.getElementById('personalization-fields');
-                const inputName = document.getElementById('inputName');
-                const inputNumber = document.getElementById('inputNumber');
-                const previewName = document.getElementById('previewName');
-                const previewNumber = document.getElementById('previewNumber');
-                const priceEl = document.getElementById('productPrice');
-                const basePrice = Number(discounted || 0);
-
-                function updatePrice() {
-                    const extra = cb?.checked ? 30 : 0;
-                    if (priceEl) {
-                        const total = basePrice + extra;
-                        if (promoActive) {
-                            priceEl.innerHTML = `R$ ${total.toFixed(2).replace('.', ',')} <span class="text-lg text-gray-500 line-through ml-2">R$ ${produto.price.toFixed(2).replace('.', ',')}</span>`;
-                        } else {
-                            priceEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-                        }
-                    }
-                }
-
-                function updatePreview() {
-                    if (!cb?.checked) {
-                        if (previewName) previewName.textContent = '';
-                        if (previewNumber) previewNumber.textContent = '';
-                        return;
-                    }
-                    if (previewName) previewName.textContent = (inputName?.value || '').toUpperCase();
-                    if (previewNumber) previewNumber.textContent = (inputNumber?.value || '').toUpperCase();
-                }
-
-                if (cb && fields) {
-                    // Inicializa estado
-                    fields.classList.toggle('hidden', !cb.checked);
-                    updatePrice();
-                    updatePreview();
-
-                    cb.addEventListener('change', () => {
-                        fields.classList.toggle('hidden', !cb.checked);
-                        updatePrice();
-                        updatePreview();
-                    });
-                }
-
-                if (inputName) {
-                    inputName.addEventListener('input', updatePreview);
-                }
-                if (inputNumber) {
-                    inputNumber.addEventListener('input', updatePreview);
-                }
-
-                // Também interceptar botão Adicionar ao Carrinho para incluir personalização
-                const addBtn = document.getElementById('add-to-cart-btn');
-                if (addBtn) {
-                    addBtn.onclick = () => {
-                        const selectedSize = sizeSelect.value;
-                        if (!selectedSize) {
-                            showToast('Selecione um tamanho antes de adicionar ao carrinho', 'error');
-                            try { sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch { }
-                            sizeSelect.focus();
-                            return;
-                        }
-                        const personalizationData = (() => {
-                            if (cb && cb.checked) {
-                                return {
-                                    enabled: true,
-                                    name: (inputName?.value || '').toUpperCase(),
-                                    number: (inputNumber?.value || '').toUpperCase(),
-                                    fee: 30
-                                };
-                            }
-                            return { enabled: false };
-                        })();
-                        addToCart({ ...produto, size: selectedSize, personalization: personalizationData });
-                        showToast('Adicionado ao carrinho', 'success');
-                        atualizarIconeCarrinho();
-                        openPostAddOverlay();
-                    };
-                }
-            })();
-        }
-
-        // compat: manter alias caso algum código chame renderProduto()
-        const renderProduto = loadProduct;
-
-        // Helpers de avaliações (para listas e relacionados)
-        function renderStarsHTML(rating) {
-            let html = '';
-            for (let i = 1; i <= 5; i++) {
-                let cls = 'fas fa-star ';
-                if (i <= Math.floor(rating)) {
-                    cls += 'text-yellow-400';
-                } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                    cls += 'text-yellow-400';
-                } else {
-                    cls += 'text-gray-300';
-                }
-                html += `<i class="${cls} text-xs"></i>`;
-            }
-            return html;
-        }
-
-        async function loadAndRenderReviews(productId) {
-            try {
-                // buscar de Firestore (aprovadas e pendentes)
-                const res = await listReviews(productId, false);
-                let reviews = Array.isArray(res) ? res : (res && res.success ? res.data : []);
-
-                // mesclar com localStorage legado
-                try {
-                    const legacyKey = `reviews_${productId}`;
-                    const legacy = JSON.parse(localStorage.getItem(legacyKey) || '[]');
-                    if (Array.isArray(legacy) && legacy.length) {
-                        // normalizar campos e garantir ID persistido
-                        const mapped = legacy.map(r => ({
-                            id: r.id || `legacy_${Math.random().toString(36).slice(2)}`,
-                            productId,
-                            rating: Number(r.rating || r.stars || 0),
-                            text: r.text || r.comment || '',
-                            userEmail: r.userEmail || r.name || 'Cliente',
-                            approved: r.approved !== false,
-                            createdAt: r.date || r.createdAt || new Date().toISOString()
-                        }));
-                        // persistir IDs normalizados no localStorage
-                        try { localStorage.setItem(legacyKey, JSON.stringify(mapped)); } catch { }
-                        // evitar duplicados por id+texto
-                        const seen = new Set(reviews.map(x => `${x.id}|${x.text}`));
-                        mapped.forEach(m => { const k = `${m.id}|${m.text}`; if (!seen.has(k)) { reviews.push(m); seen.add(k); } });
-                    }
-                } catch { }
-
-                // calcular média e distribuição
-                const count = reviews.length;
-                const avg = count > 0 ? (reviews.reduce((s, r) => s + (Number(r.rating) || 0), 0) / count) : 0;
-                const dist = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-                reviews.forEach(r => { const k = Math.max(1, Math.min(5, Number(r.rating) || 0)); dist[k]++; });
-
-                // cabeçalho
-                const avgWrap = document.getElementById('average-rating');
-                if (avgWrap) avgWrap.innerHTML = renderStarsHTML(avg);
-                const ratingNumber = document.getElementById('rating-number');
-                if (ratingNumber) ratingNumber.textContent = avg.toFixed(1);
-                const reviewCount = document.getElementById('review-count');
-                if (reviewCount) reviewCount.textContent = `(${count} avaliações)`;
-                const avgDisplay = document.getElementById('average-rating-display');
-                if (avgDisplay) avgDisplay.textContent = avg.toFixed(1);
-                const avgStars = document.getElementById('average-stars');
-                if (avgStars) avgStars.innerHTML = renderStarsHTML(avg);
-                const totalReviews = document.getElementById('total-reviews');
-                if (totalReviews) totalReviews.textContent = `${count} avaliações`;
-
-                // barras por nota
-                for (let i = 1; i <= 5; i++) {
-                    const pct = count > 0 ? Math.round((dist[i] / count) * 100) : 0;
-                    const bar = document.getElementById(`rating-${i}`);
-                    const lab = document.getElementById(`rating-${i}-count`);
-                    if (bar) bar.style.width = `${pct}%`;
-                    if (lab) lab.textContent = `${pct}%`;
-                }
-
-                // lista
-                const list = document.getElementById('reviews-list');
-                if (list) {
-                    const admin = (() => { try { return !!isAdmin(); } catch { return false; } })();
-                    list.innerHTML = reviews.map(r => {
-                        const stars = renderStarsHTML(Number(r.rating) || 0);
-                        const who = r.userEmail || 'Cliente';
-                        const dt = (r.createdAt && typeof r.createdAt.toDate === 'function')
-                            ? r.createdAt.toDate()
-                            : (r.createdAt ? new Date(r.createdAt) : null);
-                        const when = dt ? dt.toLocaleDateString('pt-BR') : '';
-                        return `
-                        <div class="glass-card p-4 rounded-xl">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="text-sm text-gray-700 font-semibold">${who}</div>
-                                <div class="flex items-center gap-2">
-                                    <div class="text-xs text-gray-500">${when}</div>
-                                    ${admin ? `<button class='text-xs px-2 py-1 border rounded text-red-600 hover:bg-red-50' data-del-review='${r.id}'>Excluir</button>` : ''}
-                                </div>
-                            </div>
-                            <div class="flex items-center mb-2">${stars}</div>
-                            <p class="text-gray-700 whitespace-pre-wrap">${(r.text || '').toString()}</p>
-                        </div>
-                    `;
-                    }).join('') || '<div class="text-gray-500">Seja o primeiro a avaliar este produto.</div>';
-
-                    if (admin) {
-                        list.querySelectorAll('[data-del-review]').forEach(btn => {
-                            btn.addEventListener('click', async () => {
-                                const id = btn.getAttribute('data-del-review');
-                                if (!confirm('Excluir esta avaliação?')) return;
-                                try { if (id) await deleteReview(id); } catch { }
-                                // Remoção local somente se houver ID válido
-                                if (id) {
-                                    try {
-                                        const key = `reviews_${productId}`;
-                                        const raw = localStorage.getItem(key);
-                                        const arr = Array.isArray(JSON.parse(raw)) ? JSON.parse(raw) : [];
-                                        const filtered = arr.filter(r => String(r.id) !== String(id));
-                                        localStorage.setItem(key, JSON.stringify(filtered));
-                                    } catch { }
-                                }
-                                await loadAndRenderReviews(productId);
-                            });
-                        });
-                    }
-                }
-            } catch (e) {
-                console.warn('Erro ao carregar avaliações:', e);
+                currentProduct = product;
+                renderProduct(product);
+            } catch (err) {
+                console.error('Erro ao carregar produto:', err);
+                document.getElementById('product-loading').style.display = 'none';
+                document.getElementById('product-error').style.display = 'block';
             }
         }
 
-        // Carregar produtos relacionados
-        async function loadRelatedProducts() {
-            try {
-                const produtos = await buscarCamisas();
-                const currentProductId = getProductIdFromUrl();
-                const relatedProducts = produtos
-                    .filter(p => p.id !== currentProductId)
-                    .slice(0, 4);
+        function renderProduct(p) {
+            document.title = `${p.name} - FutWear`;
+            document.getElementById('breadcrumb-product').textContent = p.name;
+            document.getElementById('product-team').textContent = p.team || p.category || '';
+            document.getElementById('product-name').textContent = p.name;
+            document.getElementById('product-description').textContent = p.description || 'Camisa oficial com qualidade premium e autenticidade garantida.';
 
-                const container = document.getElementById('related-products');
-                if (container) {
-                    container.innerHTML = relatedProducts.map(produto => {
-                        const avg = 0; // manter leve (sem consulta de reviews aqui)
-                        const stars = renderStarsHTML(avg);
-                        const avgText = (avg || 0).toFixed(1);
-                        const priceVal = parseFloat(produto.price) || 0;
-                        return `
-                    <div class="glass-card rounded-xl p-4 hover:scale-105 transition-all duration-300 cursor-pointer related-product-card" onclick="window.location.href='produto.html?id=${produto.id}'">
-                        <img src="${produto.image}" alt="${produto.name}" class="w-full h-48 object-cover rounded-lg mb-3">
-                        <h4 class="font-bold text-lg mb-2">${produto.name}</h4>
-                        <p class="text-green-600 font-bold text-xl">R$ ${priceVal.toFixed(2).replace('.', ',')}</p>
-                        <div class="flex items-center mt-2">
-                            <div class="flex mr-2">${stars}</div>
-                            <span class="text-sm text-gray-600">(${avgText})</span>
-                        </div>
-                    </div>`;
-                    }).join('');
+            const price = Number(p.price) || 0;
+            const originalPrice = Number(p.original_price || p.originalPrice) || 0;
+            if (originalPrice > price) {
+                document.getElementById('product-original-price').textContent = `R$ ${originalPrice.toFixed(2).replace('.', ',')}`;
+                document.getElementById('product-original-price').style.display = 'block';
+            }
+            document.getElementById('product-price').textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
+            document.getElementById('product-installment').textContent = `ou 3x de R$ ${(price / 3).toFixed(2).replace('.', ',')} sem juros`;
+
+            // Images
+            const images = p.images || (p.image ? [p.image] : []);
+            if (images.length > 0) {
+                document.getElementById('mainImage').src = images[0];
+                for (let i = 0; i < Math.min(images.length, 3); i++) {
+                    const thumb = document.getElementById(`thumb-${i}`);
+                    if (thumb) thumb.src = images[i];
                 }
-            } catch (e) {
-                console.error('Erro ao carregar relacionados:', e);
-            }
-        }
-
-        // Funcionalidade dos acordeões
-        function initAccordions() {
-            const accordionButtons = document.querySelectorAll('.accordion-button');
-
-            accordionButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const content = button.nextElementSibling;
-                    const icon = button.querySelector('i');
-
-                    if (content.classList.contains('open')) {
-                        content.classList.remove('open');
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        // Close all other accordions
-                        accordionButtons.forEach(otherButton => {
-                            if (otherButton !== button) {
-                                const otherContent = otherButton.nextElementSibling;
-                                const otherIcon = otherButton.querySelector('i');
-                                otherContent.classList.remove('open');
-                                otherIcon.style.transform = 'rotate(0deg)';
-                            }
-                        });
-
-                        content.classList.add('open');
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
-        }
-
-        // Funcionalidade da barra fixa de compra
-        function initStickyBuyBar() {
-            const stickyBar = document.getElementById('sticky-buy-bar');
-            const buyBox = document.getElementById('buy-box');
-
-            if (stickyBar && buyBox) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            stickyBar.style.transform = 'translateY(-100%)';
-                        } else {
-                            stickyBar.style.transform = 'translateY(0)';
-                        }
-                    });
-                });
-
-                observer.observe(buyBox);
-            }
-        }
-
-        // Atualizar barra fixa com dados do produto
-        function updateStickyBar(produto) {
-            const stickyImage = document.querySelector('#sticky-buy-bar img');
-            const stickyTitle = document.querySelector('#sticky-buy-bar h3');
-            const stickyPrice = document.getElementById('sticky-price');
-            const stickyButton = document.querySelector('#sticky-buy-bar button');
-
-            if (stickyImage) stickyImage.src = produto.image;
-            if (stickyTitle) stickyTitle.textContent = produto.name;
-            if (stickyPrice) stickyPrice.textContent = `R$ ${produto.price.toFixed(2).replace('.', ',')}`;
-            if (stickyButton) {
-                stickyButton.onclick = () => {
-                    const selectedSize = document.getElementById('size')?.value || produto.size;
-                    addToCart({ ...produto, size: selectedSize });
-                    showToast('Produto adicionado. Indo para o carrinho...', 'success');
-                    atualizarIconeCarrinho();
-                    setTimeout(() => { window.location.href = 'carrinho.html'; }, 500);
-                };
-            }
-        }
-
-        // Overlay pós-adicionar ao carrinho
-        function openPostAddOverlay() {
-            const el = document.getElementById('postAddOverlay');
-            if (el) el.classList.remove('hidden');
-        }
-
-        function closePostAddOverlay() {
-            const el = document.getElementById('postAddOverlay');
-            if (el) el.classList.add('hidden');
-        }
-
-        function setupPostAddOverlayHandlers() {
-            const overlay = document.getElementById('postAddOverlay');
-            const backdrop = document.getElementById('postAddBackdrop');
-            const btnGoCart = document.getElementById('postAddGoCart');
-            const btnContinue = document.getElementById('postAddContinue');
-            const modal = document.getElementById('postAddModal');
-
-            if (backdrop) backdrop.addEventListener('click', closePostAddOverlay);
-            if (modal) modal.addEventListener('click', (e) => e.stopPropagation());
-            if (btnContinue) btnContinue.addEventListener('click', (e) => { e.preventDefault(); closePostAddOverlay(); });
-            if (btnGoCart) btnGoCart.addEventListener('click', (e) => { e.preventDefault(); window.location.href = 'carrinho.html'; });
-
-            // ESC fecha
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && overlay && !overlay.classList.contains('hidden')) {
-                    closePostAddOverlay();
-                }
-            });
-        }
-
-        // Sistema de Avaliações Dinâmico
-        let productReviews = [];
-
-        // Verificação de elegibilidade de avaliação (apenas quem comprou pode avaliar)
-        async function hasPurchasedProduct(productId) {
-            try {
-                // Preferir funções exportadas pelo firebase-hybrid.js, se disponíveis
-                if (typeof getCurrentUser === 'function') {
-                    const user = getCurrentUser();
-                    if (!user) return false;
-                    const userId = user.uid || user.id || user.email;
-                    let orders = [];
-                    if (typeof getOrdersByUser === 'function') {
-                        try {
-                            const res = await getOrdersByUser(userId);
-                            orders = res && res.success ? res.data : [];
-                        } catch {
-                            orders = [];
-                        }
-                    } else {
-                        try {
-                            orders = (JSON.parse(localStorage.getItem('orders') || '[]') || []).filter(o => o.userId === userId);
-                        } catch { orders = []; }
-                    }
-                    return orders.some(o => (
-                        (o.paymentStatus === 'paid' || o.status === 'completed') &&
-                        (
-                            (Array.isArray(o.items) && o.items.some(it => (it.id || it.productId) === productId)) ||
-                            o.productId === productId
-                        )
-                    ));
-                }
-            } catch { }
-
-            // Fallback: checar qualquer pedido localStorage (ambiente sem auth)
-            try {
-                const orders = JSON.parse(localStorage.getItem('orders') || '[]') || [];
-                return orders.some(o => (
-                    (o.paymentStatus === 'paid' || o.status === 'completed') &&
-                    (
-                        (Array.isArray(o.items) && o.items.some(it => (it.id || it.productId) === productId)) ||
-                        o.productId === productId
-                    )
-                ));
-            } catch { return false; }
-        }
-
-        // Carregar avaliações do localStorage
-        function loadReviews() {
-            const productId = getProductIdFromUrl();
-            const savedReviews = localStorage.getItem(`reviews_${productId}`);
-            if (savedReviews) {
-                productReviews = JSON.parse(savedReviews);
-            }
-            updateReviewsDisplay();
-        }
-
-        // Salvar avaliações no localStorage
-        function saveReviews() {
-            const productId = getProductIdFromUrl();
-            localStorage.setItem(`reviews_${productId}`, JSON.stringify(productReviews));
-        }
-
-        // Atualizar display das avaliações
-        function updateReviewsDisplay() {
-            const totalReviews = productReviews.length;
-            const averageRating = totalReviews > 0 ?
-                (productReviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews).toFixed(1) : 0;
-
-            // Atualizar contadores
-            document.getElementById('rating-number').textContent = averageRating;
-            document.getElementById('review-count').textContent = `(${totalReviews} avaliações)`;
-            document.getElementById('average-rating-display').textContent = averageRating;
-            document.getElementById('total-reviews').textContent = `${totalReviews} avaliações`;
-
-            // Atualizar estrelas do header
-            updateStarDisplay('average-rating', averageRating);
-            updateStarDisplay('average-stars', averageRating);
-
-            // Calcular distribuição de ratings
-            const ratingDistribution = [0, 0, 0, 0, 0]; // 1-5 estrelas
-            productReviews.forEach(review => {
-                ratingDistribution[review.rating - 1]++;
-            });
-
-            // Atualizar barras de distribuição
-            for (let i = 1; i <= 5; i++) {
-                const count = ratingDistribution[i - 1];
-                const percentage = totalReviews > 0 ? Math.round((count / totalReviews) * 100) : 0;
-                document.getElementById(`rating-${i}`).style.width = `${percentage}%`;
-                document.getElementById(`rating-${i}-count`).textContent = `${percentage}%`;
             }
 
-            // Renderizar lista de avaliações
-            renderReviewsList();
-        }
-
-        // Atualizar display de estrelas
-        function updateStarDisplay(containerId, rating) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            container.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                const star = document.createElement('i');
-                star.className = 'fas fa-star';
-                if (i <= Math.floor(rating)) {
-                    star.className += ' text-yellow-400';
-                } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                    star.className += ' text-yellow-400';
-                } else {
-                    star.className += ' text-gray-300';
-                }
-                container.appendChild(star);
-            }
-        }
-
-        // Renderizar lista de avaliações
-        function renderReviewsList() {
-            const container = document.getElementById('reviews-list');
-            if (!container) return;
-
-            if (productReviews.length === 0) {
-                container.innerHTML = `
-                <div class="text-center py-8 text-gray-500">
-                    <i class="fas fa-comments text-4xl mb-4"></i>
-                    <p>Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
-                </div>
-            `;
-                return;
+            // Personalization
+            if (p.allowPersonalization || p.personalization) {
+                document.getElementById('personalization-section').style.display = 'block';
             }
 
-            container.innerHTML = productReviews
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map(review => `
-                <div class="border-t pt-6">
-                    <div class="flex items-center mb-3">
-                        <div class="flex text-yellow-400 mr-3">
-                            ${Array.from({ length: 5 }, (_, i) =>
-                    `<i class="fas fa-star ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}"></i>`
-                ).join('')}
-                        </div>
-                        <h4 class="font-bold text-lg">${review.name}</h4>
-                        <span class="ml-auto text-xs bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full">
-                            <i class="fas fa-check-circle mr-1"></i>Compra Verificada
-                        </span>
-                    </div>
-                    <p class="text-gray-700 mb-2">${review.comment}</p>
-                    <div class="text-sm text-gray-500">${formatDate(review.date)}</div>
-                </div>
-            `).join('');
+            document.getElementById('product-loading').style.display = 'none';
+            document.getElementById('product-content').style.display = 'grid';
         }
 
-        // Formatar data
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = Math.abs(now - date);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays === 1) return 'há 1 dia';
-            if (diffDays < 7) return `há ${diffDays} dias`;
-            if (diffDays < 30) return `há ${Math.floor(diffDays / 7)} semana${Math.floor(diffDays / 7) > 1 ? 's' : ''}`;
-            return `há ${Math.floor(diffDays / 30)} mês${Math.floor(diffDays / 30) > 1 ? 'es' : ''}`;
-        }
-
-        // Inicializar sistema de avaliações
-        function initReviewSystem() {
-            // Sistema de estrelas interativo
-            document.querySelectorAll('.star-rating').forEach(star => {
-                star.addEventListener('click', function () {
-                    const rating = parseInt(this.dataset.rating);
-                    document.getElementById('user-rating').value = rating;
-
-                    // Atualizar visual das estrelas
-                    document.querySelectorAll('.star-rating').forEach((s, index) => {
-                        if (index < rating) {
-                            s.className = s.className.replace('text-gray-300', 'text-yellow-400');
-                        } else {
-                            s.className = s.className.replace('text-yellow-400', 'text-gray-300');
-                        }
-                    });
-                });
-
-                star.addEventListener('mouseenter', function () {
-                    const rating = parseInt(this.dataset.rating);
-                    document.querySelectorAll('.star-rating').forEach((s, index) => {
-                        if (index < rating) {
-                            s.className = s.className.replace('text-gray-300', 'text-yellow-400');
-                        }
-                    });
-                });
-            });
-
-            // Reset hover effect
-            document.querySelector('.star-rating').parentElement.addEventListener('mouseleave', function () {
-                const currentRating = parseInt(document.getElementById('user-rating').value);
-                document.querySelectorAll('.star-rating').forEach((s, index) => {
-                    if (index < currentRating) {
-                        s.className = s.className.replace('text-gray-300', 'text-yellow-400');
-                    } else {
-                        s.className = s.className.replace('text-yellow-400', 'text-gray-300');
-                    }
-                });
-            });
-
-            // Bloquear formulário caso usuário não seja elegível
-            const reviewForm = document.getElementById('review-form');
-            (async () => {
-                try {
-                    const pid = getProductIdFromUrl();
-                    const eligible = await hasPurchasedProduct(pid);
-                    if (!eligible && reviewForm) {
-                        // Desabilitar campos e informar usuário
-                        reviewForm.querySelectorAll('input, textarea, button').forEach(el => el.disabled = true);
-                        const notice = document.createElement('div');
-                        notice.className = 'mt-3 text-sm text-red-600';
-                        notice.textContent = 'Apenas clientes que compraram este produto podem deixar uma avaliação.';
-                        reviewForm.parentElement.insertBefore(notice, reviewForm);
-                    }
-                } catch { }
-            })();
-
-        }
-
-
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProduct();
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const badge = document.getElementById('cartBadge');
+            if (badge) badge.textContent = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+        });
     </script>
-    <div id="postAddOverlay" class="fixed inset-0 bg-black/50 z-50 hidden">
-        <div id="postAddBackdrop" class="absolute inset-0 z-0" onclick="closePostAddOverlay()"></div>
-        <div id="postAddModal"
-            class="fixed bottom-0 left-0 right-0 md:relative md:mx-auto md:top-1/2 md:-translate-y-1/2 md:w-96 bg-white rounded-t-2xl md:rounded-2xl p-6 shadow-xl z-10"
-            onclick="event.stopPropagation()">
-            <h3 class="text-lg font-bold mb-2">Produto adicionado ao carrinho</h3>
-            <p class="text-gray-600 mb-4">O que você deseja fazer?</p>
-            <div class="flex gap-3">
-                <button id="postAddGoCart" class="flex-1 btn-primary text-white py-3 rounded-xl font-semibold">Ir ao
-                    carrinho</button>
-                <button id="postAddContinue"
-                    class="flex-1 border-2 border-gray-200 text-gray-700 py-3 rounded-xl font-semibold">Continuar
-                    comprando</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Adidas Style Header Script -->
-
-    <script src="js/header.js"></script>
 </body>
 
 </html>

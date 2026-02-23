@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutWear - Camisas de Times e Seleções</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
+                        </a>
+                    </div>
+
+                    <nav class="header-nav">
+                        <a href="#novidades" class="nav-link">Novidades</a>
+                        <a href="produtos.html?category=times" class="nav-link">Times</a>
+                        <a href="produtos.html?category=selecoes" class="nav-link">Seleções</a>
+                        <a href="produtos.html?category=retro" class="nav-link">Retrô</a>
+                        <a href="produtos.html?sale=true" class="nav-link">Ofertas</a>
+                    </nav>
+
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <button class="search-btn" id="searchToggle">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <div class="search-box" id="searchBox">
+                                <input type="text" placeholder="Buscar" class="search-input">
+                                <button class="search-close" id="searchClose">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <a href="#favoritos" class="icon-btn">
+                            <i class="far fa-heart"></i>
+                        </a>
+                        <a href="#carrinho" class="icon-btn">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge">0</span>
+                        </a>
+                        <button class="mobile-menu-btn" id="mobileMenuBtn">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <nav class="mobile-nav">
+                <a href="#novidades" class="mobile-nav-link">Novidades</a>
+                <a href="#times" class="mobile-nav-link">Times</a>
+                <a href="#selecoes" class="mobile-nav-link">Seleções</a>
+                <a href="#retro" class="mobile-nav-link">Retrô</a>
+                <a href="#ofertas" class="mobile-nav-link">Ofertas</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="container">
+                <div class="hero-text">
+                    <p class="hero-label">Nova Coleção 2024</p>
+                    <h1 class="hero-title">A ESSÊNCIA DO<br>FUTEBOL</h1>
+                    <p class="hero-subtitle">Camisas autênticas dos maiores times e seleções do mundo</p>
+                    <div class="hero-cta">
+                        <a href="produtos.html" class="btn btn-primary">Explorar Coleção</a>
+                        <a href="produtos.html?sale=true" class="btn btn-secondary">Ver Promoções</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Hero">
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Destaques</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" data-carousel="featured">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next" data-carousel="featured">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="carousel" id="featured">
+                <div class="carousel-track">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Camisa">
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">Seleção Brasileira</p>
+                            <h3 class="product-name">Camisa Brasil 2024 Home</h3>
+                            <p class="product-price">R$ 249,90</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Camisa">
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">Real Madrid</p>
+                            <h3 class="product-name">Camisa Real Madrid 2024</h3>
+                            <p class="product-price">R$ 279,90</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Camisa">
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">Flamengo</p>
+                            <h3 class="product-name">Camisa Flamengo 2024 Home</h3>
+                            <p class="product-price">R$ 259,90</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1577032225473-d9f6fc9d3c8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Camisa">
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">Barcelona</p>
+                            <h3 class="product-name">Camisa Barcelona Retrô 96</h3>
+                            <p class="product-price">R$ 299,90</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Width Banner -->
+    <section class="banner" id="times">
+        <div class="banner-content">
+            <div class="container">
+                <div class="banner-text">
+                    <h2 class="banner-title">TIMES BRASILEIROS</h2>
+                    <p class="banner-subtitle">Vista as cores do seu time do coração</p>
+                    <a href="#" class="btn btn-primary">Comprar Agora</a>
+                </div>
+            </div>
+        </div>
+        <div class="banner-image">
+            <img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Times Brasileiros">
+        </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="section" id="selecoes">
+        <div class="container">
+            <h2 class="section-title">Categorias</h2>
+
+            <div class="grid grid-2">
+                <!-- Category 1 -->
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Seleções">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Seleções</h3>
+                        <a href="#" class="category-link">Comprar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Times Europeus">
+                    </div>
+                    <div class="category-content">
+                        <h3 class="category-title">Times Europeus</h3>
+                        <a href="#" class="category-link">Comprar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shipping Info -->
+    <section class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title text-white text-center">Política de Frete</h2>
+            <div class="grid grid-3">
+                <div class="info-card">
+                    <div class="info-icon">📦</div>
+                    <h3 class="info-title">1 Camisa</h3>
+                    <p class="info-price">R$ 30,00</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📦📦</div>
+                    <h3 class="info-title">2 Camisas</h3>
+                    <p class="info-price">R$ 20,00</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🎁</div>
+                    <h3 class="info-title">3+ Camisas</h3>
+                    <p class="info-price highlight">FRETE GRÁTIS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retro Collection -->
+    <section class="section" id="retro">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Edições Retrô</h2>
+                <a href="#" class="link-more">Ver Tudo <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="grid grid-4">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1577032225473-d9f6fc9d3c8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Retrô">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Brasil Retrô</p>
+                        <h3 class="product-name">Brasil 1970</h3>
+                        <p class="product-price">R$ 299,90</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Retrô">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Milan Retrô</p>
+                        <h3 class="product-name">Milan 1989</h3>
+                        <p class="product-price">R$ 289,90</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Retrô">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Argentina Retrô</p>
+                        <h3 class="product-name">Argentina 1986</h3>
+                        <p class="product-price">R$ 299,90</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Retrô">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Holanda Retrô</p>
+                        <h3 class="product-name">Holanda 1988</h3>
+                        <p class="product-price">R$ 289,90</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Encontre uma Loja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Seja um Membro</a></li>
+                        <li><a href="#">Cadastre seu E-mail</a></li>
+                        <li><a href="#">Envie sua Opinião</a></li>
+                        <li><a href="#">Cupons para Estudantes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Obter Ajuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Status do Pedido</a></li>
+                        <li><a href="#">Entrega</a></li>
+                        <li><a href="#">Devoluções</a></li>
+                        <li><a href="#">Opções de Pagamento</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Sobre a FutWear</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Investidores</a></li>
+                        <li><a href="#">Sustentabilidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
+                </div>
+                <div class="footer-bottom-right">
+                    <a href="#">Guias</a>
+                    <a href="#">Termos de Venda</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

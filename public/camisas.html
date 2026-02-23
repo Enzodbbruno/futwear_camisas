@@ -1,1034 +1,500 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutWear - Todas as Camisas</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/premium-header.css">
+    <title>Todas as Camisas - FutWear</title>
+    <meta name="description"
+        content="Encontre camisas dos maiores times e seleções do mundo na FutWear. Autenticidade garantida.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* [Existing styles kept, just ensuring font-family availability] */
-        /* Enhanced Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
+        .page-header {
+            padding: var(--spacing-3xl) 0 var(--spacing-2xl);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        .page-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--color-gray-400);
+        }
+
+        .filters-bar {
+            padding: var(--spacing-xl) 0;
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: var(--header-height);
+            background: var(--color-white);
+            z-index: 100;
+        }
+
+        .filters-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .filters-left {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 20px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            background: var(--color-white);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-black);
+        }
+
+        .filter-btn.active {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+
+        .sort-select {
+            padding: 8px 16px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 20px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            background: var(--color-white);
+            cursor: pointer;
+            outline: none;
+            font-family: var(--font-primary);
+        }
+
+        .products-grid {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .products-count {
+            margin-bottom: var(--spacing-xl);
+            font-size: var(--font-size-base);
+            color: var(--color-gray-400);
+        }
+
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .load-more {
+            text-align: center;
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .btn-load-more {
+            padding: 12px 32px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 30px;
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            background: var(--color-white);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            font-family: var(--font-primary);
+        }
+
+        .btn-load-more:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+
+        @media (max-width: 960px) {
+            .grid-products {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* ... (rest of styles preserved by not touching them, only replacing from <header> down if needed, but here we are doing a block replace) */
+        @media (max-width: 640px) {
+            .page-title {
+                font-size: var(--font-size-2xl);
+            }
+
+            .grid-products {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-left {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: var(--spacing-sm);
+            }
+
+            .filter-btn {
+                white-space: nowrap;
+            }
+        }
     </style>
 </head>
 
-<body class="font-sans bg-gray-50 text-gray-900" style="padding-top: 70px;">
-    <!-- Premium Glass Header -->
-    <header class="header-glass" id="main-header">
-        <div class="header-container">
-            <!-- Mobile Toggle -->
-            <button class="mobile-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Logo -->
-            <a href="index.html" class="logo-container">
-                <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">INÍCIO</a>
-                <a href="camisas.html" class="nav-link">COLEÇÕES</a>
-                <a href="camisas.html?category=clubs" class="nav-link">TIMES</a>
-                <a href="camisas.html?category=national" class="nav-link">SELEÇÕES</a>
-                <a href="#" class="nav-link">OFERTAS</a>
-            </nav>
-
-            <!-- Actions & Search -->
-            <div class="nav-actions">
-                <!-- Search Bar (Desktop) -->
-                <div class="search-bar-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Buscar camisas..." class="search-input" id="desktopSearchInput">
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo">
+                        <a href="index.html"><span class="logo-text">FUT<span class="logo-accent">WEAR</span></span></a>
+                    </div>
+                    <nav class="header-nav">
+                        <a href="camisas.html" class="nav-link">Novidades</a>
+                        <a href="camisas.html?category=clubs" class="nav-link">Times</a>
+                        <a href="camisas.html?category=national" class="nav-link">Seleções</a>
+                        <a href="camisas.html?category=retro" class="nav-link">Retrô</a>
+                        <a href="camisas.html?discount=true" class="nav-link">Ofertas</a>
+                    </nav>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <button class="search-btn" id="searchToggle" aria-label="Buscar"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                        <a href="favoritos.html" class="icon-btn" aria-label="Favoritos">
+                            <i class="far fa-heart"></i>
+                            <span class="badge" id="wishlistBadge">0</span>
+                        </a>
+                        <a href="carrinho.html" class="icon-btn" aria-label="Carrinho">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge" id="cartBadge">0</span>
+                        </a>
+                        <a href="perfil.html" class="icon-btn auth-avatar" id="profileLink" aria-label="Perfil">
+                            <span id="authAvatar"><i class="far fa-user"></i></span>
+                        </a>
+                        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                    </div>
                 </div>
-
-                <!-- Mobile Search Button -->
-                <button class="icon-btn mobile-search-btn" onclick="toggleSearch()">
-                    <i class="fas fa-search"></i>
-                </button>
-
-                <a href="favoritos.html" class="icon-btn relative">
-                    <i class="fas fa-heart"></i>
-                    <span id="wishlist-count" class="cart-badge hidden">0</span>
-                </a>
-                <a href="carrinho.html" class="icon-btn relative">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
-                </a>
-                <a href="perfil.html" class="icon-btn" id="profile-btn">
-                    <i class="fas fa-user"></i>
-                </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="pt-20">
-        <!-- Page Header -->
-        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-5xl font-bold mb-4 animate-slide-up">Todas as Camisas</h1>
-                <p class="text-xl text-green-100 animate-fade-in" style="animation-delay: 0.3s;">Encontre a camisa
-                    perfeita do seu time favorito</p>
-            </div>
+    <!-- Search Overlay -->
+    <div class="search-box" id="searchBox">
+        <div class="container" style="display:flex;align-items:center;gap:1rem;width:100%;">
+            <i class="fas fa-search search-icon-label"></i>
+            <input type="text" placeholder="Buscar camisas, times, seleções..." class="search-input" id="searchInput"
+                autocomplete="off">
+            <button class="search-close" id="searchClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
         </div>
+    </div>
 
-        <!-- Shipping Policy -->
-        <div class="py-12 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
-                    <h2 class="text-3xl font-bold text-center mb-8 text-gradient">🚚 Política de Frete</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div
-                            class="glass-card rounded-xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-left">
-                            <div class="text-5xl mb-4 animate-bounce">📦</div>
-                            <h3 class="font-bold text-orange-600 text-xl mb-2">1 Camisa</h3>
-                            <p class="text-orange-500 font-bold text-2xl">R$ 30,00</p>
-                        </div>
-                        <div
-                            class="glass-card rounded-xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-up">
-                            <div class="text-5xl mb-4 animate-bounce" style="animation-delay: 0.2s;">📦📦</div>
-                            <h3 class="font-bold text-blue-600 text-xl mb-2">2 Camisas</h3>
-                            <p class="text-blue-500 font-bold text-2xl">R$ 20,00</p>
-                        </div>
-                        <div
-                            class="glass-card rounded-xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-right">
-                            <div class="text-5xl mb-4 animate-bounce" style="animation-delay: 0.4s;">🎁</div>
-                            <h3 class="font-bold text-green-600 text-xl mb-2">3+ Camisas</h3>
-                            <p class="text-green-500 font-bold text-2xl">FRETE GRÁTIS</p>
-                        </div>
-                    </div>
-                    <p class="text-center mt-6 text-gray-600 text-lg animate-fade-in">
-                        💡 <strong>Dica:</strong> Compre 3 camisas e economize no frete!
-                    </p>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></button>
+            <nav class="mobile-nav">
+                <a href="camisas.html" class="mobile-nav-link">Novidades</a>
+                <a href="camisas.html?category=clubs" class="mobile-nav-link">Times</a>
+                <a href="camisas.html?category=national" class="mobile-nav-link">Seleções</a>
+                <a href="camisas.html?category=retro" class="mobile-nav-link">Retrô</a>
+                <a href="camisas.html?discount=true" class="mobile-nav-link">Ofertas</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Todas as Camisas</h1>
+            <p class="page-subtitle">Camisas autênticas dos maiores times e seleções do mundo</p>
+        </div>
+    </section>
+
+    <!-- Filters Bar -->
+    <div class="filters-bar">
+        <div class="container">
+            <div class="filters-content">
+                <div class="filters-left">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="clubs">Times</button>
+                    <button class="filter-btn" data-filter="national">Seleções</button>
+                    <button class="filter-btn" data-filter="retro">Retrô</button>
+                    <button class="filter-btn" data-filter="discount">Ofertas</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Filters Section -->
-        <div class="py-8 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-6 animate-scale-in">
-                    <div class="flex flex-col lg:flex-row gap-6">
-                        <!-- Search Bar -->
-                        <div class="flex-1">
-                            <div class="relative">
-                                <input type="text" id="searchInput" placeholder="Buscar camisas..."
-                                    class="filter-input w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                <i
-                                    class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            </div>
-                        </div>
-
-                        <!-- Category Filter -->
-                        <div class="lg:w-48">
-                            <select id="categoryFilter"
-                                class="filter-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                <option value="">Todas as Categorias</option>
-                                <option value="times-brasileiros">Times Brasileiros</option>
-                                <option value="times-europeus">Times Europeus</option>
-                                <option value="selecoes">Seleções</option>
-                            </select>
-                        </div>
-
-                        <!-- Price Filter -->
-                        <div class="lg:w-48">
-                            <select id="priceFilter"
-                                class="filter-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                <option value="">Todos os Preços</option>
-                                <option value="0-120">Até R$ 120</option>
-                                <option value="120-140">R$ 120 - R$ 140</option>
-                                <option value="140-150">R$ 140 - R$ 150</option>
-                                <option value="150+">Acima de R$ 150</option>
-                            </select>
-                        </div>
-
-                        <!-- Sort Filter -->
-                        <div class="lg:w-48">
-                            <select id="sortFilter"
-                                class="filter-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
-                                <option value="relevance">Relevância</option>
-                                <option value="price-low">Menor Preço</option>
-                                <option value="price-high">Maior Preço</option>
-                                <option value="name">Nome A-Z</option>
-                            </select>
-                        </div>
-
-                        <!-- Clear Filters -->
-                        <button id="clearFilters"
-                            class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-300 hover:scale-105 flex items-center justify-center shadow-sm">
-                            <i class="fas fa-times mr-2"></i>Limpar
-                        </button>
-                    </div>
-
-                    <!-- Active Filters -->
-                    <div id="activeFilters" class="mt-4 flex flex-wrap gap-2 hidden">
-                        <!-- Active filter chips will be inserted here -->
-                    </div>
+                <div class="filters-right">
+                    <select class="sort-select" id="sortSelect">
+                        <option value="featured">Em Destaque</option>
+                        <option value="newest">Mais Recentes</option>
+                        <option value="price-low">Menor Preço</option>
+                        <option value="price-high">Maior Preço</option>
+                    </select>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Products Section -->
-        <div class="py-12 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-8 animate-scale-in">
-                    <div class="flex justify-between items-center mb-8">
-                        <h2 class="text-3xl font-bold text-gradient">Produtos</h2>
-                        <div id="productCount" class="text-gray-600 text-lg font-semibold animate-fade-in">Carregando...
-                        </div>
-                    </div>
-
-                    <!-- Loading State -->
-                    <div id="loadingState" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                        <div class="glass-card rounded-xl p-6 animate-pulse">
-                            <div class="loading-shimmer h-56 rounded-lg mb-4"></div>
-                            <div class="loading-shimmer h-4 rounded w-3/4 mb-3"></div>
-                            <div class="loading-shimmer h-3 rounded w-1/2 mb-4"></div>
-                            <div class="loading-shimmer h-12 rounded-lg"></div>
-                        </div>
-                        <div class="glass-card rounded-xl p-6 animate-pulse" style="animation-delay: 0.2s;">
-                            <div class="loading-shimmer h-56 rounded-lg mb-4"></div>
-                            <div class="loading-shimmer h-4 rounded w-3/4 mb-3"></div>
-                            <div class="loading-shimmer h-3 rounded w-1/2 mb-4"></div>
-                            <div class="loading-shimmer h-12 rounded-lg"></div>
-                        </div>
-                        <div class="glass-card rounded-xl p-6 animate-pulse" style="animation-delay: 0.4s;">
-                            <div class="loading-shimmer h-56 rounded-lg mb-4"></div>
-                            <div class="loading-shimmer h-4 rounded w-3/4 mb-3"></div>
-                            <div class="loading-shimmer h-3 rounded w-1/2 mb-4"></div>
-                            <div class="loading-shimmer h-12 rounded-lg"></div>
-                        </div>
-                    </div>
-
-                    <!-- Products Grid -->
-                    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 hidden">
-                        <!-- Products will be inserted here -->
-                    </div>
-
-                    <!-- Pagination -->
-                    <div id="pagination" class="flex items-center justify-center gap-2 mt-8 hidden"></div>
-
-                    <!-- Empty State -->
-                    <div id="emptyState" class="text-center py-16 hidden">
-                        <i class="fas fa-shirt text-8xl text-gray-300 mb-6 animate-bounce"></i>
-                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Nenhum produto encontrado</h3>
-                        <p class="text-gray-500 text-lg">Tente ajustar os filtros ou buscar por outros termos.</p>
-                    </div>
+    <!-- Products Grid -->
+    <section class="products-grid">
+        <div class="container">
+            <p class="products-count" id="productsCount">Carregando produtos...</p>
+            <div class="grid-products" id="productsGrid">
+                <!-- Loading skeletons -->
+                <div class="product-card" style="pointer-events:none;">
+                    <div class="product-image" style="background:#f0f0f0;"></div>
+                    <div style="height:60px;background:#f7f7f7;margin-top:8px;"></div>
+                </div>
+                <div class="product-card" style="pointer-events:none;">
+                    <div class="product-image" style="background:#f0f0f0;"></div>
+                    <div style="height:60px;background:#f7f7f7;margin-top:8px;"></div>
+                </div>
+                <div class="product-card" style="pointer-events:none;">
+                    <div class="product-image" style="background:#f0f0f0;"></div>
+                    <div style="height:60px;background:#f7f7f7;margin-top:8px;"></div>
+                </div>
+                <div class="product-card" style="pointer-events:none;">
+                    <div class="product-image" style="background:#f0f0f0;"></div>
+                    <div style="height:60px;background:#f7f7f7;margin-top:8px;"></div>
                 </div>
             </div>
+            <div class="load-more" id="loadMoreContainer" style="display:none;">
+                <button class="btn-load-more" id="loadMoreBtn">Carregar Mais Produtos</button>
+            </div>
         </div>
-    </main>
-
-    <script type="module">
-        import { buscarCamisas, addToCart } from './firebase-hybrid.js';
-        import './favorites-system.js';
-
-        // Make addToCart globally available
-        window.addToCart = addToCart;
-
-        // Função auxiliar para adicionar ao carrinho
-        window.addProductToCart = function (product) {
-            console.log('🛒 Adicionando produto ao carrinho:', product);
-            addToCart(product);
-        };
-
-        // Helpers de feedback do botão "Adicionar ao Carrinho"
-        function setButtonLoading(button, isLoading) {
-            if (!button) return;
-            if (isLoading) {
-                button.dataset.busy = '1';
-                button.disabled = true;
-                button.classList.add('opacity-80');
-                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Adicionando...';
-            } else {
-                button.disabled = false;
-                button.classList.remove('opacity-80');
-            }
-        }
-
-        function flashButtonSuccess(button) {
-            if (!button) return;
-            button.innerHTML = '<i class="fas fa-check mr-2"></i>Adicionado!';
-            button.classList.add('bg-green-700');
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i>Adicionar ao Carrinho';
-                button.classList.remove('bg-green-700');
-                button.dataset.busy = '0';
-            }, 900);
-        }
-
-        // Função para adicionar produto por índice (agora redireciona para a página do produto para escolher tamanho)
-        window.addProductByIndex = function (index) {
-            console.log('🛒 Adicionando produto por índice:', index);
-            console.log('📦 filteredProducts disponível:', filteredProducts);
-            const product = filteredProducts[index];
-            if (product) {
-                console.log('✅ Produto encontrado:', product);
-                try {
-                    const button = document.querySelector(`[data-add-btn="${product.id}"]`);
-                    // Feedback curto antes do redirect
-                    if (button) {
-                        button.classList.add('scale-105');
-                        setTimeout(() => button.classList.remove('scale-105'), 120);
-                    }
-                } catch { }
-                // Redireciona para a página do produto para seleção de tamanho/opções
-                window.location.href = `produto.html?id=${product.id}`;
-            } else {
-                console.error('❌ Produto não encontrado no índice:', index);
-                console.log('📦 filteredProducts length:', filteredProducts.length);
-            }
-        };
-
-        // Função para toggle de favoritos por índice
-        window.toggleFavoriteByIndex = function (index) {
-            console.log('❤️ Toggle favorito por índice:', index);
-            console.log('📦 filteredProducts disponível:', filteredProducts);
-            console.log('🔧 toggleFavorite disponível:', typeof window.toggleFavorite);
-
-            const product = filteredProducts[index];
-            if (product) {
-                console.log('✅ Produto encontrado para favorito:', product);
-
-                if (typeof window.toggleFavorite === 'function') {
-                    const result = window.toggleFavorite(product);
-                    console.log('🎯 Resultado do toggle:', result);
-
-                    // Atualiza imediatamente o ícone do botão e o contador no header
-                    const button = document.querySelector(`[data-product-id="${product.id}"]`);
-                    if (button) {
-                        const heartIcon = button.querySelector('i');
-                        if (window.isFavorite && window.isFavorite(product.id)) {
-                            heartIcon.classList.remove('far');
-                            heartIcon.classList.add('fas');
-                            button.classList.add('text-red-500');
-                            button.classList.remove('text-gray-600');
-                            console.log('❤️ Ícone atualizado para favorito');
-                        } else {
-                            heartIcon.classList.remove('fas');
-                            heartIcon.classList.add('far');
-                            button.classList.remove('text-red-500');
-                            button.classList.add('text-gray-600');
-                            console.log('🤍 Ícone atualizado para não favorito');
-                        }
-                        // pequena animação de feedback
-                        button.classList.add('scale-110');
-                        setTimeout(() => button.classList.remove('scale-110'), 150);
-                    } else {
-                        console.error('❌ Botão não encontrado para produto:', product.id);
-                    }
-                    // Atualiza todos os ícones e o contador
-                    updateFavoriteIcons();
-                    updateFavoritesCount();
-                } else {
-                    console.error('❌ Função toggleFavorite não está disponível');
-                }
-            } else {
-                console.error('❌ Produto não encontrado no índice para favorito:', index);
-            }
-        };
-
-        // State
-        let products = [];
-        let filteredProducts = [];
-        const pageSize = 10;
-        let currentPage = 1;
-        let currentFilters = {
-            search: '',
-            category: '',
-            price: '',
-            sort: 'relevance'
-        };
-
-        // Avaliações: helpers para média e estrelas (replicando lógica de produto.html)
-        function getAverageRating(productId) {
-            try {
-                const saved = localStorage.getItem(`reviews_${productId}`);
-                const reviews = saved ? JSON.parse(saved) : [];
-                const count = Array.isArray(reviews) ? reviews.length : 0;
-                const avg = count > 0 ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / count) : 0;
-                return { avg, count };
-            } catch {
-                return { avg: 0, count: 0 };
-            }
-        }
-
-        function renderStarsHTML(rating) {
-            let html = '';
-            for (let i = 1; i <= 5; i++) {
-                // Mesmo critério de produto.html: estrela cheia até floor(rating) e também a próxima se houver fração
-                let cls = 'fas fa-star ';
-                if (i <= Math.floor(rating)) {
-                    cls += 'text-yellow-400';
-                } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                    cls += 'text-yellow-400';
-                } else {
-                    cls += 'text-gray-300';
-                }
-                html += `<i class="${cls} text-xs"></i>`;
-            }
-            return html;
-        }
-
-        // DOM Elements
-        const loadingState = document.getElementById('loadingState');
-        const productsGrid = document.getElementById('productsGrid');
-        const emptyState = document.getElementById('emptyState');
-        const productCount = document.getElementById('productCount');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const priceFilter = document.getElementById('priceFilter');
-        const sortFilter = document.getElementById('sortFilter');
-        const clearFilters = document.getElementById('clearFilters');
-        const activeFilters = document.getElementById('activeFilters');
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', async function () {
-            console.log('🚀 Iniciando carregamento da página...');
-            // Read page from query string (?p=2)
-            try {
-                const url = new URL(window.location.href);
-                const p = parseInt(url.searchParams.get('p') || '1', 10);
-                if (!isNaN(p) && p > 0) currentPage = p;
-            } catch { }
-            await loadProducts();
-            initializeFilters();
-        });
-
-        // Initialize filters
-        function initializeFilters() {
-            // Search input with debounce
-            let searchTimeout;
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    currentFilters.search = e.target.value.toLowerCase();
-                    currentPage = 1;
-                    applyFilters();
-                }, 300);
-            });
-
-            // Category filter
-            categoryFilter.addEventListener('change', (e) => {
-                currentFilters.category = e.target.value;
-                currentPage = 1;
-                applyFilters();
-            });
-
-            // Price filter
-            priceFilter.addEventListener('change', (e) => {
-                currentFilters.price = e.target.value;
-                currentPage = 1;
-                applyFilters();
-            });
-
-            // Sort filter
-            sortFilter.addEventListener('change', (e) => {
-                currentFilters.sort = e.target.value;
-                currentPage = 1;
-                applyFilters();
-            });
-
-            // Clear filters
-            clearFilters.addEventListener('click', () => {
-                clearAllFilters();
-            });
-        }
-
-        // Apply filters
-        function applyFilters() {
-            console.log('🔍 Aplicando filtros:', currentFilters);
-
-            filteredProducts = products.filter(product => {
-                // Search filter
-                if (currentFilters.search && !product.name.toLowerCase().includes(currentFilters.search) &&
-                    !product.team?.toLowerCase().includes(currentFilters.search) &&
-                    !product.league?.toLowerCase().includes(currentFilters.search)) {
-                    return false;
-                }
-
-                // Category filter
-                if (currentFilters.category && product.category !== currentFilters.category) {
-                    return false;
-                }
-
-                // Price filter
-                if (currentFilters.price) {
-                    const [min, max] = currentFilters.price.split('-').map(Number);
-                    if (max && (product.price < min || product.price > max)) {
-                        return false;
-                    }
-                    if (currentFilters.price === '150+' && product.price <= 150) {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
-
-            // Sort products
-            sortProducts();
-
-            // Update active filters display
-            updateActiveFilters();
-
-            // Render filtered products
-            renderProducts();
-        }
-
-        // Sort products
-        function sortProducts() {
-            switch (currentFilters.sort) {
-                case 'price-low':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-high':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'name':
-                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                default:
-                    // Keep original order for relevance
-                    break;
-            }
-        }
-
-        // Update active filters display
-        function updateActiveFilters() {
-            const activeFiltersArray = [];
-
-            if (currentFilters.search) {
-                activeFiltersArray.push({
-                    type: 'search',
-                    label: `Busca: "${currentFilters.search}"`,
-                    value: currentFilters.search
-                });
-            }
-
-            if (currentFilters.category) {
-                const categoryLabel = categoryFilter.options[categoryFilter.selectedIndex].text;
-                activeFiltersArray.push({
-                    type: 'category',
-                    label: categoryLabel,
-                    value: currentFilters.category
-                });
-            }
-
-            if (currentFilters.price) {
-                const priceLabel = priceFilter.options[priceFilter.selectedIndex].text;
-                activeFiltersArray.push({
-                    type: 'price',
-                    label: priceLabel,
-                    value: currentFilters.price
-                });
-            }
-
-            if (activeFiltersArray.length > 0) {
-                activeFilters.innerHTML = activeFiltersArray.map(filter => `
-                    <span class="inline-flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                        ${filter.label}
-                        <button onclick="removeFilter('${filter.type}')" class="hover:bg-green-200 rounded-full p-1 transition-colors">
-                            <i class="fas fa-times text-xs"></i>
-                        </button>
-                    </span>
-                `).join('');
-                activeFilters.classList.remove('hidden');
-            } else {
-                activeFilters.classList.add('hidden');
-            }
-        }
-
-        // Remove specific filter
-        window.removeFilter = function (filterType) {
-            switch (filterType) {
-                case 'search':
-                    currentFilters.search = '';
-                    searchInput.value = '';
-                    break;
-                case 'category':
-                    currentFilters.category = '';
-                    categoryFilter.value = '';
-                    break;
-                case 'price':
-                    currentFilters.price = '';
-                    priceFilter.value = '';
-                    break;
-            }
-            applyFilters();
-        };
-
-        // Clear all filters
-        function clearAllFilters() {
-            currentFilters = {
-                search: '',
-                category: '',
-                price: '',
-                sort: 'relevance'
-            };
-
-            searchInput.value = '';
-            categoryFilter.value = '';
-            priceFilter.value = '';
-            sortFilter.value = 'relevance';
-
-            applyFilters();
-        }
-
-        async function loadProducts() {
-            try {
-                console.log('📦 Carregando produtos...');
-                productCount.textContent = 'Carregando produtos...';
-
-                // Show loading state
-                loadingState.classList.remove('hidden');
-                productsGrid.classList.add('hidden');
-                emptyState.classList.add('hidden');
-
-                // Load products from Serverless API
-                // Adding timestamp to prevent caching issues
-                const response = await fetch('/api/products?limit=1000&t=' + Date.now());
-                if (!response.ok) throw new Error('Falha ao carregar produtos');
-
-                const produtos = await response.json();
-
-                // Validate if it's an array (API might return { products: [], ... } or just [])
-                const productsArray = Array.isArray(produtos) ? produtos : (produtos.data || []);
-
-                console.log('✅ Produtos carregados da API:', productsArray);
-                console.log('📊 Total de produtos:', productsArray.length);
-
-                if (productsArray.length === 0) {
-                    console.log('❌ Nenhum produto encontrado na API');
-                    showEmptyState();
-                    return;
-                }
-
-                products = productsArray;
-                filteredProducts = productsArray;
-                console.log('📊 Total de produtos:', products.length);
-
-                // Hide loading and show products
-                loadingState.classList.add('hidden');
-                productsGrid.classList.remove('hidden');
-
-                renderProducts();
-
-            } catch (error) {
-                console.error('💥 Erro ao carregar produtos:', error);
-                showErrorState();
-            }
-        }
-
-        function isPromoActive(prod) {
-            try {
-                if (!(prod.discount && prod.discount > 0)) return false;
-                const now = new Date();
-                const start = prod.promoStart ? new Date(prod.promoStart) : null;
-                const end = prod.promoEnd ? new Date(prod.promoEnd) : null;
-                if (start && end) return now >= start && now <= end;
-                if (start && !end) return now >= start;
-                if (!start && end) return now <= end;
-                return true;
-            } catch { return !!prod.discount; }
-        }
-
-        function renderProducts() {
-            console.log('🎨 Renderizando produtos...');
-
-            const productsToRender = filteredProducts.length > 0 ? filteredProducts : products;
-
-            if (productsToRender.length === 0) {
-                showEmptyState();
-                return;
-            }
-
-            // Pagination math
-            const total = productsToRender.length;
-            const start = Math.min((currentPage - 1) * pageSize, Math.max(total - 1, 0));
-            const end = Math.min(start + pageSize, total);
-
-            console.log(`📄 Paginação: Página ${currentPage}/${Math.ceil(total / pageSize)}, Item ${start} até ${end} de ${total}`);
-
-            const pageItems = productsToRender.slice(start, end);
-
-            // Update header count
-            productCount.textContent = `${total} produtos • mostrando ${start + 1}-${end}`;
-
-            productsGrid.innerHTML = pageItems.map((product, index) => {
-                const promoActive = isPromoActive(product);
-                const priceVal = parseFloat(product.price) || 0;
-                const discountVal = parseFloat(product.discount) || 0;
-                const discounted = promoActive ? (priceVal * (1 - discountVal / 100)) : priceVal;
-                return `
-                <div class="product-card rounded-2xl overflow-hidden animate-fade-in group cursor-pointer" style="animation-delay: ${index * 0.1}s;" onclick="goToProduct('${product.id}')">
-                    <div class="relative overflow-hidden">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-56 object-cover transition-all duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <button onclick="event.stopPropagation(); toggleFavoriteByIndex(${start + index})" class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-110 shadow-lg" data-product-id="${product.id}">
-                            <i class="far fa-heart"></i>
-                        </button>
-                        ${promoActive ? `<span class='absolute top-4 left-4 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-bold'>-${discountVal}%</span>` : `<span class="absolute top-4 left-4 text-xs bg-green-100 text-green-600 px-3 py-1 rounded-full font-semibold shadow-sm">Em estoque</span>`}
-                        <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-2">
-                                <p class="text-xs text-gray-600 text-center">Clique para ver detalhes</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-gradient-to-b from-white to-gray-50">
-                        <div class="mb-4">
-                            <h3 class="font-bold text-gray-800 text-lg mb-2 line-clamp-2">${product.name}</h3>
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-medium">${product.type}</span>
-                                <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full font-medium">${product.league || 'N/A'}</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-3">
-                                <i class="fas fa-users mr-1"></i>
-                                <span class="font-semibold text-gray-800">${product.team || 'N/A'}</span>
-                            </p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex flex-col">
-                                <span class="text-2xl font-bold text-gray-900">R$ ${discounted.toFixed(2).replace('.', ',')}</span>
-                                ${promoActive ? `<span class='text-sm text-gray-500 line-through'>R$ ${priceVal.toFixed(2).replace('.', ',')}</span>` : ''}
-                                <span class="text-xs text-gray-500">ou 3x de R$ ${(discounted / 3).toFixed(2).replace('.', ',')}</span>
-                            </div>
-                            <div class="text-right">
-                                ${(() => {
-                        const { avg } = getAverageRating(product.id);
-                        const stars = renderStarsHTML(avg);
-                        const avgText = (avg || 0).toFixed(1);
-                        return `<div class=\"flex items-center\">` +
-                            `<div class=\"flex mr-2\">${stars}</div>` +
-                            `<span class=\"text-sm text-gray-600\">(${avgText})</span>` +
-                            `</div>`;
-                    })()}
-                            </div>
-                        </div>
-                        
-                        <button data-add-btn="${product.id}" onclick="event.stopPropagation(); addProductByIndex(${start + index})" class="w-full btn-primary text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center shadow-lg">
-                            <i class="fas fa-shopping-cart mr-2"></i>Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            `}).join('');
-
-            console.log('✅ Produtos renderizados com sucesso!');
-
-            // Atualiza ícones de favoritos após renderização
-            updateFavoriteIcons();
-
-            // Render pagination
-            renderPagination(total);
-        }
-
-        function renderPagination(total) {
-            const pagination = document.getElementById('pagination');
-            const totalPages = Math.ceil(total / pageSize) || 1;
-            if (totalPages <= 1) {
-                pagination.classList.add('hidden');
-                pagination.innerHTML = '';
-                return;
-            }
-            pagination.classList.remove('hidden');
-
-            const makeBtn = (label, page, disabled = false, active = false) => `
-                <button 
-                    ${disabled ? 'disabled' : ''}
-                    class="px-3 py-2 rounded-lg border ${active ? 'bg-green-600 text-white border-green-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'} disabled:opacity-50 disabled:cursor-not-allowed"
-                    onclick="${disabled ? '' : `goToPage(${page})`}"
-                >${label}</button>
-            `;
-
-            // Simple window around current page
-            const windowSize = 3;
-            const startPage = Math.max(1, currentPage - windowSize);
-            const endPage = Math.min(totalPages, currentPage + windowSize);
-
-            let html = '';
-            html += makeBtn('«', Math.max(1, currentPage - 1), currentPage === 1);
-            if (startPage > 1) html += makeBtn('1', 1, false, currentPage === 1);
-            if (startPage > 2) html += `<span class="px-2 text-gray-400">…</span>`;
-            for (let p = startPage; p <= endPage; p++) {
-                html += makeBtn(String(p), p, false, p === currentPage);
-            }
-            if (endPage < totalPages - 1) html += `<span class="px-2 text-gray-400">…</span>`;
-            if (endPage < totalPages) html += makeBtn(String(totalPages), totalPages, false, currentPage === totalPages);
-            html += makeBtn('»', Math.min(totalPages, currentPage + 1), currentPage === totalPages);
-
-            pagination.innerHTML = html;
-        }
-
-        // Expose page navigation
-        window.goToPage = function (page) {
-            console.log('🖱️ Clicou para ir para página:', page);
-            const productsToRender = filteredProducts.length > 0 ? filteredProducts : products;
-            const totalPages = Math.ceil(productsToRender.length / pageSize) || 1;
-            currentPage = Math.min(Math.max(1, page), totalPages);
-            console.log('📄 Nova página atual:', currentPage);
-
-            // Update URL without reload
-            try {
-                const url = new URL(window.location.href);
-                url.searchParams.set('p', String(currentPage));
-                window.history.replaceState({}, '', url.toString());
-            } catch { }
-
-            // Scroll to top of products grid
-            const gridContainer = document.getElementById('productsGrid');
-            if (gridContainer) {
-                const y = gridContainer.getBoundingClientRect().top + window.scrollY - 100; // Offset for header
-                window.scrollTo({ top: y, behavior: 'smooth' });
-            }
-
-            renderProducts();
-        };
-
-        function showEmptyState() {
-            console.log('📭 Mostrando estado vazio');
-            loadingState.classList.add('hidden');
-            productsGrid.classList.add('hidden');
-            emptyState.classList.remove('hidden');
-            productCount.textContent = 'Nenhum produto encontrado';
-        }
-
-        function showErrorState() {
-            console.log('💥 Mostrando estado de erro');
-            loadingState.classList.add('hidden');
-            productsGrid.classList.add('hidden');
-            emptyState.classList.remove('hidden');
-            emptyState.innerHTML = `
-                <i class="fas fa-exclamation-triangle text-8xl text-red-400 mb-6 animate-bounce"></i>
-                <h3 class="text-2xl font-bold text-red-600 mb-4">Erro ao carregar produtos</h3>
-                <p class="text-gray-600 text-lg mb-6">Ocorreu um erro ao carregar os produtos. Tente recarregar a página.</p>
-                <button onclick="location.reload()" class="btn-primary text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center mx-auto">
-                    <i class="fas fa-refresh mr-2"></i>Recarregar Página
-                </button>
-            `;
-            productCount.textContent = 'Erro ao carregar';
-        }
-
-        // Função para atualizar ícones de favoritos após renderização
-        function updateFavoriteIcons() {
-            setTimeout(() => {
-                console.log('🔄 Atualizando ícones de favoritos...');
-                document.querySelectorAll('[data-product-id]').forEach(button => {
-                    const productId = button.getAttribute('data-product-id');
-                    const heartIcon = button.querySelector('i');
-
-                    console.log(`🔍 Verificando produto ${productId}:`, window.isFavorite ? window.isFavorite(productId) : 'função não disponível');
-
-                    if (window.isFavorite && window.isFavorite(productId)) {
-                        heartIcon.classList.remove('far');
-                        heartIcon.classList.add('fas');
-                        button.classList.add('text-red-500');
-                        button.classList.remove('text-gray-600');
-                        console.log(`✅ Produto ${productId} marcado como favorito`);
-                    } else {
-                        heartIcon.classList.remove('fas');
-                        heartIcon.classList.add('far');
-                        button.classList.remove('text-red-500');
-                        button.classList.add('text-gray-600');
-                        console.log(`❌ Produto ${productId} não é favorito`);
-                    }
-                });
-            }, 100);
-        }
-
-        // Search function
-        window.toggleSearch = function () {
-            console.log('🔍 Toggle search');
-            alert('Funcionalidade de busca será implementada!');
-        };
-
-        // Go to product page
-        window.goToProduct = function (productId) {
-            console.log('🔗 Redirecionando para produto:', productId);
-            window.location.href = `produto.html?id=${productId}`;
-        };
-
-        // Update cart icon
-        function updateCartIcon() {
-            try {
-                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                const cartCount = document.getElementById('cartCount');
-                if (cartCount) {
-                    cartCount.textContent = totalItems;
-                    cartCount.classList.toggle('hidden', totalItems === 0);
-                }
-            } catch (error) {
-                console.warn('Erro ao atualizar ícone do carrinho:', error);
-            }
-        }
-
-        // Update wishlist icon (delegates to favorites system)
-        function updateWishlistIcon() {
-            try {
-                const count = typeof window.getFavoritesCount === 'function' ? window.getFavoritesCount() : (Array.isArray(window.getFavorites?.()) ? window.getFavorites().length : 0);
-                const wishlistCount = document.getElementById('wishlistCount');
-                if (wishlistCount) {
-                    wishlistCount.textContent = count;
-                    wishlistCount.classList.remove('hidden');
-                    wishlistCount.setAttribute('aria-label', `Favoritos: ${count}`);
-                    wishlistCount.setAttribute('title', `Favoritos: ${count}`);
-                }
-            } catch (error) {
-                console.warn('Erro ao atualizar ícone de favoritos:', error);
-            }
-        }
-
-        // Função para atualizar contador de favoritos
-        function updateFavoritesCount() {
-            try {
-                if (typeof window.getFavorites === 'function') {
-                    const favorites = window.getFavorites();
-                    const count = favorites.length;
-                    const wishlistCount = document.getElementById('wishlistCount');
-                    if (wishlistCount) {
-                        wishlistCount.textContent = count;
-                        wishlistCount.classList.toggle('hidden', count === 0);
-                        console.log('📊 Contador de favoritos atualizado:', count);
-                    }
-                } else {
-                    console.warn('⚠️ Função getFavorites não está disponível');
-                }
-            } catch (error) {
-                console.warn('Erro ao atualizar contador de favoritos:', error);
-            }
-        }
-
-        // Initialize icons
-        updateCartIcon();
-        updateWishlistIcon();
-        updateFavoritesCount();
-
-        // Escuta mudanças nos favoritos
-        window.addEventListener('favoritesUpdated', () => {
-            console.log('🔄 Favoritos atualizados, atualizando contador...');
-            updateFavoritesCount();
-            updateFavoriteIcons();
-        });
-    </script>
-
-    <!-- Footer Pro 2026 -->
-    <footer class="bg-[#0f1012] text-gray-400 border-t border-gray-800">
-        <div class="container mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
-                <!-- Brand Section (4 cols) -->
-                <div class="lg:col-span-4 space-y-6">
-                    <a href="index.html" class="inline-block text-2xl font-bold text-white tracking-tight">
-                        FUT<span class="text-green-500">WEAR</span>
-                    </a>
-                    <p class="text-base leading-relaxed text-gray-500">
-                        A plataforma definitiva para apaixonados por futebol.
-                        Qualidade premium, autenticidade garantida e a melhor experiência de compra do mercado.
-                    </p>
-                    <div class="flex items-center gap-4 pt-2">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <!-- Navigation (2 cols) -->
-                <div class="lg:col-span-2 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Navegação</h4>
-                    <ul class="space-y-4">
-                        <li><a href="index.html" class="hover:text-green-500 transition-colors">Início</a></li>
-                        <li><a href="camisas.html" class="hover:text-green-500 transition-colors">Coleções</a></li>
-                        <li><a href="camisas.html?category=clubs"
-                                class="hover:text-green-500 transition-colors">Times</a></li>
-                        <li><a href="camisas.html?category=national"
-                                class="hover:text-green-500 transition-colors">Seleções</a></li>
-                        <li><a href="#promocoes" class="hover:text-green-500 transition-colors">OFERTAS</a></li>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Encontre uma Loja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Seja um Membro</a></li>
+                        <li><a href="#">Cadastre seu E-mail</a></li>
+                        <li><a href="#">Envie sua Opinião</a></li>
+                        <li><a href="#">Cupons para Estudantes</a></li>
                     </ul>
                 </div>
-                <!-- Support (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Suporte</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Central de Ajuda</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Trocas e Devoluções</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Política de Privacidade</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Termos de Uso</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Rastrear Pedido</a></li>
+                <div class="footer-col">
+                    <h4 class="footer-title">Obter Ajuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Status do Pedido</a></li>
+                        <li><a href="#">Entrega</a></li>
+                        <li><a href="#">Devoluções</a></li>
+                        <li><a href="#">Opções de Pagamento</a></li>
+                        <li><a href="#">Contato</a></li>
                     </ul>
                 </div>
-                <!-- Newsletter (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Fique por dentro</h4>
-                    <p class="text-sm text-gray-500">Receba ofertas exclusivas e novidades.</p>
-                    <form class="space-y-3">
-                        <div class="relative">
-                            <input type="email" placeholder="Seu melhor e-mail"
-                                class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-                        </div>
-                        <button type="button"
-                            class="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors">
-                            Inscrever-se
-                        </button>
-                    </form>
+                <div class="footer-col">
+                    <h4 class="footer-title">Sobre a FutWear</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Investidores</a></li>
+                        <li><a href="#">Sustentabilidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
-            <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-sm text-gray-600">
-                    &copy; 2026 FutWear Sports. Todos os direitos reservados.
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
                 </div>
-                <div class="flex items-center gap-4 text-gray-500">
-                    <i class="fab fa-cc-visa text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-mastercard text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-amex text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-pix text-2xl hover:text-white transition-colors"></i>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <i class="fas fa-lock text-green-500"></i>
-                    Compra 100% Segura
+                <div class="footer-bottom-right">
+                    <a href="#">Guias</a>
+                    <a href="#">Termos de Venda</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Adidas Style Header Script -->
+    <script src="script.js"></script>
+    <script type="module" src="header.js"></script>
+    <script type="module">
+        import { buscarCamisas } from './firebase-hybrid.js';
 
+        function calcPrice(p) {
+            const base = parseFloat(p.price) || 0;
+            const disc = parseFloat(p.discount) || 0;
+            const now = new Date();
+            const start = p.promoStart ? new Date(p.promoStart) : null;
+            const end = p.promoEnd ? new Date(p.promoEnd) : null;
+            const active = disc > 0 && (!start || now >= start) && (!end || now <= end);
+            return { price: active ? base * (1 - disc / 100) : base, base, disc: active ? disc : 0 };
+        }
+
+        function fmt(val) {
+            return 'R$\u00a0' + Number(val).toFixed(2).replace('.', ',');
+        }
+
+        function cardHTML(p) {
+            const { price, base, disc } = calcPrice(p);
+            const hasDisc = disc > 0;
+            const img = p.image || 'https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=400';
+            return `<a href="produto.html?id=${p.id}" class="product-card" data-category="${(p.category || '').toLowerCase()}" data-name="${(p.name || '').toLowerCase()}">
+                <div class="product-image">
+                    <img src="${img}" alt="${p.name}" loading="lazy">
+                    <button class="wishlist-btn" onclick="event.preventDefault(); toggleWish(event, ${JSON.stringify(p).replace(/"/g, '&quot;')})">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    ${hasDisc ? `<span style="position:absolute;top:10px;left:10px;background:#dc2626;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;">-${Math.round(disc)}%</span>` : ''}
+                </div>
+                <div class="product-info">
+                    <p class="product-category">${p.team || p.category || ''}</p>
+                    <h3 class="product-name">${p.name}</h3>
+                    <p class="product-price">
+                        ${hasDisc ? `<small style="text-decoration:line-through;color:#999;font-weight:400;margin-right:6px;">${fmt(base)}</small>` : ''}
+                        <span style="color:${hasDisc ? '#dc2626' : 'inherit'}">${fmt(price)}</span>
+                    </p>
+                </div>
+            </a>`;
+        }
+
+        window.toggleWish = function (e, p) {
+            e.preventDefault();
+            let favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+            const i = favs.findIndex(f => f.id === p.id);
+            if (i >= 0) favs.splice(i, 1); else favs.push(p);
+            localStorage.setItem('favorites', JSON.stringify(favs));
+            window.dispatchEvent(new Event('favoritesUpdated'));
+            const icon = e.currentTarget.querySelector('i');
+            icon.className = i < 0 ? 'fas fa-heart' : 'far fa-heart';
+            icon.style.color = i < 0 ? '#dc2626' : '';
+        };
+
+        const PAGE_SIZE = 12;
+        let allProducts = [];
+        let shown = 0;
+
+        function renderProducts(list) {
+            const grid = document.getElementById('productsGrid');
+            const count = document.getElementById('productsCount');
+            const lmContainer = document.getElementById('loadMoreContainer');
+            if (!list.length) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--color-gray-400);">Nenhum produto encontrado.</div>';
+                if (count) count.textContent = '0 produtos encontrados';
+                if (lmContainer) lmContainer.style.display = 'none';
+                return;
+            }
+            grid.innerHTML = list.slice(0, shown).map(cardHTML).join('');
+            if (count) count.textContent = `Mostrando ${Math.min(shown, list.length)} de ${list.length} produtos`;
+            if (lmContainer) lmContainer.style.display = shown < list.length ? 'block' : 'none';
+        }
+
+        async function init() {
+            const params = new URLSearchParams(location.search);
+            const catParam = params.get('category') || '';
+            const searchParam = params.get('search') || '';
+            const discountParam = params.get('discount') === 'true';
+
+            // Activate correct filter button
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if (catParam) {
+                    b.classList.toggle('active', b.dataset.filter === catParam);
+                } else if (discountParam) {
+                    b.classList.toggle('active', b.dataset.filter === 'discount');
+                } else {
+                    b.classList.toggle('active', b.dataset.filter === 'all');
+                }
+            });
+
+            // Update page title for search
+            if (searchParam) {
+                const titleEl = document.querySelector('.page-title');
+                if (titleEl) titleEl.textContent = `Busca: "${searchParam}"`;
+            }
+
+            try {
+                const raw = await buscarCamisas();
+
+                // Sort support
+                const sortEl = document.getElementById('sortSelect');
+                function applySort(arr, sort) {
+                    if (sort === 'price-low') return [...arr].sort((a, b) => (parseFloat(a.price) || 0) - (parseFloat(b.price) || 0));
+                    if (sort === 'price-high') return [...arr].sort((a, b) => (parseFloat(b.price) || 0) - (parseFloat(a.price) || 0));
+                    if (sort === 'newest') return [...arr].sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+                    return arr;
+                }
+
+                allProducts = raw.filter(p => {
+                    const name = (p.name || '').toLowerCase();
+                    const cat = (p.category || '').toLowerCase();
+                    const team = (p.team || '').toLowerCase();
+                    if (searchParam && !name.includes(searchParam.toLowerCase()) &&
+                        !cat.includes(searchParam.toLowerCase()) && !team.includes(searchParam.toLowerCase())) return false;
+                    if (catParam && cat !== catParam.toLowerCase()) return false;
+                    if (discountParam && !(parseFloat(p.discount) > 0)) return false;
+                    return true;
+                });
+
+                shown = PAGE_SIZE;
+                renderProducts(applySort(allProducts, sortEl?.value));
+
+                sortEl?.addEventListener('change', () => {
+                    shown = PAGE_SIZE;
+                    renderProducts(applySort(allProducts, sortEl.value));
+                });
+            } catch (err) {
+                document.getElementById('productsGrid').innerHTML =
+                    '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--color-gray-400);">Erro ao carregar produtos. Tente novamente.</div>';
+                document.getElementById('productsCount').textContent = '';
+            }
+        }
+
+        document.getElementById('loadMoreBtn')?.addEventListener('click', () => {
+            shown += PAGE_SIZE;
+            renderProducts(allProducts);
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const f = this.dataset.filter;
+                const p = new URLSearchParams(location.search);
+                p.delete('category'); p.delete('discount');
+                if (f === 'discount') p.set('discount', 'true');
+                else if (f !== 'all') p.set('category', f);
+                history.replaceState(null, '', '?' + p.toString());
+                location.reload();
+            });
+        });
+
+        init();
+    </script>
 </body>
-
-<script src="js/header.js"></script>
 
 </html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Admin FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #f7f7f7
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh
+        }
+
+        .admin-sidebar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: var(--spacing-xl);
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto
+        }
+
+        .admin-logo {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: var(--spacing-3xl);
+            color: #fff
+        }
+
+        .admin-logo span {
+            color: var(--color-primary)
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs)
+        }
+
+        .admin-nav-link {
+            padding: var(--spacing-md);
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            border-radius: 4px;
+            transition: all .2s
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, .1);
+            color: #fff
+        }
+
+        .admin-nav-link.active {
+            border-left: 3px solid var(--color-primary)
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: var(--spacing-3xl)
+        }
+
+        .admin-header {
+            margin-bottom: var(--spacing-2xl)
+        }
+
+        .admin-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700
+        }
+
+        .toolbar {
+            background: #fff;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background: #fff
+        }
+
+        .table-card {
+            background: #fff;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1)
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: var(--spacing-md);
+            border-bottom: 2px solid #e5e7eb;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            color: var(--color-gray-400);
+            font-weight: 600
+        }
+
+        .data-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #e5e7eb
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af
+        }
+
+        .badge-purple {
+            background: #e9d5ff;
+            color: #6b21a8
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            background: #fff
+        }
+
+        .action-btn:hover {
+            background: #f7f7f7
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">FUT<span>WEAR</span> Admin</div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="produtos.html" class="admin-nav-link"><i class="fas fa-box"></i> Produtos</a>
+                <a href="pedidos.html" class="admin-nav-link active"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+                <a href="promocoes.html" class="admin-nav-link"><i class="fas fa-tags"></i> Promoções</a>
+                <a href="avaliacoes.html" class="admin-nav-link"><i class="fas fa-star"></i> Avaliações</a>
+                <div style="height:1px;background:rgba(255,255,255,.1);margin:var(--spacing-lg) 0"></div>
+                <a href="../index.html" class="admin-nav-link"><i class="fas fa-home"></i> Voltar ao Site</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">Pedidos</h1>
+                <p style="color:var(--color-gray-400)">Gerencie todos os pedidos</p>
+            </div>
+
+            <div class="toolbar">
+                <input type="text" class="search-input" placeholder="Buscar por ID ou cliente...">
+                <select class="filter-select">
+                    <option>Todos Status</option>
+                    <option>Pendente</option>
+                    <option>Pago</option>
+                    <option>Enviado</option>
+                    <option>Entregue</option>
+                    <option>Cancelado</option>
+                </select>
+                <select class="filter-select">
+                    <option>Últimos 30 dias</option>
+                    <option>Últimos 7 dias</option>
+                    <option>Hoje</option>
+                </select>
+            </div>
+
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Produtos</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>#PED-1245</strong></td>
+                            <td>João Silva<br><small style="color:#9ca3af">joao@email.com</small></td>
+                            <td>13/02/2024<br><small style="color:#9ca3af">14:30</small></td>
+                            <td>2 itens</td>
+                            <td><strong>R$ 499,80</strong></td>
+                            <td><span class="badge badge-warning">Pendente</span></td>
+                            <td><button class="action-btn">Ver Detalhes</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1244</strong></td>
+                            <td>Maria Santos<br><small style="color:#9ca3af">maria@email.com</small></td>
+                            <td>13/02/2024<br><small style="color:#9ca3af">10:15</small></td>
+                            <td>1 item</td>
+                            <td><strong>R$ 249,90</strong></td>
+                            <td><span class="badge badge-purple">Enviado</span></td>
+                            <td><button class="action-btn">Rastrear</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1243</strong></td>
+                            <td>Pedro Costa<br><small style="color:#9ca3af">pedro@email.com</small></td>
+                            <td>12/02/2024<br><small style="color:#9ca3af">16:45</small></td>
+                            <td>3 itens</td>
+                            <td><strong>R$ 789,70</strong></td>
+                            <td><span class="badge badge-success">Entregue</span></td>
+                            <td><button class="action-btn">Ver Detalhes</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1242</strong></td>
+                            <td>Ana Lima<br><small style="color:#9ca3af">ana@email.com</small></td>
+                            <td>12/02/2024<br><small style="color:#9ca3af">09:20</small></td>
+                            <td>1 item</td>
+                            <td><strong>R$ 279,90</strong></td>
+                            <td><span class="badge badge-info">Pago</span></td>
+                            <td><button class="action-btn">Processar</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1241</strong></td>
+                            <td>Carlos Souza<br><small style="color:#9ca3af">carlos@email.com</small></td>
+                            <td>11/02/2024<br><small style="color:#9ca3af">11:30</small></td>
+                            <td>2 itens</td>
+                            <td><strong>R$ 529,80</strong></td>
+                            <td><span class="badge badge-success">Entregue</span></td>
+                            <td><button class="action-btn">Ver Detalhes</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1240</strong></td>
+                            <td>Fernanda Dias<br><small style="color:#9ca3af">fernanda@email.com</small></td>
+                            <td>11/02/2024<br><small style="color:#9ca3af">08:00</small></td>
+                            <td>4 itens</td>
+                            <td><strong>R$ 1.099,60</strong></td>
+                            <td><span class="badge badge-purple">Enviado</span></td>
+                            <td><button class="action-btn">Rastrear</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:var(--spacing-lg);text-align:center;color:var(--color-gray-400)">Mostrando 6 de
+                    156 pedidos</div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

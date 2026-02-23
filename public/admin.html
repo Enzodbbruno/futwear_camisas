@@ -109,6 +109,52 @@
           <div class="text-sm text-gray-500">Selecione produtos usando os checkboxes e defina o desconto</div>
         </div>
 
+        <!-- Promotion Controls (MOVED TO TOP) -->
+        <div class="bg-white rounded-xl p-4 shadow space-y-3">
+          <div class="text-sm font-medium text-gray-700">Configure a promoção para os produtos selecionados:</div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="text-sm text-gray-600">Filtro por Categoria</label>
+              <select id="promoCategoryFilter" class="w-full border rounded-lg p-2 mt-1">
+                <option value="">Todas as categorias</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-sm text-gray-600">Buscar produto</label>
+              <input id="promoSearch" class="w-full border rounded-lg p-2 mt-1" placeholder="Nome, time ou ID" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div>
+              <label class="text-sm text-gray-600">Desconto (%)</label>
+              <input id="promoPercent" type="number" min="0" max="90" step="1" class="w-full border rounded-lg p-2 mt-1"
+                placeholder="Ex.: 20" />
+            </div>
+            <div>
+              <label class="text-sm text-gray-600">Preço alvo (R$)</label>
+              <input id="promoTargetPrice" type="number" min="0" step="0.01" class="w-full border rounded-lg p-2 mt-1"
+                placeholder="Ex.: 199,90" />
+            </div>
+            <div>
+              <label class="text-sm text-gray-600">Início</label>
+              <input id="promoStart" type="datetime-local" class="w-full border rounded-lg p-2 mt-1" />
+            </div>
+            <div>
+              <label class="text-sm text-gray-600">Fim</label>
+              <input id="promoEnd" type="datetime-local" class="w-full border rounded-lg p-2 mt-1" />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button id="promoApplySelected"
+              class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Aplicar nos selecionados</button>
+            <button id="promoClearSelected" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Remover dos
+              selecionados</button>
+          </div>
+        </div>
+
         <div class="bg-white rounded-xl p-4 shadow overflow-x-auto">
           <table class="min-w-full text-sm">
             <thead>
@@ -125,52 +171,6 @@
             </thead>
             <tbody id="promotionsTable"></tbody>
           </table>
-
-          <!-- Promotion Controls -->
-          <div class="mt-4 space-y-3 border-t pt-4">
-            <div class="text-sm font-medium text-gray-700">Configure a promoção para os produtos selecionados:</div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <label class="text-sm text-gray-600">Filtro por Categoria</label>
-                <select id="promoCategoryFilter" class="w-full border rounded-lg p-2 mt-1">
-                  <option value="">Todas as categorias</option>
-                </select>
-              </div>
-              <div>
-                <label class="text-sm text-gray-600">Buscar produto</label>
-                <input id="promoSearch" class="w-full border rounded-lg p-2 mt-1" placeholder="Nome, time ou ID" />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-              <div>
-                <label class="text-sm text-gray-600">Desconto (%)</label>
-                <input id="promoPercent" type="number" min="0" max="90" step="1"
-                  class="w-full border rounded-lg p-2 mt-1" placeholder="Ex.: 20" />
-              </div>
-              <div>
-                <label class="text-sm text-gray-600">Preço alvo (R$)</label>
-                <input id="promoTargetPrice" type="number" min="0" step="0.01" class="w-full border rounded-lg p-2 mt-1"
-                  placeholder="Ex.: 199,90" />
-              </div>
-              <div>
-                <label class="text-sm text-gray-600">Início</label>
-                <input id="promoStart" type="datetime-local" class="w-full border rounded-lg p-2 mt-1" />
-              </div>
-              <div>
-                <label class="text-sm text-gray-600">Fim</label>
-                <input id="promoEnd" type="datetime-local" class="w-full border rounded-lg p-2 mt-1" />
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-3 flex flex-wrap gap-2">
-            <button id="promoApplySelected"
-              class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Aplicar nos selecionados</button>
-            <button id="promoClearSelected" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Remover dos
-              selecionados</button>
-          </div>
         </div>
       </section>
 

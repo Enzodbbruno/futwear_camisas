@@ -47,10 +47,22 @@ export async function getCart() {
         const result = await getProductById(item.id);
         if (result.success && result.data) {
           const freshProduct = result.data;
+
+          // Calculate discounted price if promo is active
+          const basePrice = parseFloat(freshProduct.price) || 0;
+          const discount = parseFloat(freshProduct.discount) || 0;
+          const now = new Date();
+          const promoStart = freshProduct.promoStart ? new Date(freshProduct.promoStart) : null;
+          const promoEnd = freshProduct.promoEnd ? new Date(freshProduct.promoEnd) : null;
+          const isPromoActive = discount > 0 && (!promoStart || now >= promoStart) && (!promoEnd || now <= promoEnd);
+          const finalPrice = isPromoActive ? (basePrice * (1 - discount / 100)) : basePrice;
+
           // Mantém quantidade e tamanho, mas atualiza preço e imagem
           return {
             ...item,
-            price: parseFloat(freshProduct.price), // Preço atualizado do banco (Force Number)
+            price: finalPrice, // Use discounted price if promo is active
+            originalPrice: basePrice, // Keep original for reference
+            discount: isPromoActive ? discount : 0,
             image: freshProduct.image,
             name: freshProduct.name,
             // Mantém personalização se houver
@@ -77,13 +89,32 @@ export function setCart(cart) {
 
 export function addToCart(product) {
   try {
+    // Calculate discounted price if applicable
+    const basePrice = parseFloat(product.price) || 0;
+    const discount = parseFloat(product.discount) || 0;
+    const now = new Date();
+    const promoStart = product.promoStart ? new Date(product.promoStart) : null;
+    const promoEnd = product.promoEnd ? new Date(product.promoEnd) : null;
+    const isPromoActive = discount > 0 && (!promoStart || now >= promoStart) && (!promoEnd || now <= promoEnd);
+    const finalPrice = isPromoActive ? (basePrice * (1 - discount / 100)) : basePrice;
+
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const existingIndex = cart.findIndex(p => p.id === product.id && p.size === product.size);
 
     if (existingIndex >= 0) {
       cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+      // Update price in case discount changed
+      cart[existingIndex].price = finalPrice;
+      cart[existingIndex].originalPrice = basePrice;
+      cart[existingIndex].discount = isPromoActive ? discount : 0;
     } else {
-      cart.push({ ...product, quantity: 1 });
+      cart.push({
+        ...product,
+        price: finalPrice,
+        originalPrice: basePrice,
+        discount: isPromoActive ? discount : 0,
+        quantity: 1
+      });
     }
 
     setCart(cart); // Use helper

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos - FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo"><a href="index.html"><span class="logo-text">FUT<span
+                                    class="logo-accent">WEAR</span></span></a></div>
+                    <nav class="header-nav"><a href="index.html" class="nav-link">Início</a><a href="produtos.html"
+                            class="nav-link">Produtos</a></nav>
+                    <div class="header-actions"><a href="favoritos.html" class="icon-btn"><i
+                                class="fas fa-heart"></i><span class="badge">4</span></a><a href="carrinho.html"
+                            class="icon-btn"><i class="fas fa-shopping-bag"></i></a><a href="perfil.html"
+                            class="icon-btn"><i class="far fa-user"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: var(--spacing-3xl) 0;">
+        <div style="margin-bottom: var(--spacing-2xl);">
+            <h1 style="font-size: var(--font-size-3xl); font-weight: 700;">Favoritos</h1>
+            <p style="color: var(--color-gray-400);">4 produtos salvos</p>
+        </div>
+
+        <div class="grid grid-4">
+            <div class="product-card">
+                <div class="product-image"><img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=800"
+                        alt="Brasil"><button class="wishlist-btn active" style="opacity: 1;"><i
+                            class="fas fa-heart"></i></button></div>
+                <div class="product-info">
+                    <p class="product-category">Seleção Brasileira</p>
+                    <h3 class="product-name">Camisa Brasil 2024</h3>
+                    <p class="product-price">R$ 249,90</p><button class="btn btn-primary"
+                        style="width: 100%; margin-top: var(--spacing-sm); padding: 10px; font-size: 14px;">Adicionar ao
+                        Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image"><img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800"
+                        alt="Argentina"><button class="wishlist-btn active" style="opacity: 1;"><i
+                            class="fas fa-heart"></i></button></div>
+                <div class="product-info">
+                    <p class="product-category">Seleção Argentina</p>
+                    <h3 class="product-name">Camisa Argentina 2024</h3>
+                    <p class="product-price">R$ 249,90</p><button class="btn btn-primary"
+                        style="width: 100%; margin-top: var(--spacing-sm); padding: 10px; font-size: 14px;">Adicionar ao
+                        Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image"><img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?w=800"
+                        alt="Real Madrid"><button class="wishlist-btn active" style="opacity: 1;"><i
+                            class="fas fa-heart"></i></button></div>
+                <div class="product-info">
+                    <p class="product-category">Real Madrid</p>
+                    <h3 class="product-name">Camisa Real Madrid 2024</h3>
+                    <p class="product-price">R$ 279,90</p><button class="btn btn-primary"
+                        style="width: 100%; margin-top: var(--spacing-sm); padding: 10px; font-size: 14px;">Adicionar ao
+                        Carrinho</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800"
+                        alt="Flamengo"><button class="wishlist-btn active" style="opacity: 1;"><i
+                            class="fas fa-heart"></i></button></div>
+                <div class="product-info">
+                    <p class="product-category">Flamengo</p>
+                    <h3 class="product-name">Camisa Flamengo 2024</h3>
+                    <p class="product-price">R$ 259,90</p><button class="btn btn-primary"
+                        style="width: 100%; margin-top: var(--spacing-sm); padding: 10px; font-size: 14px;">Adicionar ao
+                        Carrinho</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2024 FutWear, Inc.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

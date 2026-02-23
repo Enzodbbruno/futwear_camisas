@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #f7f7f7;
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: #1a1a1a;
+            color: white;
+            padding: var(--spacing-xl);
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-logo {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: var(--spacing-3xl);
+            color: white;
+        }
+
+        .admin-logo span {
+            color: var(--color-primary);
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .admin-nav-link {
+            padding: var(--spacing-md);
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-nav-link.active {
+            border-left: 3px solid var(--color-primary);
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: var(--spacing-3xl);
+        }
+
+        .admin-header {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .admin-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .kpi-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .kpi-value {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .kpi-change {
+            font-size: var(--font-size-sm);
+            color: var(--color-primary);
+        }
+
+        .kpi-change.negative {
+            color: var(--color-accent);
+        }
+
+        .chart-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .chart-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(to top, #e5e7eb 0%, transparent 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-400);
+        }
+
+        .table-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: var(--spacing-md);
+            border-bottom: 2px solid #e5e7eb;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            color: var(--color-gray-400);
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        @media (max-width: 960px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .admin-content {
+                margin-left: 0;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">FUT<span>WEAR</span> Admin</div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link active"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="produtos.html" class="admin-nav-link"><i class="fas fa-box"></i> Produtos</a>
+                <a href="pedidos.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+                <a href="promocoes.html" class="admin-nav-link"><i class="fas fa-tags"></i> Promoções</a>
+                <a href="avaliacoes.html" class="admin-nav-link"><i class="fas fa-star"></i> Avaliações</a>
+                <div style="height: 1px; background: rgba(255,255,255,0.1); margin: var(--spacing-lg) 0;"></div>
+                <a href="../index.html" class="admin-nav-link"><i class="fas fa-home"></i> Voltar ao Site</a>
+                <a href="../index.html" class="admin-nav-link"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">Dashboard</h1>
+                <p style="color: var(--color-gray-400);">Visão geral do seu negócio</p>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Vendas do Mês</div>
+                    <div class="kpi-value">R$ 45.280</div>
+                    <div class="kpi-change"><i class="fas fa-arrow-up"></i> +12.5% vs mês anterior</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Pedidos</div>
+                    <div class="kpi-value">156</div>
+                    <div class="kpi-change"><i class="fas fa-arrow-up"></i> +8.2%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Produtos</div>
+                    <div class="kpi-value">248</div>
+                    <div class="kpi-change" style="color: var(--color-gray-400);"><i class="fas fa-minus"></i> Sem
+                        alteração</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Clientes</div>
+                    <div class="kpi-value">1.234</div>
+                    <div class="kpi-change"><i class="fas fa-arrow-up"></i> +15.3%</div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h2 class="chart-title">Vendas dos Últimos 7 Dias</h2>
+                <div class="chart-placeholder"><i class="fas fa-chart-area" style="font-size: 48px; opacity: 0.3;"></i>
+                </div>
+            </div>
+
+            <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                <div class="table-card">
+                    <h2 class="chart-title">Produtos Mais Vendidos</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Vendas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Camisa Brasil 2024</strong></td>
+                                <td>45</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Camisa Real Madrid</strong></td>
+                                <td>38</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Camisa Flamengo</strong></td>
+                                <td>32</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Camisa Argentina</strong></td>
+                                <td>28</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Camisa Barcelona</strong></td>
+                                <td>25</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-card">
+                    <h2 class="chart-title">Alertas</h2>
+                    <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+                        <div
+                            style="padding: var(--spacing-md); background: #fef3c7; border-left: 3px solid #f59e0b; border-radius: 4px;">
+                            <strong>Estoque Baixo</strong>
+                            <p style="font-size: 14px; margin-top: 4px;">5 produtos com menos de 10 unidades</p>
+                        </div>
+                        <div
+                            style="padding: var(--spacing-md); background: #dbeafe; border-left: 3px solid #3b82f6; border-radius: 4px;">
+                            <strong>Pedidos Pendentes</strong>
+                            <p style="font-size: 14px; margin-top: 4px;">12 pedidos aguardando processamento</p>
+                        </div>
+                        <div
+                            style="padding: var(--spacing-md); background: #d1fae5; border-left: 3px solid #10b981; border-radius: 4px;">
+                            <strong>Avaliações Novas</strong>
+                            <p style="font-size: 14px; margin-top: 4px;">8 avaliações aguardando aprovação</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <h2 class="chart-title">Pedidos Recentes</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>#PED-1245</strong></td>
+                            <td>João Silva</td>
+                            <td>13/02/2024</td>
+                            <td>R$ 499,80</td>
+                            <td><span class="badge badge-warning">Pendente</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1244</strong></td>
+                            <td>Maria Santos</td>
+                            <td>13/02/2024</td>
+                            <td>R$ 249,90</td>
+                            <td><span class="badge badge-info">Enviado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1243</strong></td>
+                            <td>Pedro Costa</td>
+                            <td>12/02/2024</td>
+                            <td>R$ 789,70</td>
+                            <td><span class="badge badge-success">Entregue</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1242</strong></td>
+                            <td>Ana Lima</td>
+                            <td>12/02/2024</td>
+                            <td>R$ 279,90</td>
+                            <td><span class="badge badge-info">Enviado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#PED-1241</strong></td>
+                            <td>Carlos Souza</td>
+                            <td>11/02/2024</td>
+                            <td>R$ 529,80</td>
+                            <td><span class="badge badge-success">Entregue</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

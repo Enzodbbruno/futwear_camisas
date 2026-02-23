@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--spacing-3xl);
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .cart-items {}
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 150px 1fr auto;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl) 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .cart-item-image {
+            aspect-ratio: 1;
+            background: var(--color-gray-50);
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info h3 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .cart-item-info p {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .cart-item-price {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            align-items: flex-end;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 30px;
+            padding: 4px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .qty-btn:hover {
+            background: var(--color-gray-50);
+        }
+
+        .qty-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .btn-remove {
+            color: var(--color-gray-400);
+            font-size: var(--font-size-sm);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .btn-remove:hover {
+            color: var(--color-accent);
+        }
+
+        .cart-summary {
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-xl));
+            background: var(--color-gray-50);
+            padding: var(--spacing-xl);
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-md) 0;
+        }
+
+        .summary-row.total {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            padding-top: var(--spacing-lg);
+            border-top: 2px solid var(--color-gray-200);
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .coupon-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 4px;
+        }
+
+        .coupon-input button {
+            padding: 12px 20px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 960px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+
+            .cart-item {
+                grid-template-columns: 100px 1fr;
+            }
+
+            .cart-item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo"><a href="index.html"><span class="logo-text">FUT<span
+                                    class="logo-accent">WEAR</span></span></a></div>
+                    <nav class="header-nav"><a href="index.html" class="nav-link">Início</a><a href="produtos.html"
+                            class="nav-link">Produtos</a></nav>
+                    <div class="header-actions"><a href="favoritos.html" class="icon-btn"><i
+                                class="far fa-heart"></i></a><a href="carrinho.html" class="icon-btn"><i
+                                class="fas fa-shopping-bag"></i><span class="badge">2</span></a><a href="perfil.html"
+                            class="icon-btn"><i class="far fa-user"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div style="padding: var(--spacing-2xl) 0 var(--spacing-lg);">
+            <h1 style="font-size: var(--font-size-3xl); font-weight: 700;">Carrinho</h1>
+            <p style="color: var(--color-gray-400);">2 itens</p>
+        </div>
+
+        <div class="cart-layout">
+            <div class="cart-items">
+                <div class="cart-item">
+                    <div class="cart-item-image"><img
+                            src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=300"
+                            alt="Camisa Brasil"></div>
+                    <div class="cart-item-info">
+                        <h3>Camisa Brasil 2024 Home</h3>
+                        <p>Tamanho: G</p>
+                        <p>Cor: Amarelo</p>
+                        <div class="cart-item-price">R$ 249,90</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="qty-control"><button class="qty-btn"><i class="fas fa-minus"></i></button><span
+                                class="qty-value">1</span><button class="qty-btn"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button class="btn-remove"><i class="far fa-trash-alt"></i> Remover</button>
+                    </div>
+                </div>
+
+                <div class="cart-item">
+                    <div class="cart-item-image"><img
+                            src="https://images.unsplash.com/photo-1543357480-c60d400e8073?w=300"
+                            alt="Camisa Real Madrid"></div>
+                    <div class="cart-item-info">
+                        <h3>Camisa Real Madrid 2024</h3>
+                        <p>Tamanho: M</p>
+                        <p>Cor: Branco</p>
+                        <div class="cart-item-price">R$ 279,90</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="qty-control"><button class="qty-btn"><i class="fas fa-minus"></i></button><span
+                                class="qty-value">1</span><button class="qty-btn"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button class="btn-remove"><i class="far fa-trash-alt"></i> Remover</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h2 class="summary-title">Resumo do Pedido</h2>
+                <div class="summary-row"><span>Subtotal</span><span>R$ 529,80</span></div>
+                <div class="summary-row"><span>Frete</span><span>R$ 30,00</span></div>
+                <div class="summary-row"><span>Desconto</span><span style="color: var(--color-primary);">- R$
+                        0,00</span></div>
+                <div class="coupon-input"><input type="text" placeholder="Cupom de desconto"><button>Aplicar</button>
+                </div>
+                <div class="summary-row total"><span>Total</span><span>R$ 559,80</span></div>
+                <button class="btn btn-primary"
+                    style="width: 100%; margin-top: var(--spacing-lg); padding: 16px;">Finalizar Compra</button>
+                <a href="produtos.html"
+                    style="display: block; text-align: center; margin-top: var(--spacing-md); color: var(--color-gray-400); text-decoration: underline;">Continuar
+                    Comprando</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2024 FutWear, Inc.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

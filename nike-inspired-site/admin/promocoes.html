@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoções - Admin FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #f7f7f7
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh
+        }
+
+        .admin-sidebar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: var(--spacing-xl);
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto
+        }
+
+        .admin-logo {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: var(--spacing-3xl);
+            color: #fff
+        }
+
+        .admin-logo span {
+            color: var(--color-primary)
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs)
+        }
+
+        .admin-nav-link {
+            padding: var(--spacing-md);
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            border-radius: 4px;
+            transition: all .2s
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, .1);
+            color: #fff
+        }
+
+        .admin-nav-link.active {
+            border-left: 3px solid var(--color-primary)
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: var(--spacing-3xl)
+        }
+
+        .admin-header {
+            margin-bottom: var(--spacing-2xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .admin-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700
+        }
+
+        .btn-add {
+            padding: 10px 20px;
+            background: var(--color-black);
+            color: #fff;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg)
+        }
+
+        .promo-card {
+            background: #fff;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1)
+        }
+
+        .promo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-md)
+        }
+
+        .promo-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700
+        }
+
+        .promo-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        .badge-active {
+            background: #d1fae5;
+            color: #065f46
+        }
+
+        .badge-inactive {
+            background: #fee2e2;
+            color: #991b1b
+        }
+
+        .promo-discount {
+            font-size: var(--font-size-3xl);
+            font-weight: 900;
+            color: var(--color-accent);
+            margin: var(--spacing-md) 0
+        }
+
+        .promo-dates {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-md)
+        }
+
+        .promo-products {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500)
+        }
+
+        .promo-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg)
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            background: #fff;
+            text-align: center
+        }
+
+        .action-btn:hover {
+            background: #f7f7f7
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">FUT<span>WEAR</span> Admin</div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="produtos.html" class="admin-nav-link"><i class="fas fa-box"></i> Produtos</a>
+                <a href="pedidos.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+                <a href="promocoes.html" class="admin-nav-link active"><i class="fas fa-tags"></i> Promoções</a>
+                <a href="avaliacoes.html" class="admin-nav-link"><i class="fas fa-star"></i> Avaliações</a>
+                <div style="height:1px;background:rgba(255,255,255,.1);margin:var(--spacing-lg) 0"></div>
+                <a href="../index.html" class="admin-nav-link"><i class="fas fa-home"></i> Voltar ao Site</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <div class="admin-header">
+                <div>
+                    <h1 class="admin-title">Promoções</h1>
+                    <p style="color:var(--color-gray-400)">Gerencie suas campanhas promocionais</p>
+                </div>
+                <button class="btn-add"><i class="fas fa-plus"></i> Nova Promoção</button>
+            </div>
+
+            <div class="promo-grid">
+                <div class="promo-card">
+                    <div class="promo-header">
+                        <div class="promo-title">Black Friday</div>
+                        <span class="promo-badge badge-active">Ativa</span>
+                    </div>
+                    <div class="promo-discount">20% OFF</div>
+                    <div class="promo-dates"><i class="far fa-calendar"></i> 20/11/2024 - 30/11/2024</div>
+                    <div class="promo-products"><strong>15 produtos</strong> incluídos</div>
+                    <div class="promo-actions">
+                        <button class="action-btn">Editar</button>
+                        <button class="action-btn">Desativar</button>
+                    </div>
+                </div>
+
+                <div class="promo-card">
+                    <div class="promo-header">
+                        <div class="promo-title">Seleções em Promoção</div>
+                        <span class="promo-badge badge-active">Ativa</span>
+                    </div>
+                    <div class="promo-discount">15% OFF</div>
+                    <div class="promo-dates"><i class="far fa-calendar"></i> 01/02/2024 - 29/02/2024</div>
+                    <div class="promo-products"><strong>8 produtos</strong> incluídos</div>
+                    <div class="promo-actions">
+                        <button class="action-btn">Editar</button>
+                        <button class="action-btn">Desativar</button>
+                    </div>
+                </div>
+
+                <div class="promo-card">
+                    <div class="promo-header">
+                        <div class="promo-title">Retrô Especial</div>
+                        <span class="promo-badge badge-active">Ativa</span>
+                    </div>
+                    <div class="promo-discount">R$ 50 OFF</div>
+                    <div class="promo-dates"><i class="far fa-calendar"></i> 10/02/2024 - 20/02/2024</div>
+                    <div class="promo-products"><strong>12 produtos</strong> incluídos</div>
+                    <div class="promo-actions">
+                        <button class="action-btn">Editar</button>
+                        <button class="action-btn">Desativar</button>
+                    </div>
+                </div>
+
+                <div class="promo-card">
+                    <div class="promo-header">
+                        <div class="promo-title">Cyber Monday</div>
+                        <span class="promo-badge badge-inactive">Encerrada</span>
+                    </div>
+                    <div class="promo-discount">25% OFF</div>
+                    <div class="promo-dates"><i class="far fa-calendar"></i> 27/11/2023 - 28/11/2023</div>
+                    <div class="promo-products"><strong>20 produtos</strong> incluídos</div>
+                    <div class="promo-actions">
+                        <button class="action-btn">Ver Detalhes</button>
+                        <button class="action-btn">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

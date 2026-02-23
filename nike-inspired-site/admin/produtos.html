@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Admin FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #f7f7f7
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh
+        }
+
+        .admin-sidebar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: var(--spacing-xl);
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto
+        }
+
+        .admin-logo {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: var(--spacing-3xl);
+            color: #fff
+        }
+
+        .admin-logo span {
+            color: var(--color-primary)
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs)
+        }
+
+        .admin-nav-link {
+            padding: var(--spacing-md);
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            border-radius: 4px;
+            transition: all .2s
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, .1);
+            color: #fff
+        }
+
+        .admin-nav-link.active {
+            border-left: 3px solid var(--color-primary)
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: var(--spacing-3xl)
+        }
+
+        .admin-header {
+            margin-bottom: var(--spacing-2xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .admin-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700
+        }
+
+        .toolbar {
+            background: #fff;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background: #fff
+        }
+
+        .btn-add {
+            padding: 10px 20px;
+            background: var(--color-black);
+            color: #fff;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .table-card {
+            background: #fff;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1)
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: var(--spacing-md);
+            border-bottom: 2px solid #e5e7eb;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            color: var(--color-gray-400);
+            font-weight: 600
+        }
+
+        .data-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #e5e7eb
+        }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            background: #fff
+        }
+
+        .action-btn:hover {
+            background: #f7f7f7
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">FUT<span>WEAR</span> Admin</div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="produtos.html" class="admin-nav-link active"><i class="fas fa-box"></i> Produtos</a>
+                <a href="pedidos.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+                <a href="promocoes.html" class="admin-nav-link"><i class="fas fa-tags"></i> Promoções</a>
+                <a href="avaliacoes.html" class="admin-nav-link"><i class="fas fa-star"></i> Avaliações</a>
+                <div style="height:1px;background:rgba(255,255,255,.1);margin:var(--spacing-lg) 0"></div>
+                <a href="../index.html" class="admin-nav-link"><i class="fas fa-home"></i> Voltar ao Site</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <div class="admin-header">
+                <div>
+                    <h1 class="admin-title">Produtos</h1>
+                    <p style="color:var(--color-gray-400)">248 produtos cadastrados</p>
+                </div>
+                <button class="btn-add"><i class="fas fa-plus"></i> Novo Produto</button>
+            </div>
+
+            <div class="toolbar">
+                <input type="text" class="search-input" placeholder="Buscar produtos...">
+                <select class="filter-select">
+                    <option>Todas Categorias</option>
+                    <option>Times</option>
+                    <option>Seleções</option>
+                    <option>Retrô</option>
+                </select>
+                <select class="filter-select">
+                    <option>Todos Status</option>
+                    <option>Ativo</option>
+                    <option>Inativo</option>
+                </select>
+            </div>
+
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=100"
+                                    class="product-img"></td>
+                            <td><strong>Camisa Brasil 2024 Home</strong></td>
+                            <td>Seleções</td>
+                            <td>R$ 249,90</td>
+                            <td>45</td>
+                            <td><span class="badge badge-success">Ativo</span></td>
+                            <td><button class="action-btn">Editar</button> <button class="action-btn">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?w=100"
+                                    class="product-img"></td>
+                            <td><strong>Camisa Real Madrid 2024</strong></td>
+                            <td>Times</td>
+                            <td>R$ 279,90</td>
+                            <td>32</td>
+                            <td><span class="badge badge-success">Ativo</span></td>
+                            <td><button class="action-btn">Editar</button> <button class="action-btn">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100"
+                                    class="product-img"></td>
+                            <td><strong>Camisa Flamengo 2024</strong></td>
+                            <td>Times</td>
+                            <td>R$ 259,90</td>
+                            <td>8</td>
+                            <td><span class="badge badge-success">Ativo</span></td>
+                            <td><button class="action-btn">Editar</button> <button class="action-btn">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://images.unsplash.com/photo-1577032225473-d9f6fc9d3c8b?w=100"
+                                    class="product-img"></td>
+                            <td><strong>Camisa Barcelona Retrô 96</strong></td>
+                            <td>Retrô</td>
+                            <td>R$ 299,90</td>
+                            <td>15</td>
+                            <td><span class="badge badge-success">Ativo</span></td>
+                            <td><button class="action-btn">Editar</button> <button class="action-btn">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=100"
+                                    class="product-img"></td>
+                            <td><strong>Camisa Argentina 2024</strong></td>
+                            <td>Seleções</td>
+                            <td>R$ 249,90</td>
+                            <td>28</td>
+                            <td><span class="badge badge-success">Ativo</span></td>
+                            <td><button class="action-btn">Editar</button> <button class="action-btn">Excluir</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=100"
+                                    class="product-img"></td>
+                            <td><strong>Camisa Liverpool 2024</strong></td>
+                            <td>Times</td>
+                            <td>R$ 269,90</td>
+                            <td>0</td>
+                            <td><span class="badge badge-danger">Sem Estoque</span></td>
+                            <td><button class="action-btn">Editar</button> <button class="action-btn">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:var(--spacing-lg);text-align:center;color:var(--color-gray-400)">Mostrando 6 de
+                    248 produtos</div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliações - Admin FutWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #f7f7f7
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh
+        }
+
+        .admin-sidebar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: var(--spacing-xl);
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto
+        }
+
+        .admin-logo {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: var(--spacing-3xl);
+            color: #fff
+        }
+
+        .admin-logo span {
+            color: var(--color-primary)
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs)
+        }
+
+        .admin-nav-link {
+            padding: var(--spacing-md);
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            border-radius: 4px;
+            transition: all .2s
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, .1);
+            color: #fff
+        }
+
+        .admin-nav-link.active {
+            border-left: 3px solid var(--color-primary)
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: var(--spacing-3xl)
+        }
+
+        .admin-header {
+            margin-bottom: var(--spacing-2xl)
+        }
+
+        .admin-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl)
+        }
+
+        .stat-card {
+            background: #fff;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            text-align: center
+        }
+
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-xs)
+        }
+
+        .stat-value {
+            font-size: var(--font-size-2xl);
+            font-weight: 700
+        }
+
+        .toolbar {
+            background: #fff;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background: #fff
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg)
+        }
+
+        .review-card {
+            background: #fff;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1)
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-md)
+        }
+
+        .review-product {
+            font-weight: 700;
+            font-size: var(--font-size-lg)
+        }
+
+        .review-stars {
+            color: #fbbf24
+        }
+
+        .review-meta {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-md)
+        }
+
+        .review-comment {
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md)
+        }
+
+        .review-actions {
+            display: flex;
+            gap: var(--spacing-sm)
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            background: #fff
+        }
+
+        .action-btn:hover {
+            background: #f7f7f7
+        }
+
+        .btn-approve {
+            background: var(--color-primary);
+            color: #fff;
+            border-color: var(--color-primary)
+        }
+
+        .btn-reject {
+            background: var(--color-accent);
+            color: #fff;
+            border-color: var(--color-accent)
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e
+        }
+
+        .badge-approved {
+            background: #d1fae5;
+            color: #065f46
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">FUT<span>WEAR</span> Admin</div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="produtos.html" class="admin-nav-link"><i class="fas fa-box"></i> Produtos</a>
+                <a href="pedidos.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+                <a href="promocoes.html" class="admin-nav-link"><i class="fas fa-tags"></i> Promoções</a>
+                <a href="avaliacoes.html" class="admin-nav-link active"><i class="fas fa-star"></i> Avaliações</a>
+                <div style="height:1px;background:rgba(255,255,255,.1);margin:var(--spacing-lg) 0"></div>
+                <a href="../index.html" class="admin-nav-link"><i class="fas fa-home"></i> Voltar ao Site</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">Avaliações</h1>
+                <p style="color:var(--color-gray-400)">Gerencie as avaliações dos produtos</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Média Geral</div>
+                    <div class="stat-value">4.6 <i class="fas fa-star" style="color:#fbbf24;font-size:16px"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">5 Estrelas</div>
+                    <div class="stat-value">142</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">4 Estrelas</div>
+                    <div class="stat-value">68</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">3 Estrelas</div>
+                    <div class="stat-value">15</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">1-2 Estrelas</div>
+                    <div class="stat-value">8</div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <select class="filter-select">
+                    <option>Todas Avaliações</option>
+                    <option>Pendentes</option>
+                    <option>Aprovadas</option>
+                    <option>Rejeitadas</option>
+                </select>
+                <select class="filter-select">
+                    <option>Todas Notas</option>
+                    <option>5 Estrelas</option>
+                    <option>4 Estrelas</option>
+                    <option>3 Estrelas</option>
+                    <option>1-2 Estrelas</option>
+                </select>
+            </div>
+
+            <div class="review-list">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div>
+                            <div class="review-product">Camisa Brasil 2024 Home</div>
+                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                        <span class="badge badge-pending">Pendente</span>
+                    </div>
+                    <div class="review-meta">Por <strong>João Silva</strong> em 12/02/2024</div>
+                    <div class="review-comment">"Excelente qualidade! O tecido é muito bom e o caimento perfeito.
+                        Recomendo!"</div>
+                    <div class="review-actions">
+                        <button class="action-btn btn-approve">Aprovar</button>
+                        <button class="action-btn btn-reject">Rejeitar</button>
+                        <button class="action-btn">Responder</button>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div>
+                            <div class="review-product">Camisa Real Madrid 2024</div>
+                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                        </div>
+                        <span class="badge badge-approved">Aprovada</span>
+                    </div>
+                    <div class="review-meta">Por <strong>Maria Santos</strong> em 10/02/2024</div>
+                    <div class="review-comment">"Produto original e bem embalado. Entrega rápida. Só achei um pouco
+                        caro."</div>
+                    <div class="review-actions">
+                        <button class="action-btn">Ver Resposta</button>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div>
+                            <div class="review-product">Camisa Flamengo 2024</div>
+                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                        <span class="badge badge-pending">Pendente</span>
+                    </div>
+                    <div class="review-meta">Por <strong>Pedro Costa</strong> em 09/02/2024</div>
+                    <div class="review-comment">"Camisa linda! Meu filho amou. Material de primeira qualidade."</div>
+                    <div class="review-actions">
+                        <button class="action-btn btn-approve">Aprovar</button>
+                        <button class="action-btn btn-reject">Rejeitar</button>
+                        <button class="action-btn">Responder</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todas as Camisas - FutWear</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for products page */
+        .page-header {
+            padding: var(--spacing-3xl) 0 var(--spacing-2xl);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .page-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--color-gray-400);
+        }
+
+        .filters-bar {
+            padding: var(--spacing-xl) 0;
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: var(--header-height);
+            background: var(--color-white);
+            z-index: 100;
+        }
+
+        .filters-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .filters-left {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 20px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            background: var(--color-white);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-black);
+        }
+
+        .filter-btn.active {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+
+        .sort-select {
+            padding: 8px 16px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 20px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            background: var(--color-white);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .products-grid {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .products-count {
+            margin-bottom: var(--spacing-xl);
+            font-size: var(--font-size-base);
+            color: var(--color-gray-400);
+        }
+
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xl) var(--spacing-md);
+        }
+
+        @media (max-width: 960px) {
+            .grid-products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-title {
+                font-size: var(--font-size-2xl);
+            }
+
+            .grid-products {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-left {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: var(--spacing-sm);
+            }
+
+            .filter-btn {
+                white-space: nowrap;
+            }
+        }
+
+        .load-more {
+            text-align: center;
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .btn-load-more {
+            padding: 12px 32px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 30px;
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            background: var(--color-white);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .btn-load-more:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
+                        </a>
+                    </div>
+
+                    <nav class="header-nav">
+                        <a href="index.html" class="nav-link">Início</a>
+                        <a href="produtos.html" class="nav-link">Novidades</a>
+                        <a href="produtos.html?category=times" class="nav-link">Times</a>
+                        <a href="produtos.html?category=selecoes" class="nav-link">Seleções</a>
+                        <a href="produtos.html?category=retro" class="nav-link">Retrô</a>
+                        <a href="produtos.html?sale=true" class="nav-link">Ofertas</a>
+                    </nav>
+
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <button class="search-btn" id="searchToggle">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <div class="search-box" id="searchBox">
+                                <input type="text" placeholder="Buscar" class="search-input">
+                                <button class="search-close" id="searchClose">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <a href="#favoritos" class="icon-btn">
+                            <i class="far fa-heart"></i>
+                            <span class="badge hidden">0</span>
+                        </a>
+                        <a href="#carrinho" class="icon-btn">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge">0</span>
+                        </a>
+                        <button class="mobile-menu-btn" id="mobileMenuBtn">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-nav-link">Início</a>
+                <a href="produtos.html" class="mobile-nav-link">Novidades</a>
+                <a href="produtos.html?category=times" class="mobile-nav-link">Times</a>
+                <a href="produtos.html?category=selecoes" class="mobile-nav-link">Seleções</a>
+                <a href="produtos.html?category=retro" class="mobile-nav-link">Retrô</a>
+                <a href="produtos.html?sale=true" class="mobile-nav-link">Ofertas</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Todas as Camisas</h1>
+            <p class="page-subtitle">Camisas autênticas dos maiores times e seleções do mundo</p>
+        </div>
+    </section>
+
+    <!-- Filters Bar -->
+    <div class="filters-bar">
+        <div class="container">
+            <div class="filters-content">
+                <div class="filters-left">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="times">Times</button>
+                    <button class="filter-btn" data-filter="selecoes">Seleções</button>
+                    <button class="filter-btn" data-filter="retro">Retrô</button>
+                    <button class="filter-btn" data-filter="ofertas">Ofertas</button>
+                </div>
+                <div class="filters-right">
+                    <select class="sort-select">
+                        <option value="featured">Em Destaque</option>
+                        <option value="newest">Mais Recentes</option>
+                        <option value="price-low">Menor Preço</option>
+                        <option value="price-high">Maior Preço</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <section class="products-grid">
+        <div class="container">
+            <p class="products-count">Mostrando 24 de 156 produtos</p>
+
+            <div class="grid-products">
+                <!-- Product 1 -->
+                <a href="produto.html?id=1" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Brasil">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Seleção Brasileira</p>
+                        <h3 class="product-name">Camisa Brasil 2024 Home</h3>
+                        <p class="product-price">R$ 249,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 2 -->
+                <a href="produto.html?id=2" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Real Madrid">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Real Madrid</p>
+                        <h3 class="product-name">Camisa Real Madrid 2024</h3>
+                        <p class="product-price">R$ 279,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 3 -->
+                <a href="produto.html?id=3" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Flamengo">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Flamengo</p>
+                        <h3 class="product-name">Camisa Flamengo 2024 Home</h3>
+                        <p class="product-price">R$ 259,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 4 -->
+                <a href="produto.html?id=4" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1577032225473-d9f6fc9d3c8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Barcelona">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Barcelona</p>
+                        <h3 class="product-name">Camisa Barcelona Retrô 96</h3>
+                        <p class="product-price">R$ 299,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 5 -->
+                <a href="produto.html?id=5" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Argentina">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Seleção Argentina</p>
+                        <h3 class="product-name">Camisa Argentina 2024</h3>
+                        <p class="product-price">R$ 249,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 6 -->
+                <a href="produto.html?id=6" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Liverpool">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Liverpool</p>
+                        <h3 class="product-name">Camisa Liverpool 2024</h3>
+                        <p class="product-price">R$ 269,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 7 -->
+                <a href="produto.html?id=7" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Bayern">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Bayern München</p>
+                        <h3 class="product-name">Camisa Bayern 2024</h3>
+                        <p class="product-price">R$ 279,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 8 -->
+                <a href="produto.html?id=8" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa PSG">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Paris Saint-Germain</p>
+                        <h3 class="product-name">Camisa PSG 2024</h3>
+                        <p class="product-price">R$ 289,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 9 -->
+                <a href="produto.html?id=9" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1577032225473-d9f6fc9d3c8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Milan">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">AC Milan</p>
+                        <h3 class="product-name">Camisa Milan Retrô 89</h3>
+                        <p class="product-price">R$ 289,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 10 -->
+                <a href="produto.html?id=10" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Corinthians">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Corinthians</p>
+                        <h3 class="product-name">Camisa Corinthians 2024</h3>
+                        <p class="product-price">R$ 259,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 11 -->
+                <a href="produto.html?id=11" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1614624532983-4fe0333299c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Palmeiras">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Palmeiras</p>
+                        <h3 class="product-name">Camisa Palmeiras 2024</h3>
+                        <p class="product-price">R$ 259,90</p>
+                    </div>
+                </a>
+
+                <!-- Product 12 -->
+                <a href="produto.html?id=12" class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1543357480-c60d400e8073?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Camisa Manchester City">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">Manchester City</p>
+                        <h3 class="product-name">Camisa Man City 2024</h3>
+                        <p class="product-price">R$ 279,90</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Load More -->
+            <div class="load-more">
+                <button class="btn-load-more">Carregar Mais Produtos</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Encontre uma Loja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Seja um Membro</a></li>
+                        <li><a href="#">Cadastre seu E-mail</a></li>
+                        <li><a href="#">Envie sua Opinião</a></li>
+                        <li><a href="#">Cupons para Estudantes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Obter Ajuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Status do Pedido</a></li>
+                        <li><a href="#">Entrega</a></li>
+                        <li><a href="#">Devoluções</a></li>
+                        <li><a href="#">Opções de Pagamento</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Sobre a FutWear</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Investidores</a></li>
+                        <li><a href="#">Sustentabilidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
+                </div>
+                <div class="footer-bottom-right">
+                    <a href="#">Guias</a>
+                    <a href="#">Termos de Venda</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Here you would filter the products
+                console.log('Filter:', this.dataset.filter);
+            });
+        });
+    </script>
+</body>
+
+</html>

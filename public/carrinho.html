@@ -1,356 +1,549 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutWear - Carrinho</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/premium-header.css">
+    <title>Carrinho - FutWear</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700;900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2316a34a;stop-opacity:1' /><stop offset='100%' style='stop-color:%2315803d;stop-opacity:1' /></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23grad1)' stroke='%23fff' stroke-width='2'/><text x='16' y='22' font-family='Arial, sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Enhanced Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .cart-page {
+            padding: var(--spacing-3xl) 0;
+            min-height: 60vh;
         }
 
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .cart-header {
+            margin-bottom: var(--spacing-2xl);
         }
 
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .cart-header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
         }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .cart-header p {
+            color: var(--color-gray-400);
+            margin-top: var(--spacing-sm);
         }
 
-        .glass-card-strong {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: var(--spacing-2xl);
+            align-items: start;
         }
 
-        .shadow-enhanced-lg {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #16a34a 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #16a34a;
+        .cart-items-card {
+            border: 1px solid var(--color-gray-100);
             border-radius: 4px;
+            background: var(--color-white);
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #15803d;
+        .cart-item {
+            display: flex;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-category {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: 4px;
+        }
+
+        .cart-item-name {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-size {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: var(--color-white);
+            transition: all var(--transition-fast);
+            font-size: 11px;
+        }
+
+        .qty-btn:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+
+        .qty-value {
+            font-weight: 600;
+            width: 24px;
+            text-align: center;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: var(--color-black);
+        }
+
+        .cart-item-remove {
+            margin-left: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-gray-300);
+            font-size: var(--font-size-base);
+            transition: color var(--transition-fast);
+        }
+
+        .cart-item-remove:hover {
+            color: #dc2626;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: var(--spacing-3xl) var(--spacing-xl);
+        }
+
+        .cart-empty i {
+            font-size: 4rem;
+            color: var(--color-gray-200);
+            margin-bottom: var(--spacing-xl);
+            display: block;
+        }
+
+        .cart-empty h3 {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .cart-empty p {
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .cart-empty a {
+            display: inline-block;
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .cart-summary-card {
+            border: 1px solid var(--color-gray-100);
+            border-radius: 4px;
+            padding: var(--spacing-xl);
+            background: var(--color-white);
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-xl));
+        }
+
+        .cart-summary-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .summary-row.total {
+            border-top: 1px solid var(--color-gray-100);
+            padding-top: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            font-size: var(--font-size-base);
+            font-weight: 700;
+        }
+
+        .summary-shipping-free {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .coupon-input input {
+            flex: 1;
+            padding: 10px var(--spacing-md);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 4px;
+            font-family: var(--font-primary);
+            font-size: var(--font-size-sm);
+            outline: none;
+        }
+
+        .coupon-input input:focus {
+            border-color: var(--color-black);
+        }
+
+        .coupon-input button {
+            padding: 10px var(--spacing-md);
+            background: var(--color-black);
+            color: var(--color-white);
+            border: none;
+            border-radius: 4px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-primary);
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 16px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: none;
+            border-radius: 4px;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-primary);
+            transition: opacity var(--transition-fast);
+        }
+
+        .btn-checkout:hover {
+            opacity: 0.85;
+        }
+
+        .btn-clear {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-white);
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            border-radius: 4px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .btn-clear:hover {
+            background: #fef2f2;
+        }
+
+        .cart-continues {
+            display: block;
+            text-align: center;
+            margin-top: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-400);
+        }
+
+        .summary-trust {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-xl);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-400);
+        }
+
+        .personalization-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: var(--font-size-xs);
+            color: #15803d;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        @media (max-width: 960px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cart-header h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
+
+            .cart-item-img {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
 
-<body class="bg-gray-50 font-sans" style="padding-top: 70px;">
-    <!-- Premium Glass Header -->
-    <header class="header-glass" id="main-header">
-        <div class="header-container">
-            <!-- Mobile Toggle -->
-            <button class="mobile-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Logo -->
-            <a href="index.html" class="logo-container">
-                <span class="logo-text">FUT<span class="logo-accent">WEAR</span></span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">INÍCIO</a>
-                <a href="camisas.html" class="nav-link">COLEÇÕES</a>
-                <a href="camisas.html?category=clubs" class="nav-link">TIMES</a>
-                <a href="camisas.html?category=national" class="nav-link">SELEÇÕES</a>
-                <a href="#" class="nav-link">OFERTAS</a>
-            </nav>
-
-            <!-- Actions & Search -->
-            <div class="nav-actions">
-                <!-- Search Bar (Desktop) -->
-                <div class="search-bar-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Buscar camisas..." class="search-input" id="desktopSearchInput">
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-logo">
+                        <a href="index.html"><span class="logo-text">FUT<span class="logo-accent">WEAR</span></span></a>
+                    </div>
+                    <nav class="header-nav">
+                        <a href="camisas.html" class="nav-link">Novidades</a>
+                        <a href="camisas.html?category=clubs" class="nav-link">Times</a>
+                        <a href="camisas.html?category=national" class="nav-link">Seleções</a>
+                        <a href="camisas.html?category=retro" class="nav-link">Retrô</a>
+                        <a href="camisas.html?discount=true" class="nav-link">Ofertas</a>
+                    </nav>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <button class="search-btn" id="searchToggle" aria-label="Buscar"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                        <a href="favoritos.html" class="icon-btn" aria-label="Favoritos">
+                            <i class="far fa-heart"></i>
+                            <span class="badge" id="wishlistBadge">0</span>
+                        </a>
+                        <a href="carrinho.html" class="icon-btn" aria-label="Carrinho">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge" id="cartBadge">0</span>
+                        </a>
+                        <a href="perfil.html" class="icon-btn auth-avatar" id="profileLink" aria-label="Perfil">
+                            <span id="authAvatar"><i class="far fa-user"></i></span>
+                        </a>
+                        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                    </div>
                 </div>
-
-                <!-- Mobile Search Button -->
-                <button class="icon-btn mobile-search-btn" onclick="toggleSearch()">
-                    <i class="fas fa-search"></i>
-                </button>
-
-                <a href="favoritos.html" class="icon-btn relative">
-                    <i class="fas fa-heart"></i>
-                    <span id="wishlist-count" class="cart-badge hidden">0</span>
-                </a>
-                <a href="carrinho.html" class="icon-btn relative">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
-                </a>
-                <a href="perfil.html" class="icon-btn" id="profile-btn">
-                    <i class="fas fa-user"></i>
-                </a>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-        <!-- Original Content Below -->
-        <!-- Page Header -->
-        <div class="mb-8 animate-slide-up">
-            <h1 class="text-3xl font-bold text-gradient mb-2">Carrinho de Compras</h1>
-            <p class="text-gray-600">Você tem <span id="cart-items-count" class="font-semibold text-green-600">0
-                    itens</span> no
-                seu carrinho</p>
+    <!-- Search Overlay -->
+    <div class="search-box" id="searchBox">
+        <div class="container" style="display:flex;align-items:center;gap:1rem;width:100%;">
+            <i class="fas fa-search search-icon-label"></i>
+            <input type="text" placeholder="Buscar camisas, times, seleções..." class="search-input" id="searchInput"
+                autocomplete="off">
+            <button class="search-close" id="searchClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
         </div>
+    </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Cart Items -->
-            <div class="lg:col-span-2">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg overflow-hidden animate-slide-left">
-                    <div class="p-6 border-b border-gray-200">
-                        <h2 class="text-xl font-semibold text-gradient">Itens do Carrinho</h2>
-                    </div>
-                    <div id="cart-items-container" class="min-h-[400px]">
-                        <!-- Cart items will be loaded here -->
-                    </div>
-                    <div class="p-6 bg-gray-50">
-                        <div class="flex items-center justify-between">
-                            <a href="camisas.html"
-                                class="flex items-center text-green-600 hover:text-green-700 font-medium transition-colors">
-                                <i class="fas fa-arrow-left mr-2"></i>
-                                Continuar Comprando
-                            </a>
-                            <button onclick="clearCart()"
-                                class="text-gray-500 hover:text-red-500 text-sm transition-colors">
-                                <i class="fas fa-trash mr-1"></i>Limpar Carrinho
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></button>
+            <nav class="mobile-nav">
+                <a href="camisas.html" class="mobile-nav-link">Novidades</a>
+                <a href="camisas.html?category=clubs" class="mobile-nav-link">Times</a>
+                <a href="camisas.html?category=national" class="mobile-nav-link">Seleções</a>
+                <a href="camisas.html?category=retro" class="mobile-nav-link">Retrô</a>
+                <a href="camisas.html?discount=true" class="mobile-nav-link">Ofertas</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Cart Page -->
+    <main class="cart-page">
+        <div class="container">
+            <div class="cart-header">
+                <h1>Carrinho de Compras</h1>
+                <p>Você tem <span id="cart-items-count" style="font-weight:600;">0 itens</span> no seu carrinho</p>
             </div>
 
-            <!-- Order Summary -->
-            <div class="lg:col-span-1">
-                <div class="glass-card-strong rounded-2xl shadow-enhanced-lg p-6 sticky top-24 animate-slide-right">
-                    <h2 class="text-xl font-semibold text-gradient mb-6">Resumo do Pedido</h2>
-
-                    <div class="space-y-4 mb-6">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Subtotal (<span id="summary-items-count">0</span> itens)</span>
-                            <span class="font-medium" id="summary-subtotal">R$ 0,00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Desconto</span>
-                            <span class="text-green-600 font-medium" id="summary-discount">-R$ 0,00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Frete</span>
-                            <span class="text-green-600 font-medium" id="summary-shipping">Grátis</span>
-                        </div>
-                        <div class="border-t border-gray-200 pt-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-gray-800">Total</span>
-                                <span class="text-2xl font-bold text-green-600" id="summary-total">R$ 0,00</span>
-                            </div>
-                        </div>
+            <div class="cart-layout" id="cart-layout-grid">
+                <!-- Cart Items -->
+                <div class="cart-items-card" id="cart-items-container">
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>Seu carrinho está vazio</h3>
+                        <p>Adicione produtos para começar a comprar!</p>
+                        <a href="camisas.html"><i class="fas fa-shopping-bag" style="margin-right:.5rem;"></i>Explorar
+                            Camisas</a>
                     </div>
+                </div>
 
-                    <!-- Coupon Code -->
-                    <div class="mb-6">
-                        <div class="flex space-x-2">
-                            <input type="text" id="coupon-code" placeholder="Código promocional"
-                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600">
-                            <button id="apply-coupon"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">
-                                Aplicar
-                            </button>
-                        </div>
-                        <div id="coupon-message" class="mt-2 text-sm hidden"></div>
+                <!-- Order Summary -->
+                <div class="cart-summary-card">
+                    <h2 class="cart-summary-title">Resumo do Pedido</h2>
+                    <div class="summary-row">
+                        <span>Subtotal (<span id="summary-items-count">0</span> itens)</span>
+                        <span id="summary-subtotal">R$ 0,00</span>
                     </div>
-
-                    <!-- Checkout Button -->
-                    <button onclick="proceedToCheckout()"
-                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition duration-300 mb-4">
-                        FINALIZAR COMPRA
+                    <div class="summary-row">
+                        <span>Frete</span>
+                        <span id="summary-shipping">R$ 0,00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="summary-total">R$ 0,00</span>
+                    </div>
+                    <div class="coupon-input">
+                        <input type="text" id="coupon-code" placeholder="Código de cupom">
+                        <button id="apply-coupon">Aplicar</button>
+                    </div>
+                    <button class="btn-checkout" onclick="window.proceedToCheckout()">
+                        <i class="fas fa-lock" style="margin-right:.5rem;"></i>Finalizar Compra
                     </button>
-
-                    <!-- Payment Methods -->
-                    <div class="text-center">
-                        <p class="text-sm text-gray-600 mb-3">Formas de pagamento</p>
-                        <div class="flex justify-center space-x-2">
-                            <i class="fab fa-cc-visa text-2xl text-blue-600"></i>
-                            <i class="fab fa-cc-mastercard text-2xl text-red-600"></i>
-                            <i class="fab fa-cc-amex text-2xl text-blue-800"></i>
-                            <i class="fab fa-pix text-2xl text-green-600"></i>
-                        </div>
-                    </div>
-
-                    <!-- Security Info -->
-                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                        <div class="flex items-center text-sm text-gray-600">
-                            <i class="fas fa-shield-alt text-green-600 mr-2"></i>
-                            <span>Compra 100% segura</span>
-                        </div>
+                    <button class="btn-clear" onclick="window.clearCart()">
+                        <i class="fas fa-trash" style="margin-right:.5rem;"></i>Limpar Carrinho
+                    </button>
+                    <a href="camisas.html" class="cart-continues">← Continuar Comprando</a>
+                    <div class="summary-trust">
+                        <i class="fas fa-lock"></i>
+                        <span>Compra 100% Segura</span>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Wishlist Modal -->
-    <div id="wishlistModal" class="fixed inset-0 bg-black/50 hidden z-50">
-        <div class="absolute inset-0" onclick="closeWishlist()"></div>
-        <div class="absolute right-0 top-0 h-full w-full sm:w-[28rem] bg-white shadow-2xl p-6 overflow-y-auto">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl font-bold">Favoritos</h3>
-                <button class="text-gray-500 hover:text-gray-700" onclick="closeWishlist()"><i
-                        class="fas fa-times"></i></button>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Encontre uma Loja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Seja um Membro</a></li>
+                        <li><a href="#">Cadastre seu E-mail</a></li>
+                        <li><a href="#">Envie sua Opinião</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Obter Ajuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Status do Pedido</a></li>
+                        <li><a href="#">Entrega</a></li>
+                        <li><a href="#">Devoluções</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-title">Sobre a FutWear</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Sustentabilidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
             </div>
-            <div id="wishlist-items" class="space-y-4"></div>
-            <div class="mt-6">
-                <a href="camisas.html"
-                    class="w-full inline-block text-center bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium">Ver
-                    mais produtos</a>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
+                </div>
+                <div class="footer-bottom-right">
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                </div>
             </div>
         </div>
-    </div>
+    </footer>
 
-    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script type="module" src="header.js"></script>
     <script type="module">
-        import { getCart, setCart, atualizarIconeCarrinho, invalidateCamisasCache } from './firebase-hybrid.js';
+        import { getCart, setCart, atualizarIconeCarrinho } from './firebase-hybrid.js';
         window.atualizarIconeCarrinho = atualizarIconeCarrinho;
 
-        // Search function placeholder
-        window.toggleSearch = function () {
-            // Handled by header.js
-        };
-
-        // Wishlist function placeholder
-        window.toggleWishlist = function () {
-            // Handle by other scripts
-        };
-
-        // Checking Auth
         document.addEventListener('DOMContentLoaded', function () {
-            console.log('🚀 Carrinho Page Loaded');
             loadCart();
             atualizarIconeCarrinho();
             setupCouponCode();
-
             window.addEventListener('storage', function (e) {
-                if (e.key === 'cart') {
-                    loadCart();
-                    atualizarIconeCarrinho();
-                }
+                if (e.key === 'cart') { loadCart(); atualizarIconeCarrinho(); }
             });
-
-            window.addEventListener('cartUpdated', function (e) {
-                loadCart();
-                atualizarIconeCarrinho();
-            });
+            window.addEventListener('cartUpdated', function () { loadCart(); atualizarIconeCarrinho(); });
         });
-
-        // ... include rest of original scripts logic if needed, but for now I'm rewriting the file to fix structure
-
-        // Copied Logic for Cart
-        function updateWishlistCount() {
-            try {
-                const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-                const count = wishlist.length;
-                const wishlistCount = document.getElementById('wishlist-count');
-                if (wishlistCount) {
-                    wishlistCount.textContent = count;
-                    wishlistCount.style.display = count > 0 ? 'block' : 'none';
-                }
-            } catch (error) { console.error(error); }
-        }
 
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
-            toast.className = `fixed top-20 right-4 z-50 px-4 py-2 rounded-lg text-white text-sm shadow-lg`;
-            if (type === 'success') toast.classList.add('bg-green-600');
-            else if (type === 'error') toast.classList.add('bg-red-600');
-            else toast.classList.add('bg-gray-800');
+            toast.style.cssText = `position:fixed;top:100px;right:20px;z-index:9999;padding:12px 20px;border-radius:4px;color:white;font-size:14px;font-family:var(--font-primary);animation:fadeInRight .3s ease;`;
+            if (type === 'success') toast.style.background = '#16a34a';
+            else if (type === 'error') toast.style.background = '#dc2626';
+            else toast.style.background = '#111';
             toast.textContent = message;
             document.body.appendChild(toast);
-            setTimeout(() => document.body.removeChild(toast), 3000);
+            setTimeout(() => { if (document.body.contains(toast)) document.body.removeChild(toast); }, 3000);
         }
 
         async function loadCart() {
             try {
-                // Show loading state if needed, or just let it update
-                const cart = await getCart(); // This now fetches fresh prices
-
-                if (!cart || cart.length === 0) {
-                    renderCartItems([]);
-                    updateOrderSummary([]);
-                    return;
-                }
-
+                const cart = await getCart();
+                if (!cart || cart.length === 0) { renderCartItems([]); updateOrderSummary([]); return; }
                 renderCartItems(cart);
                 updateOrderSummary(cart);
             } catch (error) {
                 console.error('Erro ao carregar carrinho:', error);
-                // Fallback to local storage if API fails
                 const fallbackCart = JSON.parse(localStorage.getItem('cart') || '[]');
                 renderCartItems(fallbackCart);
                 updateOrderSummary(fallbackCart);
@@ -362,239 +555,88 @@
             if (!container) return;
             if (!cart || cart.length === 0) {
                 container.innerHTML = `
-                        <div class="p-12 text-center">
-                            <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
-                            <h3 class="text-xl font-semibold text-gray-600 mb-2">Seu carrinho está vazio</h3>
-                            <p class="text-gray-500 mb-6">Adicione alguns produtos para começar!</p>
-                            <a href="camisas.html" class="inline-block bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition">
-                                <i class="fas fa-shopping-bag mr-2"></i>Continuar Comprando
-                            </a>
-                        </div>
-                    `;
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>Seu carrinho está vazio</h3>
+                        <p>Adicione produtos para começar a comprar!</p>
+                        <a href="camisas.html"><i class="fas fa-shopping-bag" style="margin-right:.5rem;"></i>Explorar Camisas</a>
+                    </div>`;
                 return;
             }
             container.innerHTML = cart.map((item, index) => `
-                    <div class="p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center gap-4">
-                            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
-                            <div class="flex-1">
-                                <h3 class="font-semibold text-gray-800 mb-1">${item.name}</h3>
-                                <p class="text-sm text-gray-600 mb-2">Tamanho: ${item.size || 'N/A'}</p>
-                                ${item.personalization && item.personalization.enabled ? `
-                                  <div class="mt-1 text-xs text-gray-700 bg-gray-100 inline-flex items-center gap-2 px-2 py-1 rounded">
-                                    <span class="font-semibold text-green-700">Personalização</span>
-                                    ${item.personalization.name ? `<span>Nome: <b>${item.personalization.name}</b></span>` : ''}
-                                    ${item.personalization.number ? `<span>Número: <b>${item.personalization.number}</b></span>` : ''}
-                                    <span class="text-gray-600">(+ R$ ${(Number(item.personalization.fee || 0)).toFixed(2).replace('.', ',')})</span>
-                                  </div>
-                                ` : ''}
-                                <div class="flex items-center gap-4 mt-2">
-                                    <div class="flex items-center gap-2">
-                                        <button onclick="window.handleQuantityChange(${index}, -1)" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-minus text-xs"></i>
-                                        </button>
-                                        <span class="w-8 text-center font-semibold">${item.quantity || 1}</span>
-                                        <button onclick="window.handleQuantityChange(${index}, 1)" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-plus text-xs"></i>
-                                        </button>
-                                    </div>
-                                    <span class="font-bold text-green-600">R$ ${(((Number(item.price) || 0) + (item.personalization && item.personalization.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)).toFixed(2).replace('.', ',')}</span>
-                                </div>
+                <div class="cart-item">
+                    <img src="${item.image || 'https://images.unsplash.com/photo-1614624532983-4fe0333299c7?w=200'}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <p class="cart-item-category">${item.team || item.category || ''}</p>
+                        <h3 class="cart-item-name">${item.name}</h3>
+                        <p class="cart-item-size">Tamanho: ${item.size || 'N/A'}</p>
+                        ${item.personalization && item.personalization.enabled ? `
+                        <div class="personalization-tag">
+                            <i class="fas fa-paint-brush"></i> Personalização
+                            ${item.personalization.name ? `<span>Nome: <b>${item.personalization.name}</b></span>` : ''}
+                            ${item.personalization.number ? `<span>Nº: <b>${item.personalization.number}</b></span>` : ''}
+                        </div>` : ''}
+                        <div class="cart-item-actions">
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="window.handleQuantityChange(${index}, -1)"><i class="fas fa-minus"></i></button>
+                                <span class="qty-value">${item.quantity || 1}</span>
+                                <button class="qty-btn" onclick="window.handleQuantityChange(${index}, 1)"><i class="fas fa-plus"></i></button>
                             </div>
-                            <button onclick="window.handleRemoveItem(${index})" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <span class="cart-item-price">R$ ${(((Number(item.price) || 0) + (item.personalization?.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)).toFixed(2).replace('.', ',')}</span>
+                            <button class="cart-item-remove" onclick="window.handleRemoveItem(${index})" title="Remover"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
-                `).join('');
+                </div>`).join('');
         }
 
-        // Expose other functions if needed, or simply assume they are there from existing code. 
-        // I will trust that copy-pasting the full file content from previous view might be safer but `carrinho.html` was malformed so I will rewrite it cleanly.
-
-        // ... (truncated for brevity, implying full functionality is preserved)
-
-        // Setup Coupon
         function setupCouponCode() {
             const applyBtn = document.getElementById('apply-coupon');
-            if (applyBtn) {
-                applyBtn.addEventListener('click', () => {
-                    const code = document.getElementById('coupon-code').value;
-                    // simple logic
-                    alert('Cupom inválido');
-                });
-            }
+            if (applyBtn) { applyBtn.addEventListener('click', () => { alert('Cupom inválido'); }); }
         }
 
-        // Proceed to Checkout
         window.proceedToCheckout = function () {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            if (cart.length === 0) {
-                showToast('Seu carrinho está vazio', 'error');
-                return;
-            }
+            if (cart.length === 0) { showToast('Seu carrinho está vazio', 'error'); return; }
             window.location.href = 'checkout.html';
         };
 
-        // Clear Cart
         window.clearCart = function () {
-            if (confirm('Tem certeza que deseja limpar o carrinho?')) {
-                setCart([]);
-                localStorage.setItem('cart', '[]');
-                loadCart();
-                atualizarIconeCarrinho();
-            }
+            if (confirm('Tem certeza que deseja limpar o carrinho?')) { setCart([]); localStorage.setItem('cart', '[]'); loadCart(); atualizarIconeCarrinho(); }
         };
 
-        // Handle Quantity
         window.handleQuantityChange = async function (index, change) {
-            // We read from LS for speed on interaction, then validate later regarding price if needed.
-            // But since getCart updates LS, we can read LS here safely for the *quantity* update.
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
             if (cart[index]) {
                 cart[index].quantity = (cart[index].quantity || 1) + change;
                 if (cart[index].quantity < 1) cart[index].quantity = 1;
-
-                // Save immediately
-                setCart(cart);
-
-                // Re-render immediately for UI responsiveness
-                loadCart();
+                setCart(cart); loadCart();
             }
         };
 
-        // Handle Remove
         window.handleRemoveItem = function (index) {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            cart.splice(index, 1);
-            setCart(cart);
-            // No need to manual setItem or loadCart if setCart triggers events, but loadCart re-renders.
-            loadCart();
+            cart.splice(index, 1); setCart(cart); loadCart();
         };
 
-        // Update Order Summary
         function updateOrderSummary(cart) {
             const subtotal = cart.reduce((acc, item) => acc + (((Number(item.price) || 0) + (item.personalization?.enabled ? Number(item.personalization.fee || 0) : 0)) * (item.quantity || 1)), 0);
             const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
-
-            // Shipping Logic
             let shippingCost = 0;
-            if (count >= 3) {
-                shippingCost = 0;
-            } else if (count === 2) {
-                shippingCost = 20.00;
-            } else if (count === 1) {
-                shippingCost = 30.00;
-            } else {
-                shippingCost = 0; // Empty cart
-            }
-
+            if (count === 1) shippingCost = 30;
+            else if (count === 2) shippingCost = 20;
             const total = subtotal + shippingCost;
 
             document.getElementById('summary-items-count').textContent = count;
             document.getElementById('cart-items-count').textContent = count + (count === 1 ? ' item' : ' itens');
             document.getElementById('summary-subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-
             const shippingEl = document.getElementById('summary-shipping');
-            if (shippingCost === 0) {
-                shippingEl.textContent = count > 0 ? 'Grátis' : 'R$ 0,00';
-                shippingEl.className = 'text-green-600 font-medium';
-            } else {
-                shippingEl.textContent = `R$ ${shippingCost.toFixed(2).replace('.', ',')}`;
-                shippingEl.className = 'font-medium'; // Remove green color if paid
-            }
-
+            if (shippingCost === 0 && count > 0) { shippingEl.textContent = 'Grátis'; shippingEl.style.color = '#16a34a'; shippingEl.style.fontWeight = '600'; }
+            else { shippingEl.textContent = count === 0 ? 'R$ 0,00' : `R$ ${shippingCost.toFixed(2).replace('.', ',')}`; shippingEl.style.color = ''; shippingEl.style.fontWeight = ''; }
             document.getElementById('summary-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            const badge = document.getElementById('cartBadge');
+            if (badge) { badge.textContent = count; }
         }
     </script>
-    <!-- Footer Pro 2026 -->
-    <footer class="bg-[#0f1012] text-gray-400 border-t border-gray-800">
-        <div class="container mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
-                <!-- Brand Section (4 cols) -->
-                <div class="lg:col-span-4 space-y-6">
-                    <a href="index.html" class="inline-block text-2xl font-bold text-white tracking-tight">
-                        FUT<span class="text-green-500">WEAR</span>
-                    </a>
-                    <p class="text-base leading-relaxed text-gray-500">
-                        A plataforma definitiva para apaixonados por futebol.
-                        Qualidade premium, autenticidade garantida e a melhor experiência de compra do mercado.
-                    </p>
-                    <div class="flex items-center gap-4 pt-2">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <!-- Navigation (2 cols) -->
-                <div class="lg:col-span-2 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Navegação</h4>
-                    <ul class="space-y-4">
-                        <li><a href="index.html" class="hover:text-green-500 transition-colors">Início</a></li>
-                        <li><a href="camisas.html" class="hover:text-green-500 transition-colors">Coleções</a></li>
-                        <li><a href="camisas.html?category=clubs"
-                                class="hover:text-green-500 transition-colors">Times</a></li>
-                        <li><a href="camisas.html?category=national"
-                                class="hover:text-green-500 transition-colors">Seleções</a></li>
-                        <li><a href="#promocoes" class="hover:text-green-500 transition-colors">OFERTAS</a></li>
-                    </ul>
-                </div>
-                <!-- Support (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Suporte</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Central de Ajuda</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Trocas e Devoluções</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Política de Privacidade</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Termos de Uso</a></li>
-                        <li><a href="#" class="hover:text-green-500 transition-colors">Rastrear Pedido</a></li>
-                    </ul>
-                </div>
-                <!-- Newsletter (3 cols) -->
-                <div class="lg:col-span-3 space-y-6">
-                    <h4 class="text-white font-semibold tracking-wide uppercase text-sm">Fique por dentro</h4>
-                    <p class="text-sm text-gray-500">Receba ofertas exclusivas e novidades.</p>
-                    <form class="space-y-3">
-                        <div class="relative">
-                            <input type="email" placeholder="Seu melhor e-mail"
-                                class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-                        </div>
-                        <button type="button"
-                            class="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors">
-                            Inscrever-se
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-sm text-gray-600">
-                    &copy; 2026 FutWear Sports. Todos os direitos reservados.
-                </div>
-                <div class="flex items-center gap-4 text-gray-500">
-                    <i class="fab fa-cc-visa text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-mastercard text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-cc-amex text-2xl hover:text-white transition-colors"></i>
-                    <i class="fab fa-pix text-2xl hover:text-white transition-colors"></i>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <i class="fas fa-lock text-green-500"></i>
-                    Compra 100% Segura
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/header.js"></script>
 </body>
 
 </html>
