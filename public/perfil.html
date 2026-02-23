@@ -1,11 +1,11 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - FutWear</title>
-    <meta name="description" content="Gerencie seu perfil, endereÃ§os e pedidos na FutWear.">
+    <meta name="description" content="Gerencie seu perfil, endereços e pedidos na FutWear.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -254,7 +254,7 @@
 <body>
     <!-- Announcement Bar -->
     <div class="announcement-bar">
-        <span><span class="ann-dot"></span> Frete GrÃ¡tis em compras acima de 3 camisas! <span
+        <span><span class="ann-dot"></span> Frete Grátis em compras acima de 3 camisas! <span
                 class="ann-dot"></span></span>
     </div>
 
@@ -269,8 +269,8 @@
                     <nav class="header-nav">
                         <a href="camisas.html" class="nav-link">Novidades</a>
                         <a href="camisas.html?category=clubs" class="nav-link">Times</a>
-                        <a href="camisas.html?category=national" class="nav-link">SeleÃ§Ãµes</a>
-                        <a href="camisas.html?category=retro" class="nav-link">RetrÃ´</a>
+                        <a href="camisas.html?category=national" class="nav-link">Seleções</a>
+                        <a href="camisas.html?category=retro" class="nav-link">Retrô</a>
                         <a href="camisas.html?discount=true" class="nav-link">Ofertas</a>
                     </nav>
                     <div class="header-actions">
@@ -301,13 +301,13 @@
         <div class="search-box-inner">
             <button class="search-close" id="searchClose" aria-label="Fechar busca"><i
                     class="fas fa-times"></i></button>
-            <input type="text" placeholder="Pesquisar times, seleÃ§Ãµes, camisas..." class="search-input" id="searchInput"
+            <input type="text" placeholder="Pesquisar times, seleções, camisas..." class="search-input" id="searchInput"
                 autocomplete="off">
             <div class="search-hint">
-                <span>SugestÃµes:</span>
+                <span>Sugestões:</span>
                 <a href="camisas.html?category=clubs">Times</a>
-                <a href="camisas.html?category=national">SeleÃ§Ãµes</a>
-                <a href="camisas.html?category=retro">RetrÃ´</a>
+                <a href="camisas.html?category=national">Seleções</a>
+                <a href="camisas.html?category=retro">Retrô</a>
                 <a href="camisas.html?discount=true">Ofertas</a>
             </div>
         </div>
@@ -320,8 +320,8 @@
             <nav class="mobile-nav">
                 <a href="camisas.html" class="mobile-nav-link">Novidades</a>
                 <a href="camisas.html?category=clubs" class="mobile-nav-link">Times</a>
-                <a href="camisas.html?category=national" class="mobile-nav-link">SeleÃ§Ãµes</a>
-                <a href="camisas.html?category=retro" class="mobile-nav-link">RetrÃ´</a>
+                <a href="camisas.html?category=national" class="mobile-nav-link">Seleções</a>
+                <a href="camisas.html?category=retro" class="mobile-nav-link">Retrô</a>
                 <a href="camisas.html?discount=true" class="mobile-nav-link">Ofertas</a>
             </nav>
         </div>
@@ -332,8 +332,8 @@
         <!-- Not Logged In State -->
         <div id="not-logged" style="display:none;" class="not-logged">
             <i class="far fa-user-circle"></i>
-            <h2>VocÃª nÃ£o estÃ¡ logado</h2>
-            <p>FaÃ§a login para acessar seu perfil e pedidos.</p>
+            <h2>Você não está logado</h2>
+            <p>Faça login para acessar seu perfil e pedidos.</p>
             <a href="login.html" class="btn btn-primary">Fazer Login</a>
         </div>
 
@@ -342,9 +342,9 @@
             <aside class="profile-sidebar">
                 <nav class="profile-nav">
                     <a href="#dados" class="profile-nav-link active" onclick="setActiveNav(this)">Meus Dados</a>
-                    <a href="#enderecos" class="profile-nav-link" onclick="setActiveNav(this)">EndereÃ§os</a>
+                    <a href="#enderecos" class="profile-nav-link" onclick="setActiveNav(this)">Endereços</a>
                     <a href="#pedidos" class="profile-nav-link" onclick="setActiveNav(this)">Meus Pedidos</a>
-                    <a href="#seguranca" class="profile-nav-link" onclick="setActiveNav(this)">SeguranÃ§a</a>
+                    <a href="#seguranca" class="profile-nav-link" onclick="setActiveNav(this)">Segurança</a>
                     <a href="#" class="profile-nav-link logout" id="logoutLink">Sair</a>
                 </nav>
             </aside>
@@ -352,31 +352,31 @@
             <main class="profile-content">
                 <div class="profile-header">
                     <h1 class="profile-title">Meu Perfil</h1>
-                    <p class="profile-subtitle">Gerencie suas informaÃ§Ãµes pessoais e preferÃªncias</p>
+                    <p class="profile-subtitle">Gerencie suas informações pessoais e preferências</p>
                 </div>
 
                 <!-- Personal Info -->
                 <div class="profile-card" id="dados">
                     <div class="card-title">
-                        <span>InformaÃ§Ãµes Pessoais</span>
+                        <span>Informações Pessoais</span>
                         <button class="btn-edit">Editar</button>
                     </div>
                     <div class="info-grid" id="personal-info">
                         <div class="info-item">
                             <label>Nome Completo</label>
-                            <p id="user-name">â€”</p>
+                            <p id="user-name">—</p>
                         </div>
                         <div class="info-item">
                             <label>E-mail</label>
-                            <p id="user-email">â€”</p>
+                            <p id="user-email">—</p>
                         </div>
                         <div class="info-item">
                             <label>Telefone</label>
-                            <p id="user-phone">â€”</p>
+                            <p id="user-phone">—</p>
                         </div>
                         <div class="info-item">
                             <label>CPF</label>
-                            <p id="user-cpf">â€”</p>
+                            <p id="user-cpf">—</p>
                         </div>
                     </div>
                 </div>
@@ -384,7 +384,7 @@
                 <!-- Addresses -->
                 <div class="profile-card" id="enderecos">
                     <div class="card-title">
-                        <span>Meus EndereÃ§os</span>
+                        <span>Meus Endereços</span>
                         <button class="btn-edit">+ Adicionar Novo</button>
                     </div>
                     <div class="address-list" id="address-list">
@@ -393,7 +393,7 @@
                             style="text-align:center; padding:2rem; color:var(--color-gray-300);">
                             <i class="fas fa-map-marker-alt"
                                 style="font-size:2rem; margin-bottom:1rem; display:block; color:var(--color-gray-200);"></i>
-                            <p style="font-size:14px;">Nenhum endereÃ§o cadastrado ainda.</p>
+                            <p style="font-size:14px;">Nenhum endereço cadastrado ainda.</p>
                             <p style="font-size:13px; margin-top:4px;">Clique em <strong>+ Adicionar Novo</strong> para
                                 cadastrar.</p>
                         </div>
@@ -432,14 +432,14 @@
 
                 <!-- Security -->
                 <div class="profile-card" id="seguranca">
-                    <div class="card-title"><span>SeguranÃ§a</span></div>
+                    <div class="card-title"><span>Segurança</span></div>
                     <div class="info-grid">
                         <div class="info-item">
                             <label>Senha</label>
-                            <p>â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</p>
+                            <p>••••••••</p>
                         </div>
                         <div class="info-item">
-                            <label>AutenticaÃ§Ã£o em Duas Etapas</label>
+                            <label>Autenticação em Duas Etapas</label>
                             <p id="user-2fa">Desativada</p>
                         </div>
                     </div>
@@ -458,18 +458,18 @@
             <div class="footer-bottom">
                 <div class="footer-bottom-left">
                     <p><i class="fas fa-map-marker-alt"></i> Brasil</p>
-                    <p>Â© 2024 FutWear, Inc. Todos os direitos reservados.</p>
+                    <p>© 2024 FutWear, Inc. Todos os direitos reservados.</p>
                 </div>
                 <div class="footer-bottom-right">
                     <a href="#">Termos de Uso</a>
-                    <a href="#">PolÃ­tica de Privacidade</a>
+                    <a href="#">Política de Privacidade</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
-    <script type="module" src="header.js"></script>
+    <script src="header.js"></script>
     <script type="module">
         // Auth via localStorage (set by login.html)
         function getUser() {
@@ -485,12 +485,12 @@
             const user = getUser();
 
             if (user) {
-                document.getElementById('user-name').textContent = user.name || user.displayName || 'â€”';
-                document.getElementById('user-email').textContent = user.email || 'â€”';
-                document.getElementById('user-phone').textContent = user.phone || 'â€”';
-                document.getElementById('user-cpf').textContent = user.cpf || 'â€”';
+                document.getElementById('user-name').textContent = user.name || user.displayName || '—';
+                document.getElementById('user-email').textContent = user.email || '—';
+                document.getElementById('user-phone').textContent = user.phone || '—';
+                document.getElementById('user-cpf').textContent = user.cpf || '—';
             } else {
-                // Not logged in â€” show fallback state
+                // Not logged in — show fallback state
                 const layout = document.getElementById('profile-layout');
                 const notLogged = document.getElementById('not-logged');
                 if (layout) layout.style.display = 'none';
@@ -535,7 +535,7 @@
                 }
             } else {
                 document.getElementById('orders-tbody').innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;color:var(--color-gray-400);padding:2rem;">FaÃ§a login para ver seus pedidos.</td></tr>';
+                    '<tr><td colspan="5" style="text-align:center;color:var(--color-gray-400);padding:2rem;">Faça login para ver seus pedidos.</td></tr>';
             }
         });
     </script>

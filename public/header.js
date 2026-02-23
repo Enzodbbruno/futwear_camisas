@@ -1,36 +1,34 @@
 /**
  * header.js — FutWear Shared Header Logic
- * Manages: cart badge, favorites badge, auth state (logged in/out), search bar
- * Include via:  <script type="module" src="header.js"></script>
+ * Manages: cart badge, favorites badge, auth state, search overlay
+ * Include via:  <script src="header.js"></script>  (plain script, no module)
  */
 
 // ─── Cart Badge ────────────────────────────────────────────────────────────
-export function getCartCount() {
+function getCartCount() {
     try {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        return cart.reduce((s, i) => s + (Number(i.quantity) || 1), 0);
-    } catch { return 0; }
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        return cart.reduce(function (s, i) { return s + (Number(i.quantity) || 1); }, 0);
+    } catch (e) { return 0; }
 }
 
-export function getFavoritesCount() {
+function getFavoritesCount() {
     try {
-        const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+        var favs = JSON.parse(localStorage.getItem('favorites') || '[]');
         return favs.length;
-    } catch { return 0; }
+    } catch (e) { return 0; }
 }
 
 function updateAllBadges() {
-    const cartCount = getCartCount();
-    const favCount = getFavoritesCount();
+    var cartCount = getCartCount();
+    var favCount = getFavoritesCount();
 
-    // Cart badges — id="cartBadge" or class="cart-badge"
-    document.querySelectorAll('#cartBadge, .cart-badge').forEach(el => {
+    document.querySelectorAll('#cartBadge, .cart-badge').forEach(function (el) {
         el.textContent = cartCount;
         el.style.display = cartCount > 0 ? 'flex' : 'none';
     });
 
-    // Favorites badges — id="wishlistBadge" or class="wishlist-badge"
-    document.querySelectorAll('#wishlistBadge, .wishlist-badge').forEach(el => {
+    document.querySelectorAll('#wishlistBadge, .wishlist-badge').forEach(function (el) {
         el.textContent = favCount;
         el.style.display = favCount > 0 ? 'flex' : 'none';
     });
@@ -38,54 +36,47 @@ function updateAllBadges() {
 
 // ─── Auth State ─────────────────────────────────────────────────────────────
 function getUser() {
-    try {
-        return JSON.parse(localStorage.getItem('user') || 'null');
-    } catch { return null; }
+    try { return JSON.parse(localStorage.getItem('user') || 'null'); }
+    catch (e) { return null; }
 }
 
 function renderAuthState() {
-    const user = getUser();
-    const profileLink = document.getElementById('profileLink');
-    const authAvatar = document.getElementById('authAvatar');
+    var user = getUser();
+    var profileLink = document.getElementById('profileLink');
+    var authAvatar = document.getElementById('authAvatar');
 
     if (!profileLink && !authAvatar) return;
 
     if (user && (user.email || user.name)) {
-        const initials = (user.name || user.email || 'U')
-            .split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        var initials = (user.name || user.email || 'U')
+            .split(' ').map(function (w) { return w[0]; }).join('').substring(0, 2).toUpperCase();
 
         if (authAvatar) {
-            authAvatar.innerHTML = `<span style="
-              display:inline-flex; align-items:center; justify-content:center;
-              width:32px; height:32px; border-radius:50%;
-              background:var(--color-primary); color:#fff;
-              font-size:12px; font-weight:700; letter-spacing:.5px;
-            " title="${user.name || user.email}">${initials}</span>`;
+            authAvatar.innerHTML =
+                '<span style="display:inline-flex;align-items:center;justify-content:center;' +
+                'width:32px;height:32px;border-radius:50%;background:var(--color-primary);' +
+                'color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;" ' +
+                'title="' + (user.name || user.email) + '">' + initials + '</span>';
         }
-
-        if (profileLink) {
-            profileLink.title = user.name || user.email;
-        }
+        if (profileLink) profileLink.title = user.name || user.email;
     } else {
-        if (authAvatar) {
-            authAvatar.innerHTML = `<i class="far fa-user"></i>`;
-        }
+        if (authAvatar) authAvatar.innerHTML = '<i class="far fa-user"></i>';
     }
 }
 
 // ─── Search Bar (Full-screen overlay) ───────────────────────────────────────
 function initSearch() {
-    const toggle = document.getElementById('searchToggle');
-    const box = document.getElementById('searchBox');
-    const closeBtn = document.getElementById('searchClose');
-    const input = document.getElementById('searchInput');
+    var toggle = document.getElementById('searchToggle');
+    var box = document.getElementById('searchBox');
+    var closeBtn = document.getElementById('searchClose');
+    var input = document.getElementById('searchInput');
 
     if (!toggle || !box) return;
 
     function openSearch() {
         box.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => input?.focus(), 80);
+        if (input) setTimeout(function () { input.focus(); }, 80);
     }
 
     function closeSearch() {
@@ -94,47 +85,47 @@ function initSearch() {
         if (input) input.value = '';
     }
 
-    toggle.addEventListener('click', (e) => {
+    toggle.addEventListener('click', function (e) {
         e.stopPropagation();
         box.classList.contains('active') ? closeSearch() : openSearch();
     });
 
-    closeBtn?.addEventListener('click', closeSearch);
+    if (closeBtn) closeBtn.addEventListener('click', closeSearch);
 
-    // Click on dark backdrop (outside the inner box) = close
-    box.addEventListener('click', (e) => {
+    // Click on dark backdrop (outside inner box) closes
+    box.addEventListener('click', function (e) {
         if (e.target === box) closeSearch();
     });
 
     // Escape key closes
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && box.classList.contains('active')) closeSearch();
     });
 
-    // Search on Enter
-    input?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            const q = input.value.trim();
-            if (q) window.location.href = `camisas.html?search=${encodeURIComponent(q)}`;
-        }
-    });
+    // Enter redirects to search results
+    if (input) {
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                var q = input.value.trim();
+                if (q) window.location.href = 'camisas.html?search=' + encodeURIComponent(q);
+            }
+        });
+    }
 }
 
 // ─── Mobile Menu ────────────────────────────────────────────────────────────
 function initMobileMenu() {
-    const btn = document.getElementById('mobileMenuBtn');
-    const menu = document.getElementById('mobileMenu');
-    const close = document.getElementById('mobileMenuClose');
+    var btn = document.getElementById('mobileMenuBtn');
+    var menu = document.getElementById('mobileMenu');
+    var close = document.getElementById('mobileMenuClose');
 
-    btn?.addEventListener('click', () => menu?.classList.add('active'));
-    close?.addEventListener('click', () => menu?.classList.remove('active'));
-    menu?.addEventListener('click', (e) => {
-        if (e.target === menu) menu.classList.remove('active');
-    });
+    if (btn) btn.addEventListener('click', function () { if (menu) menu.classList.add('active'); });
+    if (close) close.addEventListener('click', function () { if (menu) menu.classList.remove('active'); });
+    if (menu) menu.addEventListener('click', function (e) { if (e.target === menu) menu.classList.remove('active'); });
 }
 
 // ─── Init ────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
     updateAllBadges();
     renderAuthState();
     initSearch();
@@ -142,17 +133,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Listen to storage events (cross-tab updates)
-window.addEventListener('storage', (e) => {
+window.addEventListener('storage', function (e) {
     if (e.key === 'cart' || e.key === 'favorites' || e.key === 'user') {
         updateAllBadges();
         renderAuthState();
     }
 });
 
-// Listen to custom cart/favorites events
+// Listen to custom events
 window.addEventListener('cartUpdated', updateAllBadges);
 window.addEventListener('favoritesUpdated', updateAllBadges);
 
 // Expose globally so other scripts can call it
 window.updateHeaderBadges = updateAllBadges;
-window.updateCartCount = updateAllBadges; // compatibility shim
+window.updateCartCount = updateAllBadges;
+window.getCartCount = getCartCount;
+window.getFavoritesCount = getFavoritesCount;
